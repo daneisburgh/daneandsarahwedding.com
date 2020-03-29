@@ -1,0 +1,7 @@
+<ion-grid>
+    <ion-row *ngFor="let gallery of utilsService.galleryData" (click)="popoverController.dismiss()"
+        [routerLink]="utilsService.getGalleryUrl(gallery.name)" routerDirection="root">
+        <ion-col size="6">{{gallery.title}}</ion-col>
+        <ion-col size="6" class="ion-text-right">{{gallery.date}}</ion-col>
+    </ion-row>
+</ion-grid>

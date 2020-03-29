@@ -1,0 +1,48 @@
+service: ${env:APP_NAME}
+
+plugins:
+  - serverless-domain-manager
+  - serverless-aws-static-file-handler/plugins/BinaryMediaTypes
+  - serverless-plugin-typescript
+  - serverless-offline
+
+custom:
+  customDomain:
+    domainName: ${env:DOMAIN_NAME}
+    certificateName: ${env:APP_NAME}.com
+    createRoute53Record: true
+  apiGateway:
+    binaryMediaTypes:
+      - "*/*"
+
+provider:
+  name: aws
+  stage: ${env:NODE_ENV}
+  runtime: nodejs12.x
+  timeout: 10
+  logRetentionInDays: 30
+  environment:
+    NODE_ENV: ${env:NODE_ENV}
+    DB_HOST: ${env:DB_HOST}
+    DB_USERNAME: ${env:DB_USERNAME}
+    DB_PASSWORD: ${env:DB_PASSWORD}
+
+functions:
+  public:
+    handler: src/public/index.default
+    events:
+      - http:
+          path: /
+          method: GET
+          cors: true
+      - http:
+          path: /{filePath+}
+          method: GET
+          cors: true
+  health-check:
+    handler: src/api/health-check.default
+    events:
+      - http:
+          path: /api/health-check
+          method: GET
+          cors: true

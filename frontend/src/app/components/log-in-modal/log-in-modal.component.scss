@@ -1,0 +1,40 @@
+@import "../../../styles/variables.scss";
+
+.modal-inner {
+    width: 100%;
+    margin-top: 8px;
+
+    @media screen and (min-width: $min-width-medium) {
+        width: 400px;
+        margin-top: 14px;
+    }
+
+    @media screen and (min-width: $min-width-large) {
+        margin-top: -10px;
+    }
+}
+
+ion-item {
+    width: 100%;
+    padding: 0;
+    font-size: 14px;
+    --highlight-background: var(--ion-color-primary) !important;
+}
+
+.forgot-password {
+    cursor: pointer;
+    margin-right: 12px;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.submit {
+    margin: 0 0 0 12px;
+}
+
+.error-message {
+    margin: 4px 0 0 20px;
+    color: var(--ion-color-danger);
+}

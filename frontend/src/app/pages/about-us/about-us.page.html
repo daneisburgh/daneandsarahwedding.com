@@ -1,0 +1,79 @@
+<ion-content>
+    <div class="content-outer page-outer">
+        <ion-header>
+            <ion-toolbar color="primary">
+                <ion-title class="content-inner">About Us</ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <div class="content-inner">
+            <ion-grid class="page-grid">
+                <ion-row>
+                    <ion-col size="12" size-lg="6">
+                        <ion-card color="light">
+                            <ion-card-header>
+                                <ion-card-title>Sarah Christine Cusick</ion-card-title>
+                                <ion-avatar class="avatar-personal">
+                                    <img class="sarah" />
+                                </ion-avatar>
+                            </ion-card-header>
+                            <ion-card-content>{{sarahInfo}}</ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                    <ion-col size="12" size-lg="6">
+                        <ion-card color="light">
+                            <ion-card-header>
+                                <ion-card-title>Dane Karl Isburgh</ion-card-title>
+                                <ion-avatar class="avatar-personal">
+                                    <img class="dane" />
+                                </ion-avatar>
+                            </ion-card-header>
+                            <ion-card-content>{{daneInfo}}</ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                    <ion-col size="12" size-lg="6">
+                        <ion-card color="light">
+                            <ion-card-header color="primary">
+                                <ion-card-title>Our Story</ion-card-title>
+                            </ion-card-header>
+                            <ion-card-content class="timeline-card">
+                                <mgl-timeline [toggle]="false">
+                                    <mgl-timeline-entry *ngFor="let item of timeline; let i = index"
+                                        (expand)="onExpandEntry($event, i)">
+                                        <mgl-timeline-entry-dot size="40" [ngClass]="{'expanded': item.expanded}">
+                                        </mgl-timeline-entry-dot>
+                                        <mgl-timeline-entry-header [ngClass]="{'expanded': item.expanded}">
+                                            <ion-text>{{item.headerTitle}}</ion-text>
+                                            <ion-text class="timeline-header-date">{{item.headerDate}}</ion-text>
+                                        </mgl-timeline-entry-header>
+                                        <mgl-timeline-entry-content>{{item.content}}</mgl-timeline-entry-content>
+                                    </mgl-timeline-entry>
+                                </mgl-timeline>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                    <ion-col size="12" size-lg="6">
+                        <ion-card color="light">
+                            <ion-card-header color="primary">
+                                <ion-card-title>Our Adventures</ion-card-title>
+                            </ion-card-header>
+                            <ion-card-content class="photos-card">
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col size="12" size-sm="6" *ngFor="let gallery of utilsService.galleryData">
+                                            <div class="center-content-horizontal center-content-vertical"
+                                                [ngClass]="gallery.name"
+                                                [routerLink]="utilsService.getGalleryUrl(gallery.name)"
+                                                routerDirection="root">
+                                                {{gallery.title}}&nbsp;{{gallery.date}}
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </div>
+</ion-content>

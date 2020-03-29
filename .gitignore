@@ -1,0 +1,6 @@
+*.conf
+.build
+.serverless
+backend/public
+node_modules
+www

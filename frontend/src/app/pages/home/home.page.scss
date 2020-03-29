@@ -1,0 +1,48 @@
+@import "../../../styles/variables.scss";
+
+.content-outer {
+    background-size: cover;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4)), url(../../../assets/images/home/background.jpg);
+    background-position: center center;
+}
+
+.name {
+    margin: 0 -16px 0 0;
+    line-height: 1;
+    font-size: 40px;
+    font-family: Baskerville;
+
+    @media screen and (min-width: $min-width-small) {
+        font-size: 64px;
+    }
+
+    @media screen and (min-width: $min-width-large) {
+        font-size: 80px;
+    }
+}
+
+.countdown {
+    margin: 10px 0;
+    line-height: 1.6;
+    font-size: 12px;
+
+    @media screen and (min-width: $min-width-small) {
+        font-size: 16px;
+    }
+
+    @media screen and (min-width: $min-width-large) {
+        font-size: 20px;
+    }
+}
+
+.ampersand {
+    margin: 0 0 -16px;
+}
+
+.sunflower {
+    width: 15px;
+    height: 15px;
+    margin: 0 5px -2px;
+    display: inline-block;
+    content: url(../../../assets/images/sunflower.png);
+}
