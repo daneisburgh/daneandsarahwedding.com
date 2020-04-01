@@ -5,7 +5,7 @@
     "scripts": {
         "serverless": "serverless",
         "wait-on": "wait-on",
-        "offline": "npm run wait-on tcp:$DB_HOST:5432 && serverless offline --verbose",
+        "offline": "npm run wait-on tcp:localhost:5432 && serverless offline --verbose",
         "deploy": "serverless create_domain && serverless deploy --verbose",
         "destroy": "serverless delete_domain && serverless remove --verbose"
     },
@@ -20,6 +20,7 @@
         "@types/node": "^8.10.59",
         "@types/sqlstring": "^2.2.1",
         "@types/validator": "^12.0.1",
+        "serverless": "^1.67.0",
         "serverless-domain-manager": "^3.3.1",
         "serverless-offline": "^5.12.1",
         "serverless-plugin-typescript": "^1.1.9",
