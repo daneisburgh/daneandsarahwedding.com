@@ -50,7 +50,7 @@ elif [ $1 == "start-dev" ]; then
 elif [ $1 == "build-frontend" ]; then
     validate_environment $2
     echo "Building $2 frontend..."
-    npm --prefix frontend run build
+    npm --prefix frontend run build:$NODE_ENV
     mkdir -p backend/.build/src/public
     rm -rf backend/.build/src/public/www
     cp -R frontend/www backend/.build/src/public/www
