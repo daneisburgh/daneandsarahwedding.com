@@ -3,7 +3,6 @@ service: ${env:APP_NAME}
 plugins:
   - serverless-domain-manager
   - serverless-aws-static-file-handler/plugins/BinaryMediaTypes
-  - serverless-plugin-typescript
   - serverless-offline
 
 custom:
@@ -22,6 +21,7 @@ provider:
   timeout: 10
   logRetentionInDays: 30
   environment:
+    APP_NAME: ${env:APP_NAME}
     NODE_ENV: ${env:NODE_ENV}
     DB_HOST: ${env:DB_HOST}
     DB_USERNAME: ${env:DB_USERNAME}
@@ -29,7 +29,7 @@ provider:
 
 functions:
   public:
-    handler: src/public/index.default
+    handler: build/public/index.default
     events:
       - http:
           path: /
@@ -40,7 +40,7 @@ functions:
           method: GET
           cors: true
   health-check:
-    handler: src/api/health-check.default
+    handler: build/api/health-check.default
     events:
       - http:
           path: /api/health-check
