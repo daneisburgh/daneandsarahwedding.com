@@ -1,6 +1,6 @@
 *.conf
-.build
 .serverless
-backend/public
+build
 node_modules
+public
 www
