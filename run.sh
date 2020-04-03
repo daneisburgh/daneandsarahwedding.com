@@ -43,17 +43,17 @@ elif [ $1 == "install-dependencies" ]; then
 elif [ $1 == "start-dev" ]; then
     echo "Starting dev environment..."
     source env-dev.conf
-    concurrently -k -n "FRONTEND,BACKEND,DATABASE" -c "red,green,blue" \
-        "npm --prefix frontend run serve" \
-        "npm --prefix backend run offline" \
-        "docker-compose up"
+    concurrently -k -n "DATABASE,BACKEND,FRONTEND" -c "red,green,blue" \
+        "cd backend && docker-compose up" \
+        "cd backend && npm run serve" \
+        "cd frontend && npm run serve"
 elif [ $1 == "build-frontend" ]; then
     validate_environment $2
     echo "Building $2 frontend..."
     npm --prefix frontend run build:$NODE_ENV
-    mkdir -p backend/.build/src/public
-    rm -rf backend/.build/src/public/www
-    cp -R frontend/www backend/.build/src/public/www
+    mkdir -p backend/build/public
+    rm -rf backend/build/public/www
+    cp -R frontend/www backend/build/public/www
 elif [ $1 == "deploy" ]; then
     validate_environment $2
     echo "Deploying $2 app..."
