@@ -1,0 +1,8 @@
+const directory = 'build/database/';
+
+module.exports = {
+    'config': directory + 'config.js',
+    'models-path': directory + 'models',
+    'seeders-path': directory + 'seeders',
+    'migrations-path': directory + 'migrations'
+}
