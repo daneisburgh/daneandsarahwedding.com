@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
+import { Location } from '@angular/common';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 
 import { UserService } from '../../services/user/user.service';
-import { UtilsService } from '../../services/utils/utils.service';
 
 @Injectable()
 export class UserGuard implements CanActivate {
     constructor(
+        private location: Location,
         private router: Router,
-        private userService: UserService,
-        private utilsService: UtilsService
+        private userService: UserService
     ) { }
 
     public async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
@@ -18,8 +18,8 @@ export class UserGuard implements CanActivate {
             return true;
         } catch (error) {
             console.error(error);
-            this.utilsService.presentToast('danger', 'Please log in');
-            this.router.navigate(['/']);
+            await this.router.navigate(['/error', 401]);
+            this.location.replaceState(state.url);
             return false;
         }
     }
