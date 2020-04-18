@@ -1,34 +1,28 @@
+import bcrypt from 'bcryptjs';
 import { Model, DataTypes } from 'sequelize';
+
 import sequelize from '../sequelize';
 
 export const userColumns = {
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+    username: {
+        type: DataTypes.STRING,
         primaryKey: true
-    },
-    createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: false
     },
     name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    username: {
+    address: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    email: {
+    password: {
         type: DataTypes.STRING,
         allowNull: true
     },
-    password: {
-        type: DataTypes.STRING,
+    isPasswordHashed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
         allowNull: false
     },
     passwordResetToken: {
@@ -39,39 +33,92 @@ export const userColumns = {
         type: DataTypes.DATE,
         allowNull: true
     },
-    guests: {
-        type: DataTypes.JSON,
+    email: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+            isEmail: true
+        }
+    },
+    emailConfirmationToken: {
+        type: DataTypes.STRING,
         allowNull: true
     },
-    isComing: {
+    isEmailConfirmed: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
+    guests: {
+        type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: true
+    },
+    maxGuests: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
+    isGoing: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
     },
     needsTransportation: {
         type: DataTypes.BOOLEAN,
-        allowNull: true
+        defaultValue: false,
+        allowNull: false
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: new Date,
+        allowNull: false
+    },
+    updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: new Date,
+        allowNull: false
     }
-}
+};
 
 class User extends Model {
-    public readonly id!: number;
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
-
-    public name!: string;
     public username!: string;
-    public email!: string;
+    public name!: string;
+    public address!: string;
     public password!: string;
+    public isPasswordHashed!: boolean;
     public passwordResetToken!: string;
     public passwordResetExpiration!: Date;
-    public guest!: object;
-    public isComing!: boolean;
+    public email!: string;
+    public emailConfirmationToken!: string;
+    public isEmailConfirmed!: boolean;
+    public guests!: object;
+    public maxGuests!: number;
+    public isAdmin!: boolean;
+    public isGoing!: boolean;
     public needsTransportation!: boolean;
+    public createdAt!: Date;
+    public updatedAt!: Date;
 }
 
 User.init(userColumns, {
     sequelize,
     tableName: 'user'
+});
+
+User.beforeCreate(async (user: User) => {
+    user.password = Math.random().toString(36).slice(2).substring(0, 5).toUpperCase();
+});
+
+User.afterUpdate(async (user: User) => {
+    user.updatedAt = new Date;
+    
+    if (user.changed('password')) {
+        user.password = bcrypt.hashSync(user.password, 10);
+    }
 });
 
 export default User;
