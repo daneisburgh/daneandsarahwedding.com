@@ -6,7 +6,6 @@ import { MenuController, ToastController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { User } from '../../interfaces/user';
 import { GalleryData } from '../../interfaces/gallery-data';
 
 @Injectable({
@@ -26,9 +25,7 @@ export class UtilsService {
         { name: 'gatlinburg', title: 'Gatlinburg', date: '8/2016' }
     ];
 
-    public user: User;
-    public onRouteChange = new Subject<NavigationEnd>();
-
+    public subjectRouteChange = new Subject<NavigationEnd>();
     public get isMobile() { return window.innerWidth < 992; }
 
     constructor(
@@ -36,14 +33,7 @@ export class UtilsService {
         private router: Router,
         private title: Title,
         private toastController: ToastController) {
-        this.watchUser();
         this.watchRoute();
-    }
-
-    public setUser(user: User) {
-    }
-
-    public clearUser() {
     }
 
     public setTitle(pageTitle: string) {
@@ -69,15 +59,12 @@ export class UtilsService {
         (await this.toastController.create(toastOptions)).present();
     }
 
-    private watchUser() {
-    }
-
     private watchRoute() {
         this.router.events
             .pipe(filter(event => event instanceof NavigationEnd))
             .subscribe((event: NavigationEnd) => {
                 this.menuController.close();
-                this.onRouteChange.next(event);
+                this.subjectRouteChange.next(event);
             });
     }
 }
