@@ -5,30 +5,35 @@
     "scripts": {
         "serverless": "serverless",
         "wait-on": "wait-on",
-        "migrate": "sequelize-cli db:migrate",
+        "migrate": "npm run build && sequelize-cli db:migrate",
+        "build": "rm -rf build && tsc && cp src/database/data/*.xlsx build/database/data/",
+        "watch": "tsc --watch --preserveWatchOutput",
         "offline": "serverless offline --verbose",
-        "build": "tsc --project tsconfig.json",
-        "watch": "tsc --watch --preserveWatchOutput --project tsconfig.json",
-        "serve": "npm run wait-on tcp:localhost:5432 && npm-run-all build migrate && npm-run-all --parallel offline watch",
-        "deploy": "build && serverless create_domain && serverless deploy --verbose",
-        "destroy": "serverless delete_domain && serverless remove --verbose"
+        "serve": "npm run wait-on tcp:localhost:5432 && npm run migrate && npm-run-all --parallel watch offline",
+        "deploy": "npm run migrate && serverless create_domain && serverless deploy --verbose --force",
+        "destroy": "serverless delete_domain && serverless remove --verbose --force"
     },
     "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "jsonwebtoken": "^8.5.1",
         "lodash": "^4.17.15",
-        "pg": "^8.0.0",
+        "pg": "^8.0.2",
         "pg-hstore": "^2.3.3",
-        "sequelize": "^5.21.5",
+        "sequelize": "^5.21.6",
         "sequelize-cli": "^5.5.1",
         "serverless-aws-static-file-handler": "^2.0.5",
-        "validator": "^12.2.0"
+        "validator": "^12.2.0",
+        "xlsx": "^0.15.6"
     },
     "devDependencies": {
+        "@types/bcryptjs": "^2.4.2",
         "@types/bluebird": "^3.5.30",
+        "@types/jsonwebtoken": "^8.3.9",
         "@types/lodash": "^4.14.149",
-        "@types/node": "^8.10.59",
+        "@types/node": "^8.10.60",
         "@types/validator": "^12.0.1",
-        "@typescript-eslint/eslint-plugin": "^2.26.0",
-        "@typescript-eslint/parser": "^2.26.0",
+        "@typescript-eslint/eslint-plugin": "^2.28.0",
+        "@typescript-eslint/parser": "^2.28.0",
         "eslint": "^6.8.0",
         "eslint-config-standard": "^14.1.1",
         "eslint-plugin-import": "^2.20.2",
@@ -36,10 +41,10 @@
         "eslint-plugin-promise": "^4.2.1",
         "eslint-plugin-standard": "^4.0.1",
         "npm-run-all": "^4.1.5",
-        "serverless": "^1.67.0",
+        "serverless": "^1.67.3",
         "serverless-domain-manager": "^3.3.1",
         "serverless-offline": "^5.12.1",
         "typescript": "^3.8.3",
-        "wait-on": "^4.0.1"
+        "wait-on": "^4.0.2"
     }
 }
