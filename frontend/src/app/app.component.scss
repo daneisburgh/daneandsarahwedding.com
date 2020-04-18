@@ -23,25 +23,31 @@ ion-buttons {
                     border-bottom: 1px solid var(--ion-color-dark);
                 }
             }
+
+            &.gallery {
+                margin-right: -6px;
+            }
         }
     }
-}
 
-ion-button {
-    &.log-in-out {
-        font-size: 20px;
-        margin-right: -6px;
-
-        ion-icon {
-            margin-right: 0;
-        }
-
-        @media screen and (min-width: $min-width-large) {
-            font-size: 14px;
-            margin-right: 0;
-
-            ion-icon {
-                margin-right: 6px;
+    &.auth {
+        ion-button {
+            &.log-in-out {
+                font-size: 20px;
+                margin-right: -6px;
+        
+                ion-icon {
+                    margin-right: 0;
+                }
+        
+                @media screen and (min-width: $min-width-large) {
+                    font-size: 14px;
+                    margin-right: 0;
+        
+                    ion-icon {
+                        margin-right: 6px;
+                    }
+                }
             }
         }
     }

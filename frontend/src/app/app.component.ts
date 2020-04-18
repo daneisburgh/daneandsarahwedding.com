@@ -6,10 +6,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { GalleryPopoverComponent } from './components/gallery-popover/gallery-popover.component';
 import { LogInModalComponent } from './components/log-in-modal/log-in-modal.component';
+import { UserService } from './services/user/user.service';
 import { UtilsService } from './services/utils/utils.service';
-import { AuthService } from './services/auth/auth.service';
-import { LogInResponse } from './interfaces/log-in-response';
-import { User } from './interfaces/user';
 
 @Component({
     selector: 'app-root',
@@ -19,44 +17,21 @@ import { User } from './interfaces/user';
 export class AppComponent {
     public readonly currentYear = new Date().getFullYear();
 
-    public get user(): User { return this.utilsService.user; }
-    public get userIsAdmin(): boolean { return this.user.permissions.includes('admin'); }
+    public get user() { return this.userService.user; }
+    public get appTitle(): string { return this.utilsService.appTitle };
     public get isMobile(): boolean { return this.utilsService.isMobile; }
-    public get appTitle(): string { return this.utilsService.appTitle; }
     public get logInOutButtonFill(): string { return this.utilsService.isMobile ? 'clear' : 'outline'; }
 
     constructor(
         public router: Router,
-        private authService: AuthService,
         private modalController: ModalController,
         private platform: Platform,
         private popoverController: PopoverController,
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
+        private userService: UserService,
         private utilsService: UtilsService) {
-        this.initializeApp();
-        this.logIn();
-    }
-
-    public logOut() {
-        this.authService.logOut();
-        this.utilsService.clearUser();
-    }
-
-    public async presentLogInModal() {
-        await (await this.modalController.create({ component: LogInModalComponent })).present();
-    }
-
-    public async presentGalleryOptions(event: MouseEvent) {
-        const popover = await this.popoverController.create({
-            component: GalleryPopoverComponent,
-            event
-        });
-
-        return await popover.present();
-    }
-
-    private initializeApp() {
+        this.userService.logIn().catch(_ => {});
         this.platform.ready().then(() => {
             if (this.platform.is('cordova')) {
                 this.statusBar.styleDefault();
@@ -65,10 +40,15 @@ export class AppComponent {
         });
     }
 
-    private async logIn() {
-        try {
-            const response: LogInResponse = await this.authService.logIn();
-            this.utilsService.setUser(response.user);
-        } catch { }
+    public logOut() {
+        this.userService.logOut();
+    }
+
+    public async presentLogInModal() {
+        (await this.modalController.create({ component: LogInModalComponent })).present();
+    }
+
+    public async presentGalleryPopover(event: any) {
+        (await this.popoverController.create({ event, component: GalleryPopoverComponent })).present();
     }
 }
