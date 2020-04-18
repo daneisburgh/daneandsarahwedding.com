@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PopoverController } from '@ionic/angular'
+import { PopoverController } from '@ionic/angular';
 
 import { GalleryPopoverComponent } from '../../components/gallery-popover/gallery-popover.component';
 import { UtilsService } from '../../services/utils/utils.service';
@@ -32,12 +32,7 @@ export class GalleryPage {
         });
     }
 
-    public async presentGalleryOptions(event: MouseEvent) {
-        const popover = await this.popoverController.create({
-            component: GalleryPopoverComponent,
-            event
-        });
-
-        return await popover.present();
+    public async presentGalleryPopover(event: any) {
+        (await this.popoverController.create({ event, component: GalleryPopoverComponent })).present();
     }
 }
