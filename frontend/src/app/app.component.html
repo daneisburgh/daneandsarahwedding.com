@@ -38,12 +38,12 @@
                     <ion-label>Users</ion-label>
                 </ion-button>
             </ion-buttons>
-            <ion-buttons slot="end" class="auth">
-                <ion-button *ngIf="user" class="log-in-out" [fill]="logInOutButtonFill" (click)="logOut()">
+            <ion-buttons slot="end" class="log-in-out">
+                <ion-button *ngIf="user" [fill]="logInOutButtonFill" (click)="logOut()">
                     <ion-icon slot="start" name="log-out"></ion-icon>
                     <ion-label *ngIf="!isMobile">Log Out</ion-label>
                 </ion-button>
-                <ion-button *ngIf="!user" class="log-in-out" [fill]="logInOutButtonFill" (click)="presentLogInModal()">
+                <ion-button *ngIf="!user" [fill]="logInOutButtonFill" (click)="presentLogInModal()">
                     <ion-icon slot="start" name="log-in"></ion-icon>
                     <ion-label *ngIf="!isMobile">Log In</ion-label>
                 </ion-button>
