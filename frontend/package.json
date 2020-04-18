@@ -24,6 +24,7 @@
         "@ionic/storage": "^2.2.0",
         "angular-mgl-timeline": "^0.3.2",
         "angular2-image-gallery": "^8.0.0",
+        "builtin-status-codes": "^3.0.0",
         "core-js": "^3.2.1",
         "hammerjs": "^2.0.8",
         "lodash": "^4.17.15",
