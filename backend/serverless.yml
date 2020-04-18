@@ -20,9 +20,17 @@ provider:
   runtime: nodejs12.x
   timeout: 10
   logRetentionInDays: 30
+  usagePlan:
+    quota:
+      limit: 1000
+      period: DAY
+    throttle:
+      rateLimit: 100
+      burstLimit: 1000
   environment:
     APP_NAME: ${env:APP_NAME}
     NODE_ENV: ${env:NODE_ENV}
+    API_KEY: ${env:API_KEY}
     DB_HOST: ${env:DB_HOST}
     DB_USERNAME: ${env:DB_USERNAME}
     DB_PASSWORD: ${env:DB_PASSWORD}
@@ -39,8 +47,15 @@ functions:
           path: /{filePath+}
           method: GET
           cors: true
-  health-check:
-    handler: build/api/health-check.default
+  api-auth:
+    handler: build/api/routes/auth.default
+    events:
+      - http:
+          path: /api/auth
+          method: POST
+          cors: true
+  api-health-check:
+    handler: build/api/routes/health-check.default
     events:
       - http:
           path: /api/health-check
