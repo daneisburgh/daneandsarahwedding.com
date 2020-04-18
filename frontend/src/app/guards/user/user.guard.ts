@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 
-import { AuthService } from '../../services/auth/auth.service';
-import { UtilsService } from '../..//services/utils/utils.service';
-
+import { UserService } from '../../services/user/user.service';
+import { UtilsService } from '../../services/utils/utils.service';
 
 @Injectable()
 export class UserGuard implements CanActivate {
     constructor(
         private router: Router,
-        private authService: AuthService,
+        private userService: UserService,
         private utilsService: UtilsService
     ) { }
 
-    canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        return this.authService
-            .logIn()
-            .then(() => true)
-            .catch(() => {
-                this.utilsService.presentToast('danger', 'Please log in to view content');
-                this.router.navigate(['/']);
-                return false;
-            });
+    public async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+        try {
+            await this.userService.logIn();
+            return true;
+        } catch (error) {
+            console.error(error);
+            this.utilsService.presentToast('danger', 'Please log in');
+            this.router.navigate(['/']);
+            return false;
+        }
     }
 }
