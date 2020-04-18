@@ -43,19 +43,17 @@ export class UserService {
 		private storage: Storage
 	) { }
 
-	public async logIn(credentials?: Credentials): Promise<User> {
+	public async logIn(credentials?: Credentials) {
 		if (!credentials) {
 			credentials = { token: await this.storage.get(TOKEN) };
 		}
 
 		const response: LogInResponse = await this.httpClient
-			.post<LogInResponse>(`${environment.apiUrl}/auth`, credentials)
+			.post<LogInResponse>(`${environment.apiUrl}/login`, credentials)
 			.toPromise();
 
 		this.user = response.user;
 		await this.storage.set(TOKEN, response.token);
-
-		return this.user;
 	}
 
 	public async logOut() {
@@ -66,6 +64,4 @@ export class UserService {
 			this.router.navigate(['/']);
 		}
 	}
-
-
 }

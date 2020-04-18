@@ -47,11 +47,11 @@ functions:
           path: /{filePath+}
           method: GET
           cors: true
-  api-auth:
-    handler: build/api/routes/auth.default
+  api-login:
+    handler: build/api/routes/login.default
     events:
       - http:
-          path: /api/auth
+          path: /api/login
           method: POST
           cors: true
   api-health-check:
