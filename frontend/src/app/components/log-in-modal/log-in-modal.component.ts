@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
-import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
 import { UtilsService } from 'src/app/services/utils/utils.service';
-import { LogInResponse } from 'src/app/interfaces/log-in-response';
 
 @Component({
     selector: 'app-log-in',
@@ -12,12 +11,9 @@ import { LogInResponse } from 'src/app/interfaces/log-in-response';
     styleUrls: ['./log-in-modal.component.scss'],
 })
 export class LogInModalComponent {
-    private readonly badRequest = 'Bad request';
-    private readonly invalidLogin = 'Invalid login';
-
     public username: string;
     public password: string;
-    public errorMessage = this.badRequest;
+    public errorMessage = 'Bad request';
 
     public isSubmitting = false;
     public hasError = false;
@@ -25,9 +21,9 @@ export class LogInModalComponent {
     public get isMobile() { return this.utilsService.isMobile; }
 
     constructor(
-        private authService: AuthService,
         private modalController: ModalController,
         private router: Router,
+        private userService: UserService,
         private utilsService: UtilsService
     ) { }
 
@@ -35,31 +31,21 @@ export class LogInModalComponent {
         this.modalController.dismiss();
     }
 
-    public submit() {
+    public async submit() {
+        this.hasError = false;
         this.isSubmitting = true;
 
-        this.authService.logIn({
-            strategy: 'local',
-            username: this.username,
-            password: this.password
-        })
-            .then((response: LogInResponse) => {
-                const user = response.user;
-                const route = user.permissions.includes('admin') ? '/users' : '/profile';
-
-                this.hasError = false;
-                this.utilsService.setUser(user);
-                this.router.navigate([route]);
-                this.dismiss();
-            })
-            .catch((error: any) => {
-                console.error(error);
-                this.hasError = true;
-                this.errorMessage = error.message === this.invalidLogin ? this.invalidLogin : this.badRequest;
-            })
-            .finally(() => {
-                this.isSubmitting = false;
-            });
+        try {
+            const user = await this.userService.logIn({ username: this.username, password: this.password });
+            // const route = user.isAdmin ? '/users' : '/profile';
+            this.router.navigate(['/profile']);
+            this.dismiss();
+        } catch (error) {
+            console.error(error);
+            this.hasError = true;
+        } finally {
+            this.isSubmitting = false;
+        }
     }
 
     public keyDown(event: KeyboardEvent) {
