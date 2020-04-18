@@ -43,10 +43,10 @@ elif [ $1 == "install-dependencies" ]; then
 elif [ $1 == "start-dev" ]; then
     echo "Starting dev environment..."
     source env-dev.conf
-    concurrently -k -n "DATABASE,BACKEND,FRONTEND" -c "red,green,blue" \
-        "cd backend && docker-compose up" \
-        "cd backend && npm run serve" \
-        "cd frontend && npm run serve"
+    concurrently -k -n "DATABASE,BACKEND,FRONTEND" -c "blue,green,red" \
+        "docker-compose --file backend/docker-compose.yml up" \
+        "npm --prefix backend run serve" \
+        "npm --prefix frontend run serve"
 elif [ $1 == "build-frontend" ]; then
     validate_environment $2
     echo "Building $2 frontend..."
