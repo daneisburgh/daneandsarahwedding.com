@@ -54,7 +54,6 @@ export default async function (event: any) {
             user: pick(user, [
                 'username',
                 'name',
-                'address',
                 'email',
                 'isEmailConfirmed',
                 'guests',
