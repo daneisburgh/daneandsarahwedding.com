@@ -57,11 +57,12 @@ export class UserService {
 	}
 
 	public async logOut() {
-		this.user = undefined;
 		await this.storage.set(TOKEN, undefined);
 
-		if (!['/home', '/info', '/about-us'].includes(this.router.url)) {
-			this.router.navigate(['/']);
+		if (['/profile', '/users'].includes(this.router.url)) {
+			await this.router.navigate(['/']);
 		}
+
+		this.user = undefined;
 	}
 }
