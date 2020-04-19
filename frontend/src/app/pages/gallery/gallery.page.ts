@@ -14,9 +14,8 @@ import { GalleryData } from '../../interfaces/gallery-data';
 export class GalleryPage {
     public gallery: GalleryData;
 
-    public get metadataUri(): string {
-        return this.gallery ?
-            `assets/images/gallery/${this.gallery.name}/data.json` : undefined;
+    public get metadataUri() {
+        return this.gallery ? `assets/images/gallery/${this.gallery.name}/data.json` : undefined;
     }
 
     constructor(

@@ -12,8 +12,8 @@ import { UtilsService } from 'src/app/services/utils/utils.service';
 })
 export class ErrorPage {
     public statusCode: number;
-    public get statusText(): string { return get(builtinStatusCodes, this.statusCode); }
-    public get statusMessage(): string { return this.statusCode ? `${this.statusCode}: ${this.statusText}` : ''; }
+    public get statusText() { return get(builtinStatusCodes, this.statusCode); }
+    public get statusMessage() { return this.statusCode ? `${this.statusCode}: ${this.statusText}` : ''; }
 
     constructor(
         private activatedRoute: ActivatedRoute,
