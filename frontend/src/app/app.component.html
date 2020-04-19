@@ -1,4 +1,4 @@
-<ion-app>
+<ion-app *ngIf="isReady">
     <ion-header color="light" class="content-outer">
         <ion-toolbar color="light" class="content-inner">
             <ion-menu-button *ngIf="isMobile" slot="start"></ion-menu-button>
@@ -25,12 +25,7 @@
                     [ngClass]="{'active': router.url.includes('gallery')}">
                     <ion-icon slot="start" name="images"></ion-icon>
                     <ion-label>Gallery</ion-label>
-                    <ion-icon slot="end" name="arrow-dropdown" class="gallery-arrow-dropdown-desktop"></ion-icon>
-                </ion-button>
-                <ion-button *ngIf="user" routerLink="/profile" routerDirection="root"
-                    [ngClass]="{'active': router.url.includes('profile')}">
-                    <ion-icon slot="start" name="person"></ion-icon>
-                    <ion-label>Profile</ion-label>
+                    <ion-icon slot="end" name="arrow-dropdown" class="arrow-dropdown-gallery-desktop"></ion-icon>
                 </ion-button>
                 <ion-button *ngIf="user && user.isAdmin" routerLink="/users" routerDirection="root"
                     [ngClass]="{'active': router.url.includes('users')}">
@@ -38,12 +33,14 @@
                     <ion-label>Users</ion-label>
                 </ion-button>
             </ion-buttons>
-            <ion-buttons slot="end" class="log-in-out">
-                <ion-button *ngIf="user" [fill]="logInOutButtonFill" (click)="logOut()">
-                    <ion-icon slot="start" name="log-out"></ion-icon>
-                    <ion-label *ngIf="!isMobile">Log Out</ion-label>
+            <ion-buttons slot="end" class="log-in-profile">
+                <ion-button *ngIf="user" [ngClass]="{'active': router.url.includes('profile')}"
+                    (click)="presentProfilePopover($event)">
+                    <ion-icon slot="start" name="person"></ion-icon>
+                    <ion-label>{{user.username}}</ion-label>
+                    <ion-icon slot="end" name="arrow-dropdown" class="arrow-dropdown-profile"></ion-icon>
                 </ion-button>
-                <ion-button *ngIf="!user" [fill]="logInOutButtonFill" (click)="presentLogInModal()">
+                <ion-button *ngIf="!user" class="log-in" [fill]="logInOutButtonFill" (click)="presentLogInModal()">
                     <ion-icon slot="start" name="log-in"></ion-icon>
                     <ion-label *ngIf="!isMobile">Log In</ion-label>
                 </ion-button>
@@ -75,12 +72,7 @@
                     [ngClass]="{'active': router.url.includes('gallery')}">
                     <ion-icon slot="start" name="images"></ion-icon>
                     <ion-label>Gallery</ion-label>
-                    <ion-icon slot="end" name="arrow-dropdown" class="gallery-arrow-dropdown-mobile"></ion-icon>
-                </ion-item>
-                <ion-item *ngIf="user" routerLink="/profile" routerDirection="root"
-                    [ngClass]="{'active': router.url.includes('profile')}">
-                    <ion-icon slot="start" name="person"></ion-icon>
-                    <ion-label>Profile</ion-label>
+                    <ion-icon slot="end" name="arrow-dropdown" class="arrow-dropdown-gallery-mobile"></ion-icon>
                 </ion-item>
                 <ion-item *ngIf="user && user.isAdmin" routerLink="/users" routerDirection="root"
                     [ngClass]="{'active': router.url.includes('users')}">

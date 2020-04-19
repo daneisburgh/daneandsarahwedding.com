@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { GalleryPopoverComponent } from './components/gallery-popover/gallery-popover.component';
+import { ProfilePopoverComponent } from './components/profile-popover/profile-popover.component';
 import { LogInModalComponent } from './components/log-in-modal/log-in-modal.component';
 import { UserService } from './services/user/user.service';
 import { UtilsService } from './services/utils/utils.service';
@@ -15,12 +16,13 @@ import { UtilsService } from './services/utils/utils.service';
     styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+    public isReady = false;
     public readonly currentYear = new Date().getFullYear();
 
     public get user() { return this.userService.user; }
-    public get appTitle(): string { return this.utilsService.appTitle };
-    public get isMobile(): boolean { return this.utilsService.isMobile; }
-    public get logInOutButtonFill(): string { return this.utilsService.isMobile ? 'clear' : 'outline'; }
+    public get appTitle() { return this.utilsService.appTitle };
+    public get isMobile() { return this.utilsService.isMobile; }
+    public get logInOutButtonFill() { return this.utilsService.isMobile ? 'clear' : 'outline'; }
 
     constructor(
         public router: Router,
@@ -31,24 +33,34 @@ export class AppComponent {
         private statusBar: StatusBar,
         private userService: UserService,
         private utilsService: UtilsService) {
-        this.userService.logIn().catch(_ => {});
-        this.platform.ready().then(() => {
-            if (this.platform.is('cordova')) {
-                this.statusBar.styleDefault();
-                this.splashScreen.hide();
-            }
-        });
+        this.initializeApp();
     }
 
-    public logOut() {
-        this.userService.logOut();
+    public async presentGalleryPopover(event: any) {
+        const cssClass = 'gallery-popover';
+        (await this.popoverController.create({ event, cssClass, component: GalleryPopoverComponent })).present();
+    }
+
+    public async presentProfilePopover(event: any) {
+        const cssClass = 'profile-popover';
+        (await this.popoverController.create({ event, cssClass, component: ProfilePopoverComponent })).present();
     }
 
     public async presentLogInModal() {
         (await this.modalController.create({ component: LogInModalComponent })).present();
     }
 
-    public async presentGalleryPopover(event: any) {
-        (await this.popoverController.create({ event, component: GalleryPopoverComponent })).present();
+    private async initializeApp() {
+        try {
+            await this.platform.ready();
+            await this.userService.logIn();
+
+            if (this.platform.is('cordova')) {
+                this.statusBar.styleDefault();
+                this.splashScreen.hide();
+            }
+
+            this.isReady = true;
+        } catch (error) { }
     }
 }

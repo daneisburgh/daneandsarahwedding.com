@@ -1,6 +1,16 @@
 @import "../styles/variables.scss";
 
 ion-buttons {
+    ion-button {
+        font-size: 16px;
+
+        &.active {
+            ion-label {
+                border-bottom: 1px solid var(--ion-color-dark) !important;
+            }
+        }
+    }
+
     &.contact-us {
         justify-content: center;
 
@@ -18,21 +28,14 @@ ion-buttons {
                 transition: border 0.3s;
             }
 
-            &.active {
-                ion-label {
-                    border-bottom: 1px solid var(--ion-color-dark);
-                }
-            }
-
             &.gallery {
                 margin-right: -6px;
             }
         }
     }
 
-    &.log-in-out {
-        ion-button {
-            font-size: 20px;
+    &.log-in-profile {
+        ion-button.log-in {
             margin-right: -6px;
     
             ion-icon {
@@ -40,7 +43,6 @@ ion-buttons {
             }
     
             @media screen and (min-width: $min-width-large) {
-                font-size: 14px;
                 margin-right: 0;
     
                 ion-icon {
@@ -139,11 +141,15 @@ ion-title {
     }
 }
 
-.gallery-arrow-dropdown-desktop {
+.arrow-dropdown-profile {
+    margin: 0 0 0 2px !important;
+}
+
+.arrow-dropdown-gallery-desktop {
     margin-left: 4px !important;
 }
 
-.gallery-arrow-dropdown-mobile {
+.arrow-dropdown-gallery-mobile {
     position: absolute;
     margin: 2px 0 0 50px;
 }
