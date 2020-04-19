@@ -1,0 +1,14 @@
+<ion-grid>
+	<ion-row routerLink="/profile" routerDirection="root" (click)="popoverController.dismiss()">
+		<ion-col size="12">
+			<ion-icon name="settings"></ion-icon>
+			Profile
+		</ion-col>
+	</ion-row>
+	<ion-row (click)="logOut()">
+		<ion-col size="12">
+			<ion-icon name="log-out"></ion-icon>
+			Log Out
+		</ion-col>
+	</ion-row>
+</ion-grid>
