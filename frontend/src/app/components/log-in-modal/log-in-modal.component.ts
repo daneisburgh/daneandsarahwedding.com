@@ -5,6 +5,11 @@ import { ModalController } from '@ionic/angular';
 import { UserService } from 'src/app/services/user/user.service';
 import { UtilsService } from 'src/app/services/utils/utils.service';
 
+const loginErrors = [
+    'Invalid Username',
+    'Invalid Password'
+];
+
 @Component({
     selector: 'app-log-in',
     templateUrl: './log-in-modal.component.html',
@@ -13,7 +18,7 @@ import { UtilsService } from 'src/app/services/utils/utils.service';
 export class LogInModalComponent {
     public username: string;
     public password: string;
-    public errorMessage = 'Bad request';
+    public errorMessage: string;
 
     public isSubmitting = false;
     public hasError = false;
@@ -36,13 +41,14 @@ export class LogInModalComponent {
         this.isSubmitting = true;
 
         try {
-            const user = await this.userService.logIn({ username: this.username, password: this.password });
-            // const route = user.isAdmin ? '/users' : '/profile';
-            this.router.navigate(['/profile']);
+            await this.userService.logIn({ username: this.username, password: this.password });
+            const route = this.userService.user.isAdmin ? '/users' : '/profile';
+            this.router.navigate([route]);
             this.dismiss();
         } catch (error) {
             console.error(error);
             this.hasError = true;
+            this.errorMessage = loginErrors.includes(error.error) ? error.error : 'Bad Request';
         } finally {
             this.isSubmitting = false;
         }
@@ -56,7 +62,5 @@ export class LogInModalComponent {
         }
     }
 
-    public presentResetPasswordModal() {
-
-    }
+    public presentResetPasswordModal() { }
 }

@@ -14,11 +14,19 @@
     }
 }
 
+ion-buttons.close {
+    margin-right: 10px;
+}
+
 ion-item {
     width: 100%;
     padding: 0;
-    font-size: 14px;
     --highlight-background: var(--ion-color-primary) !important;
+
+    @media screen and (min-width: $min-width-medium) {
+        width: 90%;
+        margin-right: 4px;
+    }
 }
 
 .forgot-password {

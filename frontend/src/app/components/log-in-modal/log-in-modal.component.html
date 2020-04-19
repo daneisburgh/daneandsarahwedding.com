@@ -1,7 +1,7 @@
 <ion-header>
-    <ion-toolbar color="primary" class="content-outer">
+    <ion-toolbar color="primary">
         <ion-title class="content-inner">Log In</ion-title>
-        <ion-buttons slot="end">
+        <ion-buttons slot="end" class=:close>
             <ion-button (click)="dismiss()">
                 <ion-icon name="close"></ion-icon>
             </ion-button>
@@ -9,7 +9,7 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <div class="content-outer center-content-horizontal" [ngClass]="{'center-content-vertical': !isMobile}">
+    <div class="center-content-horizontal" [ngClass]="{'center-content-vertical': !isMobile}">
         <div class="content-inner modal-inner" (keydown)="keyDown($event)">
             <ion-grid>
                 <ion-row>
