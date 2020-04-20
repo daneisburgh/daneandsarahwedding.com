@@ -59,7 +59,8 @@ export default async function (event: any) {
                 'guests',
                 'maxGuests',
                 'isAdmin',
-                'isGoing',
+                'isAttending',
+                'needsAccommodation',
                 'needsTransportation'
             ])
         });

@@ -62,7 +62,12 @@ export const userColumns = {
         defaultValue: false,
         allowNull: false
     },
-    isGoing: {
+    isAttending: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+    },
+    needsAccommodation: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false
@@ -98,7 +103,8 @@ class User extends Model {
     public guests!: object;
     public maxGuests!: number;
     public isAdmin!: boolean;
-    public isGoing!: boolean;
+    public isAttending!: boolean;
+    public needsAccommodation!: boolean;
     public needsTransportation!: boolean;
     public createdAt!: Date;
     public updatedAt!: Date;
