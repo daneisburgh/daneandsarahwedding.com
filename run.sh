@@ -8,9 +8,9 @@
 #   4) deploy ENV --------------- Deploy stage/prod app
 #   5) destroy ENV -------------- Destroy stage/prod app
 #   6) terraform CMD ENV -------- Run Terraform for stage/prod resources
-
-export APP_NAME="daneandsarahwedding"
-export DOMAIN_NAME="$APP_NAME.com"
+#
+#   ENV: dev, stage, prod
+#   CMD: init, apply, destroy
 
 function reinstall_node_dependencies() {
     rm -rf node_modules
@@ -22,11 +22,12 @@ function validate_environment {
     if [ $# -eq 0 ]; then
         echo "Missing environment"
         exit
-    elif [ $1 != "stage" ] && [ $1 != "prod" ]; then
+    elif [ $1 != "dev" ] && [ $1 != "stage" ] && [ $1 != "prod" ]; then
         echo "Invalid environment"
         exit
     else
-        source env-$1.conf
+        source vars/default.conf
+        source vars/$1.conf
     fi
 }
 
@@ -42,7 +43,7 @@ elif [ $1 == "install-dependencies" ]; then
     reinstall_node_dependencies
 elif [ $1 == "start-dev" ]; then
     echo "Starting dev environment..."
-    source env-dev.conf
+    validate_environment "dev"
     concurrently -k -n "DATABASE,BACKEND,FRONTEND" -c "blue,green,red" \
         "docker-compose --file backend/docker-compose.yml up" \
         "npm --prefix backend run serve" \
