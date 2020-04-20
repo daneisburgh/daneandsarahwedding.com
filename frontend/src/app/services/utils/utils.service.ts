@@ -6,15 +6,13 @@ import { MenuController, ToastController } from '@ionic/angular';
 import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { GalleryData } from '../../interfaces/gallery-data';
-
 @Injectable({
     providedIn: 'root'
 })
 export class UtilsService {
     public readonly appTitle = 'D&S Wedding';
 
-    public readonly galleryData: GalleryData[] = [
+    public readonly galleryData = [
         { name: 'engagement', title: 'Engagement', date: '10/2019' },
         { name: 'germany', title: 'Germany', date: '10/2019' },
         { name: 'charlotte', title: 'Charlotte', date: '6/2019' },

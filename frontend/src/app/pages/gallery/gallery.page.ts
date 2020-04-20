@@ -4,7 +4,12 @@ import { PopoverController } from '@ionic/angular';
 
 import { GalleryPopoverComponent } from '../../components/gallery-popover/gallery-popover.component';
 import { UtilsService } from '../../services/utils/utils.service';
-import { GalleryData } from '../../interfaces/gallery-data';
+
+interface Gallery {
+    name: string;
+    title: string;
+    date: string;
+}
 
 @Component({
     selector: 'app-gallery',
@@ -12,7 +17,7 @@ import { GalleryData } from '../../interfaces/gallery-data';
     styleUrls: ['./gallery.page.scss'],
 })
 export class GalleryPage {
-    public gallery: GalleryData;
+    public gallery: Gallery;
 
     public get metadataUri() {
         return this.gallery ? `assets/images/gallery/${this.gallery.name}/data.json` : undefined;
