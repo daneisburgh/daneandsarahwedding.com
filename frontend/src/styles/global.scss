@@ -44,6 +44,10 @@ ion-button {
 
 ion-title {
     padding: 0 8px 0 18px;
+
+    ion-grid {
+        margin-left: -8px;
+    }
 }
 
 ion-toast {
@@ -53,16 +57,16 @@ ion-toast {
 }
 
 ion-popover {
-    &.gallery-popover {
-        .popover-content {
-            width: 192px;
-        }
+    &.gallery-popover .popover-content {
+        width: 192px;
     }
 
-    &.profile-popover {
-        .popover-content {
-            width: 128px;
-        }
+    &.profile-popover .popover-content {
+        width: 112px;
+    }
+
+    &.deadline-popover .popover-content {
+        width: 264px;
     }
 
     ion-grid {
@@ -89,6 +93,10 @@ ion-popover {
             }
         }
     }
+}
+
+a {
+    font-weight: bolder;
 }
 
 .center-content-vertical {
