@@ -14,7 +14,8 @@ interface User {
 	guests: string[];
 	maxGuests: number;
 	isAdmin: boolean;
-	isGoing: boolean;
+	isAttending: boolean;
+	needsAccommodation: boolean;
 	needsTransportation: boolean;
 }
 
@@ -29,7 +30,7 @@ interface LogInResponse {
 	token: string
 }
 
-const TOKEN = 'userJWT';
+const TOKEN_KEY = 'userJWT';
 
 @Injectable({
 	providedIn: 'root'
@@ -45,7 +46,7 @@ export class UserService {
 
 	public async logIn(credentials?: Credentials) {
 		if (!credentials) {
-			credentials = { token: await this.storage.get(TOKEN) };
+			credentials = { token: await this.storage.get(TOKEN_KEY) };
 		}
 
 		const response: LogInResponse = await this.httpClient
@@ -53,11 +54,11 @@ export class UserService {
 			.toPromise();
 
 		this.user = response.user;
-		await this.storage.set(TOKEN, response.token);
+		await this.storage.set(TOKEN_KEY, response.token);
 	}
 
 	public async logOut() {
-		await this.storage.set(TOKEN, undefined);
+		await this.storage.set(TOKEN_KEY, undefined);
 
 		if (['/profile', '/users'].includes(this.router.url)) {
 			await this.router.navigate(['/']);
