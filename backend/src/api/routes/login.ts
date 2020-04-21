@@ -55,6 +55,7 @@ export default async function (event: any) {
                 'isAdmin',
                 'isAttending',
                 'needsAccommodation',
+                'totalRooms',
                 'needsTransportation'
             ])
         });

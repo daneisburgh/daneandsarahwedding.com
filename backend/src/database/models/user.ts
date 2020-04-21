@@ -72,6 +72,11 @@ export const userColumns = {
         defaultValue: false,
         allowNull: false
     },
+    totalRooms: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false
+    },
     needsTransportation: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
@@ -105,6 +110,7 @@ class User extends Model {
     public isAdmin!: boolean;
     public isAttending!: boolean;
     public needsAccommodation!: boolean;
+    public totalRooms!: boolean;
     public needsTransportation!: boolean;
     public createdAt!: Date;
     public updatedAt!: Date;
