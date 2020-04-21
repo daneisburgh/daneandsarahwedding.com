@@ -45,8 +45,8 @@ ion-button {
 ion-title {
     padding: 0 8px 0 18px;
 
-    ion-grid {
-        margin-left: -8px;
+    &.grid {
+        padding-left: 0;
     }
 }
 
@@ -100,7 +100,7 @@ a {
 }
 
 .alert-wrapper {
-    min-width: 320px !important;
+    min-width: 346px !important;
 }
 
 .center-content-vertical {
