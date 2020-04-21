@@ -2,11 +2,86 @@
     <div class="content-outer page-outer">
         <ion-header>
             <ion-toolbar color="primary">
-                <ion-title class="content-inner">{{user.name}}</ion-title>
+                <ion-title class="content-inner title">
+                    <ion-grid>
+                        <ion-row>
+                            <ion-col size="6">
+                                {{user.name}}
+                            </ion-col>
+                            <ion-col size="6" class="ion-text-right deadline">
+                                <div *ngIf="!isMobile">{{deadlineMessage}}</div>
+                                <ion-icon *ngIf="isMobile" name="information-circle"
+                                    (click)="presentDeadlinePopover($event)">
+                                </ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-title>
             </ion-toolbar>
         </ion-header>
         <div class="content-inner">
             <ion-grid class="page-grid">
+                <ion-row>
+                    <ion-col size="12" size-lg="6">
+                        <ion-card color="light">
+                            <ion-card-header>
+                                <ion-card-title>RSVP</ion-card-title>
+                            </ion-card-header>
+                            <ion-card-content>
+                                <ion-item>
+                                    <ion-label>Can you attend the wedding?</ion-label>
+                                    <ion-select class="rsvp-select" placeholder="Select">
+                                        <ion-select-option value="true">Yes</ion-select-option>
+                                        <ion-select-option value="false">No</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                    <ion-col size="12" size-lg="6">
+                        <ion-card color="light">
+                            <ion-card-header>
+                                <ion-card-title>Email</ion-card-title>
+                            </ion-card-header>
+                            <ion-card-content>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="12" size-lg="6">
+                        <ion-card color="light">
+                            <ion-card-header>
+                                <ion-card-title>Other Info</ion-card-title>
+                            </ion-card-header>
+                            <ion-card-content>
+                                <ion-item>
+                                    <ion-label>Will you need accommodations?</ion-label>
+                                    <ion-select class="rsvp-select" placeholder="Select">
+                                        <ion-select-option value="true">Yes</ion-select-option>
+                                        <ion-select-option value="false">No</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label>Will you need transportation?</ion-label>
+                                    <ion-select class="rsvp-select" placeholder="Select">
+                                        <ion-select-option value="true">Yes</ion-select-option>
+                                        <ion-select-option value="false">No</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                    <ion-col size="12" size-lg="6">
+                        <ion-card color="light">
+                            <ion-card-header>
+                                <ion-card-title>Guests</ion-card-title>
+                            </ion-card-header>
+                            <ion-card-content>
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
             </ion-grid>
         </div>
     </div>
