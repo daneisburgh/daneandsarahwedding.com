@@ -37,9 +37,14 @@
                 <ion-row>
                     <ion-col class="center-content-vertical">
                         <ion-button class="submit" (click)="submit()" [disabled]="isSubmitting">
-                            {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+                            Submit
                         </ion-button>
-                        <div *ngIf="hasError" class="error-message">{{errorMessage}}</div>
+                        <ion-text *ngIf="isSubmitting" class="message">
+                            <ion-spinner></ion-spinner>
+                        </ion-text>
+                        <ion-text *ngIf="!isSubmitting && hasError" class="message" color="danger">
+                            {{errorMessage}}
+                        </ion-text>
                     </ion-col>
                 </ion-row>
             </ion-grid>
