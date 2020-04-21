@@ -14,6 +14,10 @@ export class AdminGuard implements CanActivate {
 
     public async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         try {
+            if (this.userService.user && this.userService.user.isAdmin) {
+                return true;
+            }
+
             await this.userService.logIn();
 
             if (!this.userService.user.isAdmin) {
@@ -22,7 +26,6 @@ export class AdminGuard implements CanActivate {
 
             return true;
         } catch (error) {
-            console.error(error);
             await this.router.navigate(['/error', 401]);
             this.location.replaceState(state.url);
             return false;
