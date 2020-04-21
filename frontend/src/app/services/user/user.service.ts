@@ -19,12 +19,6 @@ interface User {
 	needsTransportation: boolean;
 }
 
-interface Credentials {
-	username?: string;
-	password?: string;
-	token?: string;
-}
-
 interface LogInResponse {
 	user: User,
 	token: string
@@ -44,26 +38,28 @@ export class UserService {
 		private storage: Storage
 	) { }
 
-	public async logIn(credentials?: Credentials) {
-		if (!credentials) {
-			credentials = { token: await this.storage.get(TOKEN_KEY) };
+	public async logIn(params?: object) {
+		if (!params) {
+			params = { token: await this.storage.get(TOKEN_KEY) };
 		}
 
-		const response: LogInResponse = await this.httpClient
-			.post<LogInResponse>(`${environment.apiUrl}/login`, credentials)
+		const url = `${environment.apiUrl}/login`;
+		console.log('REQUEST', url, params)
+		const response = await this.httpClient
+			.post<LogInResponse>(url, params)
 			.toPromise();
+		console.log('RESPONSE', response);
 
 		this.user = response.user;
 		await this.storage.set(TOKEN_KEY, response.token);
 	}
 
 	public async logOut() {
-		await this.storage.set(TOKEN_KEY, undefined);
-
 		if (['/profile', '/users'].includes(this.router.url)) {
 			await this.router.navigate(['/']);
 		}
 
+		await this.storage.set(TOKEN_KEY, undefined);
 		this.user = undefined;
 	}
 }
