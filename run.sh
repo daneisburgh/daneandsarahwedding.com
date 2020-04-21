@@ -12,12 +12,6 @@
 #   ENV: dev, stage, prod
 #   CMD: init, apply, destroy
 
-function reinstall_node_dependencies() {
-    rm -rf node_modules
-    rm package-lock.json
-    npm install
-}
-
 function validate_environment {
     if [ $# -eq 0 ]; then
         echo "Missing environment"
@@ -36,11 +30,9 @@ if [ $# -eq 0 ]; then
     exit
 elif [ $1 == "install-dependencies" ]; then
     echo "Installing backend dependencies..."
-    cd backend
-    reinstall_node_dependencies
+    npm --prefix backend install
     echo "Installing frontend dependencies..."
-    cd ../frontend
-    reinstall_node_dependencies
+    npm --prefix frontend install
 elif [ $1 == "start-dev" ]; then
     echo "Starting dev environment..."
     validate_environment "dev"
