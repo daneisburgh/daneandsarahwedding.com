@@ -43,14 +43,15 @@ export class LogInModalComponent {
         try {
             await this.userService.logIn({ username: this.username, password: this.password });
             const route = this.userService.user.isAdmin ? '/users' : '/profile';
-            this.router.navigate([route]);
+            await this.router.navigate([route]);
             this.dismiss();
         } catch (error) {
-            console.error(error);
             this.hasError = true;
             this.errorMessage = loginErrors.includes(error.error) ? error.error : 'Bad Request';
         } finally {
-            this.isSubmitting = false;
+            setTimeout(() => {
+                this.isSubmitting = false;
+            }, 1000);
         }
     }
 
