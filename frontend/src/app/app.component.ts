@@ -51,16 +51,14 @@ export class AppComponent {
     }
 
     private async initializeApp() {
-        try {
-            await this.platform.ready();
-            await this.userService.logIn();
+        await this.userService.logIn().catch(_ => { });
+        await this.platform.ready();
 
-            if (this.platform.is('cordova')) {
-                this.statusBar.styleDefault();
-                this.splashScreen.hide();
-            }
+        if (this.platform.is('cordova')) {
+            this.statusBar.styleDefault();
+            this.splashScreen.hide();
+        }
 
-            this.isReady = true;
-        } catch (error) { }
+        this.isReady = true;
     }
 }
