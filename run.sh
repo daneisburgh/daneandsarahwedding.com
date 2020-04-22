@@ -30,9 +30,11 @@ if [ $# -eq 0 ]; then
     exit
 elif [ $1 == "install-dependencies" ]; then
     echo "Installing backend dependencies..."
-    npm --prefix backend install
+    cd backend
+    npm install
     echo "Installing frontend dependencies..."
-    npm --prefix frontend install
+    cd ../frontend
+    npm install
 elif [ $1 == "start-dev" ]; then
     echo "Starting dev environment..."
     validate_environment "dev"
