@@ -15,9 +15,9 @@ interface User {
     maxGuests: number;
     isAdmin: boolean;
     isAttending: boolean;
-    needsAccommodation: boolean;
-    totalRooms: number
-    needsTransportation: boolean;
+    requiresAccommodations: boolean;
+    totalRequiredRooms: number
+    requiresTransportation: boolean;
 }
 
 interface LogInResponse {
@@ -39,18 +39,16 @@ export class UserService {
         private storage: Storage
     ) { }
 
-    public async logIn(params?: object) {
+    public async logIn(body?: object) {
         try {
-            if (!params) {
-                params = { token: await this.storage.get(TOKEN_KEY) };
+            if (!body) {
+                body = { token: await this.storage.get(TOKEN_KEY) };
             }
 
             const url = `${environment.apiUrl}/login`;
-            console.log('REQUEST', url, params)
-            const response = await this.httpClient
-                .post<LogInResponse>(url, params)
-                .toPromise();
-            console.log('RESPONSE', response);
+            console.log('REQUEST logIn', url, body)
+            const response = await this.httpClient.post<LogInResponse>(url, body).toPromise();
+            console.log('RESPONSE logIn', response);
 
             await this.storage.set(TOKEN_KEY, response.token);
             this.user = response.user;
@@ -59,7 +57,7 @@ export class UserService {
             console.error(error);
             throw error;
         }
-	}
+    }
 
     public async logOut() {
         if (['/profile', '/users'].includes(this.router.url)) {
@@ -68,5 +66,12 @@ export class UserService {
 
         await this.storage.set(TOKEN_KEY, undefined);
         this.user = undefined;
+    }
+
+    public async update() {
+        const url = `${environment.apiUrl}/update`;
+        const body = { token: await this.storage.get(TOKEN_KEY), user: this.user };
+        console.log('REQUEST update', url, body);
+        await this.httpClient.post(url, body).toPromise();
     }
 }
