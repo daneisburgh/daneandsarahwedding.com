@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 #
 #   App build/deploy command arguments
-#
-#   1) install-dependencies ----- Install/reinstall Node dependencies
-#   2) start-dev ---------------- Start development environment
-#   3) build-frontend ENV ------- Build stage/prod frontend app
-#   4) deploy ENV --------------- Deploy stage/prod app
-#   5) destroy ENV -------------- Destroy stage/prod app
-#   6) terraform CMD ENV -------- Run Terraform for stage/prod resources
+#   
+#   1) source ENV --------------- Source local environment variables
+#   2) install-dependencies ----- Install/reinstall Node dependencies
+#   3) start-dev ---------------- Start development environment
+#   4) build-frontend ENV ------- Build stage/prod frontend app
+#   5) deploy ENV --------------- Deploy stage/prod app
+#   6) destroy ENV -------------- Destroy stage/prod app
+#   7) terraform CMD ENV -------- Run Terraform for stage/prod resources
 #
 #   ENV: dev, stage, prod
 #   CMD: init, apply, destroy
@@ -28,6 +29,9 @@ function validate_environment {
 if [ $# -eq 0 ]; then
     echo "Missing command argument"
     exit
+elif [ $1 == "source" ]; then
+    echo "Sourcing $2 environment variables..."
+    validate_environment $2
 elif [ $1 == "install-dependencies" ]; then
     echo "Installing backend dependencies..."
     cd backend
