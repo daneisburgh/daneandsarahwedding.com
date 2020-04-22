@@ -46,12 +46,13 @@ export class UtilsService {
         return `/gallery/${path}`;
     }
 
-    public async presentToast(color: string, message: string) {
+    public async presentToast(color: string, header: string, message?: string) {
         const toastOptions: ToastOptions = {
             color,
+            header,
             message,
             position: 'top',
-            duration: 6000
+            duration: 60000
         };
 
         (await this.toastController.create(toastOptions)).present();
