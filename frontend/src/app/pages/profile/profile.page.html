@@ -64,7 +64,7 @@
                                         <ion-select-option [value]="false">No</ion-select-option>
                                     </ion-select>
                                 </ion-item>
-                                <ion-item color="light" lines="none" [disabled]="!user.needsAccommodation">
+                                <ion-item color="light" lines="none" [disabled]="!user.requiresAccommodations">
                                     <ion-label>How many rooms will you need?</ion-label>
                                     <ion-select placeholder="Select" [disabled]="disableInputs">
                                         <ion-select-option *ngFor="let option of roomOptions" [value]="option">
