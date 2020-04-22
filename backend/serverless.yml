@@ -47,6 +47,13 @@ functions:
           path: /{filePath+}
           method: GET
           cors: true
+  api-health-check:
+    handler: build/api/routes/health-check.default
+    events:
+      - http:
+          path: /api/health-check
+          method: GET
+          cors: true
   api-login:
     handler: build/api/routes/login.default
     events:
@@ -54,10 +61,10 @@ functions:
           path: /api/login
           method: POST
           cors: true
-  api-health-check:
-    handler: build/api/routes/health-check.default
+  api-update:
+    handler: build/api/routes/update.default
     events:
       - http:
-          path: /api/health-check
-          method: GET
+          path: /api/update
+          method: POST
           cors: true
