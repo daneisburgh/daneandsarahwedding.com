@@ -42,6 +42,11 @@ ion-button {
     --border-radius: 5px !important;
 }
 
+ion-select {
+    margin-top: 4px;
+    line-height: 18px;
+}
+
 ion-title {
     padding: 0 8px 0 18px;
 
@@ -51,9 +56,9 @@ ion-title {
 }
 
 ion-toast {
-    width: 320px;
-    font-size: 14px;
-    font-weight: bold;
+    @media screen and (min-width: $min-width-small) {
+        width: 320px;
+    }
 }
 
 ion-popover {
@@ -100,7 +105,9 @@ a {
 }
 
 .alert-wrapper {
-    min-width: 346px !important;
+    @media screen and (min-width: $min-width-small) {
+        min-width: 346px !important;
+    }
 }
 
 .center-content-vertical {
