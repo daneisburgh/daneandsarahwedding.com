@@ -1,5 +1,5 @@
-import { response } from '../utils';
+import { createResponse } from '../utils';
 
 export default async function () {
-    return response(200);
+    return createResponse(200);
 }
