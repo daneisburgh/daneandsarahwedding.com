@@ -30,11 +30,13 @@
                             <ion-card-content>
                                 <ion-item color="light" lines="none">
                                     <ion-label>Can you attend the wedding?</ion-label>
-                                    <ion-select placeholder="Select" [disabled]="disableInputs"
-                                        (ionChange)="handleChangeRSVP($event)">
+                                    <ion-select *ngIf="!updatingIsAttending" class="select" placeholder="Select"
+                                        [value]="user.isAttending" [disabled]="disableInputs"
+                                        (ionChange)="handleUpdateIsAttending($event)">
                                         <ion-select-option [value]="true">Yes</ion-select-option>
                                         <ion-select-option [value]="false">No</ion-select-option>
                                     </ion-select>
+                                    <ion-spinner *ngIf="updatingIsAttending" slot="end"></ion-spinner>
                                 </ion-item>
                             </ion-card-content>
                         </ion-card>
@@ -55,7 +57,7 @@
                             </ion-card-header>
                             <ion-card-content>
                                 <ion-item color="light" lines="none">
-                                    <ion-label>Will you need accommodations?</ion-label>
+                                    <ion-label>Will you require accommodations?</ion-label>
                                     <ion-select placeholder="Select" [disabled]="disableInputs"
                                         [interfaceOptions]="interfaceOptions.accommodation">
                                         <ion-select-option [value]="true">Yes</ion-select-option>
@@ -71,7 +73,7 @@
                                     </ion-select>
                                 </ion-item>
                                 <ion-item color="light" lines="none">
-                                    <ion-label>Will you need transportation?</ion-label>
+                                    <ion-label>Will you require transportation?</ion-label>
                                     <ion-select placeholder="Select" [disabled]="disableInputs"
                                         [interfaceOptions]="interfaceOptions.transportation">
                                         <ion-select-option [value]="true">Yes</ion-select-option>

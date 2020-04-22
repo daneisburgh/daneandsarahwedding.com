@@ -14,11 +14,15 @@ export class ProfilePage {
     public deadline = new Date('6/30/2020');
     public deadlineMessage = `Profile info can be changed until ${this.deadline.toLocaleDateString()}`;
     public roomOptions: number[] = [];
+
+    public updatingIsAttending = false;
+    public updatingRequiresAccommodations = false;
+    public updatingRequiresTransportation = false;
+
     public interfaceOptions = {
         accommodation: {
             subHeader: `
-                If you or your guests require accommodations, you will be asked to input the 
-                total number of rooms that you require.
+                Select 'Yes' if you or your guests require accommodations anytime between October 22nd to the 25th.
             `
         },
         totalRooms: {
@@ -28,8 +32,8 @@ export class ProfilePage {
         },
         transportation: {
             subHeader: `
-                Select 'Yes' if you or your guests require transportation between the 
-                hotel and church on the day of the wedding.
+                Select 'Yes' only if you or your guests require transportation between the hotel and church on the day 
+                of the wedding.  Note that the hotel will provide transportation to and from the airport.
             `
         }
     }
@@ -61,7 +65,31 @@ export class ProfilePage {
         })).present();
     }
 
-    public handleChangeRSVP(event) {
-        console.log(event);
+    public async handleUpdateIsAttending(event: CustomEvent) {
+        try {
+            this.updatingIsAttending = true;
+            this.user.isAttending = event.detail.value;
+            await this.userService.update();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setTimeout(() => {
+                this.updatingIsAttending = false;
+            }, 1000);
+        }
+    }
+
+    public async handleUpdateRequiresAccommodations(event: CustomEvent) {
+        try {
+            this.updatingRequiresAccommodations = true;
+            this.user.requiresAccommodations = event.detail.value;
+            await this.userService.update();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setTimeout(() => {
+                this.updatingRequiresAccommodations = false;
+            }, 1000);
+        }
     }
 }
