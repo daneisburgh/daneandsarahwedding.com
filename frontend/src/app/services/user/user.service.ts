@@ -42,7 +42,13 @@ export class UserService {
     public async logIn(body?: object) {
         try {
             if (!body) {
-                body = { token: await this.storage.get(TOKEN_KEY) };
+                const token = await this.storage.get(TOKEN_KEY);
+                
+                if (!token) {
+                    throw new Error('Missing log in body and token');
+                }
+
+                body = { token };
             }
 
             const url = `${environment.apiUrl}/login`;
@@ -64,7 +70,7 @@ export class UserService {
             await this.router.navigate(['/']);
         }
 
-        await this.storage.set(TOKEN_KEY, undefined);
+        await this.storage.remove(TOKEN_KEY);
         this.user = undefined;
     }
 
