@@ -3,13 +3,11 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "serverless": "serverless",
-        "wait-on": "wait-on",
         "migrate": "npm run build && sequelize-cli db:migrate",
         "build": "rm -rf build && tsc && cp src/database/data/*.xlsx build/database/data/",
         "watch": "tsc --watch --preserveWatchOutput",
         "offline": "serverless offline --verbose",
-        "serve": "npm run wait-on tcp:localhost:5432 && npm run migrate && npm-run-all --parallel watch offline",
+        "serve": "wait-on tcp:localhost:5432 && npm run migrate && npm-run-all --parallel watch offline",
         "deploy": "npm run migrate && serverless create_domain && serverless deploy --verbose --force",
         "destroy": "serverless delete_domain && serverless remove --verbose --force"
     },
