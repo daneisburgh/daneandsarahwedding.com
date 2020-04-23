@@ -5,10 +5,11 @@
 #   1) source ENV --------------- Source local environment variables
 #   2) install-dependencies ----- Install/reinstall Node dependencies
 #   3) start-dev ---------------- Start development environment
-#   4) build-frontend ENV ------- Build stage/prod frontend app
-#   5) deploy ENV --------------- Deploy stage/prod app
-#   6) destroy ENV -------------- Destroy stage/prod app
-#   7) terraform CMD ENV -------- Run Terraform for stage/prod resources
+#   4) test --------------------- Run backend and frontend tests
+#   5) build -------------------- Build build backend and frontend apps
+#   5) deploy ENV --------------- Deploy app to given environment
+#   6) destroy ENV -------------- Destroy app in given environment
+#   7) terraform CMD ENV -------- Run Terraform command for given environment
 #
 #   ENV: dev, stage, prod
 #   CMD: init, apply, destroy
@@ -46,9 +47,13 @@ elif [ $1 == "start-dev" ]; then
         "docker-compose --file backend/docker-compose.yml up" \
         "npm --prefix backend run serve" \
         "npm --prefix frontend run serve"
-elif [ $1 == "build-frontend" ]; then
+elif [ $1 == "test" ]; then
+    echo "Running frontend tests ..."
+    npm --prefix frontend run test
+elif [ $1 == "build" ]; then
     validate_environment $2
-    echo "Building $2 frontend..."
+    echo "Building $2 app..."
+    npm --prefix backend build
     npm --prefix frontend run build:$NODE_ENV
     mkdir -p backend/build/public
     rm -rf backend/build/public/www
@@ -56,7 +61,7 @@ elif [ $1 == "build-frontend" ]; then
 elif [ $1 == "deploy" ]; then
     validate_environment $2
     echo "Deploying $2 app..."
-    ./run.sh build-frontend $2
+    ./run.sh build $2
 
     if [ $2 != "prod" ]; then
         DOMAIN_NAME="$2.$DOMAIN_NAME"
