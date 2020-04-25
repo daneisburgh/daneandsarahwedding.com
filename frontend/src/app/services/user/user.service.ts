@@ -20,6 +20,12 @@ interface User {
     requiresTransportation: boolean;
 }
 
+interface LogInBody {
+    token?: string;
+    username?: string;
+    password?: string;
+}
+
 interface LogInResponse {
     user: User,
     token: string
@@ -39,7 +45,7 @@ export class UserService {
         private storage: Storage
     ) { }
 
-    public async logIn(body?: object) {
+    public async logIn(body?: LogInBody) {
         try {
             if (!body) {
                 const token = await this.storage.get(TOKEN_KEY);

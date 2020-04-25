@@ -4,9 +4,15 @@ import { pick } from 'lodash';
 import { createResponse, getRequestBody, createToken, verifyToken } from '../utils';
 import User from '../../database/models/user';
 
+interface LogInBody {
+    token?: string;
+    username?: string;
+    password?: string;
+}
+
 export default async function (event: any) {
     try {
-        const body = getRequestBody(event);
+        const body: LogInBody = getRequestBody(event);
         const { password, token } = body;
         let { username } = body;
 
@@ -19,7 +25,11 @@ export default async function (event: any) {
             }
         }
 
-        const user = await User.findOne({ where: { username: (username ? username : '') } });
+        if (!username) {
+            return createResponse(401, 'Missing Username');
+        }
+
+        const user = await User.findOne({ where: { username } });
 
         if (!user) {
             return createResponse(401, 'Invalid Username');
