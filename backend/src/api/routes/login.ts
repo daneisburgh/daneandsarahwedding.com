@@ -6,7 +6,9 @@ import User from '../../database/models/user';
 
 export default async function (event: any) {
     try {
-        let { username, password, token } = getRequestBody(event);
+        const body = getRequestBody(event);
+        const { password, token } = body;
+        let { username } = body;
 
         if (token) {
             try {
@@ -17,7 +19,7 @@ export default async function (event: any) {
             }
         }
 
-        const user = await User.findOne({ where: { username: !!username ? username : '' } });
+        const user = await User.findOne({ where: { username: (username ? username : '') } });
 
         if (!user) {
             return createResponse(401, 'Invalid Username');

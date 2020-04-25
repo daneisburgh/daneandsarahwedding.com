@@ -1,11 +1,11 @@
 import { userColumns } from '../models/user';
 
 export = {
-    up: (queryInterface: any, Sequelize: any) => {
+    up: (queryInterface: any) => {
         return queryInterface.createTable('user', userColumns);
     },
 
-    down: (queryInterface: any, Sequelize: any) => {
+    down: (queryInterface: any) => {
         return queryInterface.dropTable('user');
     },
 };
