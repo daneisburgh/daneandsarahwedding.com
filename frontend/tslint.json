@@ -1,5 +1,13 @@
 {
-    "extends": "tslint:recommended",
+    "extends": [
+        "tslint:recommended",
+        "tslint:latest"
+    ],
+    "linterOptions": {
+        "exclude": [
+            "src/app/pages/gallery/angular2-image-gallery/**/*.ts"
+        ]
+    },
     "rulesDirectory": [
         "codelyzer"
     ],
@@ -47,6 +55,7 @@
         ],
         "no-non-null-assertion": true,
         "no-redundant-jsdoc": true,
+        "no-submodule-imports": false,
         "no-switch-case-fall-through": true,
         "no-use-before-declare": true,
         "no-var-requires": false,
