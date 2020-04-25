@@ -46,17 +46,43 @@ describe('AppComponent', () => {
 
         const fixture = TestBed.createComponent(AppComponent);
         const component: AppComponent = fixture.debugElement.componentInstance;
-        fixture.detectChanges();
 
         expect(component).toBeTruthy();
         expect(component.isReady).toBe(false);
+
         expect(userServiceLogInSpy).toHaveBeenCalled();
         await expectAsync(userService.logIn()).toBeRejected();
+
         expect(platformReadySpy).toHaveBeenCalled();
         await expectAsync(platform.ready()).toBeResolved();
+
         expect(statusBarStyleDefaultSpy).toHaveBeenCalled();
         expect(splashScreenHideSpy).toHaveBeenCalled();
         expect(component.isReady).toBe(true);
+    });
+
+    it ('should present popovers', async () => {
+        // const popoverController = TestBed.inject(PopoverController);
+        // const popoverControllerCreateSpy = spyOn(popoverController, 'create');
+
+        const fixture = TestBed.createComponent(AppComponent);
+        const component: AppComponent = fixture.debugElement.componentInstance;
+
+        expect(component).toBeTruthy();
+        await expectAsync(component.presentGalleryPopover(undefined)).toBeResolved();
+        await expectAsync(component.presentLogInModal()).toBeResolved();
+        // await expectAsync(component)
+
+        // const presentGalleryPopover = component.presentGalleryPopover(undefined);
+        // expect(popoverControllerCreateSpy).toHaveBeenCalled();
+        // await presentGalleryPopover;
+
+        // const presentLogInModal = component.presentLogInModal();
+        // expect(popoverControllerCreateSpy).toHaveBeenCalled();
+        // await presentLogInModal;
+
+        // component.presentProfilePopover(undefined);
+        // await expectAsync(popoverControllerCreateSpy).toBeResolved();
     });
 
     // it('should have menu labels', async () => {
