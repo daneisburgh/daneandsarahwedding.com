@@ -5,7 +5,7 @@
     "scripts": {
         "ng": "ng",
         "lint": "ng lint",
-        "test": "ng test --no-watch --no-progress --browsers=ChromeHeadlessCI",
+        "test": "ng test --no-watch --no-progress --codeCoverage --browsers=ChromeHeadlessCI",
         "e2e": "ng e2e --protractor-config=e2e/protractor-ci.conf.js",
         "ionic": "ionic",
         "serve": "ionic serve --no-open",
