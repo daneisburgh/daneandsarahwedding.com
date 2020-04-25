@@ -2,8 +2,9 @@
 
 .content-outer {
     background-size: cover;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4)), url(../../../assets/images/home/background.jpg);
     background-position: center center;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+        url(../../../assets/images/home/background.jpg);
 }
 
 .name {
