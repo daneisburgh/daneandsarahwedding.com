@@ -43,7 +43,7 @@ export class UserService {
         try {
             if (!body) {
                 const token = await this.storage.get(TOKEN_KEY);
-                
+
                 if (!token) {
                     throw new Error('Missing log in body and token');
                 }
@@ -52,7 +52,7 @@ export class UserService {
             }
 
             const url = `${environment.apiUrl}/login`;
-            console.log('REQUEST logIn', url, body)
+            console.log('REQUEST logIn', url, body);
             const response = await this.httpClient.post<LogInResponse>(url, body).toPromise();
             console.log('RESPONSE logIn', response);
 

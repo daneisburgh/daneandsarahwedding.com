@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
-import { UserService } from 'src/app/services/user/user.service';
-import { UtilsService } from 'src/app/services/utils/utils.service';
+import { UserService } from '../../services/user/user.service';
+import { UtilsService } from '../../services/utils/utils.service';
 
 const loginErrors = [
     'Invalid Username',
