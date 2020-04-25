@@ -2,9 +2,9 @@
 #
 #   App build/deploy command arguments
 #   
-#   1) source ENV --------------- Source local environment variables
-#   2) install-dependencies ----- Install/reinstall Node dependencies
-#   3) start-dev ---------------- Start development environment
+#   1) install-dependencies ----- Install/reinstall Node dependencies
+#   2) start-dev ---------------- Start development environment
+#   3) lint --------------------- Run backend and frontend linters
 #   4) test --------------------- Run backend and frontend tests
 #   5) build -------------------- Build build backend and frontend apps
 #   5) deploy ENV --------------- Deploy app to given environment
@@ -30,9 +30,6 @@ function validate_environment {
 if [ $# -eq 0 ]; then
     echo "Missing command argument"
     exit
-elif [ $1 == "source" ]; then
-    echo "Sourcing $2 environment variables..."
-    validate_environment $2
 elif [ $1 == "install-dependencies" ]; then
     echo "Installing backend dependencies..."
     cd backend
@@ -47,6 +44,12 @@ elif [ $1 == "start-dev" ]; then
         "docker-compose --file backend/docker-compose.yml up" \
         "npm --prefix backend run serve" \
         "npm --prefix frontend run serve"
+elif [ $1 == "lint" ]; then
+    validate_environment "dev"
+    echo "Running backend linters..."
+    npm --prefix backend run lint
+    echo "Running frontend linters..."
+    npm --prefix frontend run lint
 elif [ $1 == "test" ]; then
     echo "Running frontend tests ..."
     npm --prefix frontend run test
