@@ -139,15 +139,19 @@ ion-title {
     }
 }
 
-.arrow-dropdown-profile {
+.caret-down {
+    font-size: 14px !important;
+}
+
+.caret-down-profile {
     margin: 0 -4px 0 2px !important;
 }
 
-.arrow-dropdown-gallery-desktop {
+.caret-down-gallery-desktop {
     margin-left: 4px !important;
 }
 
-.arrow-dropdown-gallery-mobile {
+.caret-down-gallery-mobile {
     position: absolute;
-    margin: 2px 0 0 50px;
+    margin: 1px 0 0 50px;
 }
