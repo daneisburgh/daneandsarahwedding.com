@@ -53,12 +53,8 @@ export class AppComponent {
     private async initializeApp() {
         await this.userService.logIn().catch(_ => { });
         await this.platform.ready();
-
-        if (this.platform.is('cordova')) {
-            this.statusBar.styleDefault();
-            this.splashScreen.hide();
-        }
-
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
         this.isReady = true;
     }
 }
