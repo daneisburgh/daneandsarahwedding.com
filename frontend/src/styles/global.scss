@@ -55,6 +55,10 @@ ion-title {
     }
 }
 
+ion-card-header.ion-color-primary ion-card-title {
+    color: white !important;
+}
+
 ion-toast {
     @media screen and (min-width: $min-width-small) {
         width: 320px;
