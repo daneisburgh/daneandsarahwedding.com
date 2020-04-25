@@ -33,7 +33,7 @@ export class AppComponent {
         private statusBar: StatusBar,
         private userService: UserService,
         private utilsService: UtilsService) {
-        this.initializeApp();
+        this.authenticateAndInitialize();
     }
 
     public async presentGalleryPopover(event: any) {
@@ -50,7 +50,7 @@ export class AppComponent {
         (await this.modalController.create({ component: LogInModalComponent })).present();
     }
 
-    private async initializeApp() {
+    private async authenticateAndInitialize() {
         await this.userService.logIn().catch(_ => { });
         await this.platform.ready();
         this.statusBar.styleDefault();
