@@ -39,41 +39,49 @@
             height: 78px;
         }
 
-        // &:hover {
-        //     transform: scale(1.03);
-        //     box-shadow: 0 0 5px var(--ion-color-dark);
-        // }
+        &:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 5px var(--ion-color-dark);
+        }
 
         &.engagement {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4)), url(../../../assets/images/about-us/engagement.jpg);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url(../../../assets/images/about-us/engagement.jpg);
         }
 
         &.germany {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4)), url(../../../assets/images/about-us/germany.jpg);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url(../../../assets/images/about-us/germany.jpg);
         }
 
         &.charlotte {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4)), url(../../../assets/images/about-us/charlotte.jpg);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url(../../../assets/images/about-us/charlotte.jpg);
         }
 
         &.cabo2 {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4)), url(../../../assets/images/about-us/cabo2.jpg);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url(../../../assets/images/about-us/cabo2.jpg);
         }
 
         &.graduation {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4)), url(../../../assets/images/about-us/graduation.jpg);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url(../../../assets/images/about-us/graduation.jpg);
         }
 
         &.columbus {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4)), url(../../../assets/images/about-us/columbus.jpg);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url(../../../assets/images/about-us/columbus.jpg);
         }
 
         &.cabo1 {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4)), url(../../../assets/images/about-us/cabo1.jpg);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url(../../../assets/images/about-us/cabo1.jpg);
         }
 
         &.gatlinburg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4)), url(../../../assets/images/about-us/gatlinburg.jpg);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url(../../../assets/images/about-us/gatlinburg.jpg);
         }
     }
 }

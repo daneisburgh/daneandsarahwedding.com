@@ -9,7 +9,7 @@
         "build": "rm -rf build && tsc && cp src/database/data/*.xlsx build/database/data/",
         "watch": "tsc --watch --preserveWatchOutput",
         "offline": "serverless offline --verbose",
-        "serve": "npm run wait-on tcp:localhost:5432 && npm run migrate && npm-run-all --parallel watch offline",
+        "serve": "wait-on tcp:localhost:5432 && npm run migrate && npm-run-all --parallel watch offline",
         "deploy": "npm run migrate && serverless create_domain && serverless deploy --verbose --force",
         "destroy": "serverless delete_domain && serverless remove --verbose --force"
     },
@@ -22,8 +22,7 @@
         "sequelize": "^5.21.6",
         "sequelize-cli": "^5.5.1",
         "serverless-aws-static-file-handler": "^2.0.5",
-        "validator": "^12.2.0",
-        "xlsx": "^0.15.6"
+        "validator": "^12.2.0"
     },
     "devDependencies": {
         "@types/bcryptjs": "^2.4.2",
@@ -45,6 +44,7 @@
         "serverless-domain-manager": "^3.3.1",
         "serverless-offline": "^5.12.1",
         "typescript": "^3.8.3",
-        "wait-on": "^4.0.2"
+        "wait-on": "^4.0.2",
+        "xlsx": "^0.15.6"
     }
 }

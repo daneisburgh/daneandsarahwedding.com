@@ -25,7 +25,7 @@
                     [ngClass]="{'active': router.url.includes('gallery')}">
                     <ion-icon slot="start" name="images"></ion-icon>
                     <ion-label>Gallery</ion-label>
-                    <ion-icon slot="end" name="arrow-dropdown" class="arrow-dropdown-gallery-desktop"></ion-icon>
+                    <ion-icon slot="end" name="caret-down" class="caret-down caret-down-gallery-desktop"></ion-icon>
                 </ion-button>
                 <ion-button *ngIf="user && user.isAdmin" routerLink="/users" routerDirection="root"
                     [ngClass]="{'active': router.url.includes('users')}">
@@ -38,7 +38,7 @@
                     (click)="presentProfilePopover($event)">
                     <ion-icon slot="start" name="person"></ion-icon>
                     <ion-label>{{user.username}}</ion-label>
-                    <ion-icon slot="end" name="arrow-dropdown" class="arrow-dropdown-profile"></ion-icon>
+                    <ion-icon slot="end" name="caret-down" class="caret-down caret-down-profile"></ion-icon>
                 </ion-button>
                 <ion-button *ngIf="!user" class="log-in" [fill]="logInOutButtonFill" (click)="presentLogInModal()">
                     <ion-icon slot="start" name="log-in"></ion-icon>
@@ -72,7 +72,7 @@
                     [ngClass]="{'active': router.url.includes('gallery')}">
                     <ion-icon slot="start" name="images"></ion-icon>
                     <ion-label>Gallery</ion-label>
-                    <ion-icon slot="end" name="arrow-dropdown" class="arrow-dropdown-gallery-mobile"></ion-icon>
+                    <ion-icon slot="end" name="caret-down" class="caret-down caret-down-gallery-mobile"></ion-icon>
                 </ion-item>
                 <ion-item *ngIf="user && user.isAdmin" routerLink="/users" routerDirection="root"
                     [ngClass]="{'active': router.url.includes('users')}">
