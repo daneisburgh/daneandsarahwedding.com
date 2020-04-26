@@ -16,20 +16,21 @@ interface GuestObject {
 
 async function generateUsername(name: string): Promise<string> {
     let split, splitName;
+
     if (name.includes('&')) {
         split = name.split(' & ');
         splitName = split[0].charAt(0) + '&' + split[1].charAt(0);
-    }
-    else {
+    } else {
         split = name.split(' ');
         splitName = split[0].charAt(0) + split[1].charAt(0);
     }
+
     const splitNameWildCard = `${splitName}%`;
     const findName = await User.findAndCountAll({ where: { username: { [Op.like]: splitNameWildCard } } });
+
     if (findName.count == 0) {
         return splitName;
-    }
-    else {
+    } else {
         const nameCount = findName.count + 1;
         return splitName + nameCount;
     }
@@ -45,7 +46,6 @@ async function createOrUpdateUsers() {
                 const guest = value as GuestObject;
 
                 if (guest.Name != undefined && guest.Address != undefined && guest.Persons != undefined) {
-
                     const currentUser = await User.findOne({ where: { name: guest.Name } });
 
                     if (!currentUser) {
@@ -55,8 +55,7 @@ async function createOrUpdateUsers() {
                             address: guest.Address,
                             maxGuests: guest.Persons,
                         });
-                    }
-                    else {
+                    } else {
                         await currentUser.update({
                             name: guest.Name,
                             address: guest.Address,
