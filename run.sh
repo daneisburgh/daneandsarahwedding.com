@@ -65,11 +65,6 @@ elif [ $1 == "deploy" ]; then
     validate_environment $2
     echo "Deploying $2 app..."
     ./run.sh build $2
-
-    if [ $2 != "prod" ]; then
-        DOMAIN_NAME="$2.$DOMAIN_NAME"
-    fi
-
     npm --prefix backend run deploy
 elif [ $1 == "destroy" ]; then
     validate_environment $2
