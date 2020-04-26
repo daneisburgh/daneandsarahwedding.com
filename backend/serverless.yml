@@ -34,6 +34,8 @@ provider:
     DB_HOST: ${env:DB_HOST}
     DB_USERNAME: ${env:DB_USERNAME}
     DB_PASSWORD: ${env:DB_PASSWORD}
+    SMTP_USERNAME: ${env:SMTP_USERNAME}
+    SMTP_PASSWORD: ${env:SMTP_PASSWORD}
 
 functions:
   public:
