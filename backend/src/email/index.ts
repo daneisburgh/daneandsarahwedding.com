@@ -5,7 +5,6 @@ import path from 'path';
 import Email from '../database/models/email';
 import User from '../database/models/user';
 
-const from = `hello@${process.env.DOMAIN_NAME}`;
 const transport = nodemailer.createTransport({
     host: 'email-smtp.us-east-1.amazonaws.com',
     port: 587,
@@ -16,7 +15,7 @@ const transport = nodemailer.createTransport({
 });
 
 const emailTemplate = new EmailTemplate({
-    message: { from },
+    message: { from: `hello@${process.env.APP_NAME}.com` },
     transport,
     juice: true,
     juiceResources: {
@@ -30,7 +29,10 @@ export = async function(user: User, template: string) {
         const result = await emailTemplate.send({
             template,
             message: { to: user.email },
-            locals: { name: user.name }
+            locals: {
+                user,
+                clientUrl: process.env.CLIENT_URL
+            }
         });
 
         try {
@@ -40,7 +42,8 @@ export = async function(user: User, template: string) {
                 text: result.originalMessage.text
             });
         } catch (error) {
-
+            console.error(error);
+            throw new Error('Cannot save email data');
         }
     } catch (error) {
         console.error(error);
