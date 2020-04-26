@@ -23,7 +23,7 @@ async function genUsername(name: string): Promise<string> {
     }
     const splitNameWildCard = `${splitName}%`;
     const findName = await User.findAndCountAll({ where: { username: { [Op.like]: splitNameWildCard } } });
-    if (!findName) {
+    if (findName.count == 0) {
         return splitName;
     }
     else {
@@ -35,38 +35,37 @@ async function genUsername(name: string): Promise<string> {
 export = async function () {
     //update this to pull in new file updated in google drive
     const workbook = xlsx.readFile("Guest List.xlsx");
-    //add in something to loop through the sheets instead of just calling on single sheet
     const testSheetName = workbook.SheetNames[0];
     const testSheet = workbook.Sheets[testSheetName];
-    let users: object[] = [];
 
-    for (const value of xlsx.utils.sheet_to_json(testSheet)) {
-        const guest = value as GuestObject;
+    for (const sheetName of workbook.SheetNames) {
+        if (sheetName == "Tracey and Chris" || sheetName == "Bob and Anne" || sheetName == "Sarah and Dane") {
+            const currentSheet = workbook.Sheets[sheetName];
+            for (const value of xlsx.utils.sheet_to_json(currentSheet)) {
+                const guest = value as GuestObject;
 
-        if (guest.Name != undefined && guest.Address != undefined && guest.Persons != undefined) {
+                if (guest.Name != undefined && guest.Address != undefined && guest.Persons != undefined) {
 
-            const currentUser = await User.findOne({ where: { name: guest.Name } });
+                    const currentUser = await User.findOne({ where: { name: guest.Name } });
 
-            if (!currentUser) {
-                users.push({
-                    username: await genUsername(guest.Name),
-                    name: guest.Name,
-                    address: guest.Address,
-                    maxGuests: guest.Persons,
-                });
-            }
-            else {
-                users.push({
-                    username: currentUser.username,
-                    name: guest.Name,
-                    address: guest.Address,
-                    maxGuests: guest.Persons,
-                });
+                    if (!currentUser) {
+                        await User.create({
+                            username: await genUsername(guest.Name),
+                            name: guest.Name,
+                            address: guest.Address,
+                            maxGuests: guest.Persons,
+                        });
+                    }
+                    else {
+                        await currentUser.update({
+                            name: guest.Name,
+                            address: guest.Address,
+                            maxGuests: guest.Persons,
+                        });                        
+                    }
+                }
             }
         }
-    }
 
-    User.bulkCreate(users, {
-        updateOnDuplicate: Object.keys(userColumns)
-    });
+    }
 };
