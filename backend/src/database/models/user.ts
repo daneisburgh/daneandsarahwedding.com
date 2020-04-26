@@ -10,11 +10,13 @@ export const userColumns = {
     },
     name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     address: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     password: {
         type: DataTypes.STRING,
@@ -22,8 +24,8 @@ export const userColumns = {
     },
     isPasswordHashed: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false,
-        allowNull: false
+        allowNull: false,
+        defaultValue: false
     },
     passwordResetToken: {
         type: DataTypes.STRING,
@@ -36,6 +38,7 @@ export const userColumns = {
     email: {
         type: DataTypes.STRING,
         allowNull: true,
+        unique: true,
         validate: {
             isEmail: true
         }
@@ -63,8 +66,8 @@ export const userColumns = {
     },
     isAdmin: {
         type: DataTypes.BOOLEAN,
-        defaultValue: false,
-        allowNull: false
+        allowNull: false,
+        defaultValue: false
     },
     isAttending: {
         type: DataTypes.BOOLEAN,
@@ -84,13 +87,13 @@ export const userColumns = {
     },
     createdAt: {
         type: DataTypes.DATE,
-        defaultValue: new Date,
-        allowNull: false
+        allowNull: false,
+        defaultValue: new Date
     },
     updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: new Date,
-        allowNull: false
+        allowNull: false,
+        defaultValue: new Date
     }
 };
 
@@ -119,7 +122,8 @@ class User extends Model {
 
 User.init(userColumns, {
     sequelize,
-    tableName: 'user'
+    tableName: 'user',
+    timestamps: false
 });
 
 User.beforeCreate(async (user: User) => {

@@ -1,5 +1,4 @@
 *.conf
-*.xlsx
 .serverless
 .vscode
 build
