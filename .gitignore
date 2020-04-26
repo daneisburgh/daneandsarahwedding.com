@@ -1,6 +1,7 @@
 *.conf
 *.xlsx
 .serverless
+.vscode
 build
 node_modules
 public
