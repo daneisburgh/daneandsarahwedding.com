@@ -62,27 +62,13 @@ describe('AppComponent', () => {
     });
 
     it ('should present popovers', async () => {
-        // const popoverController = TestBed.inject(PopoverController);
-        // const popoverControllerCreateSpy = spyOn(popoverController, 'create');
-
         const fixture = TestBed.createComponent(AppComponent);
         const component: AppComponent = fixture.debugElement.componentInstance;
 
         expect(component).toBeTruthy();
-        await expectAsync(component.presentGalleryPopover(undefined)).toBeResolved();
         await expectAsync(component.presentLogInModal()).toBeResolved();
-        // await expectAsync(component)
-
-        // const presentGalleryPopover = component.presentGalleryPopover(undefined);
-        // expect(popoverControllerCreateSpy).toHaveBeenCalled();
-        // await presentGalleryPopover;
-
-        // const presentLogInModal = component.presentLogInModal();
-        // expect(popoverControllerCreateSpy).toHaveBeenCalled();
-        // await presentLogInModal;
-
-        // component.presentProfilePopover(undefined);
-        // await expectAsync(popoverControllerCreateSpy).toBeResolved();
+        await expectAsync(component.presentGalleryPopover(undefined)).toBeResolved();
+        await expectAsync(component.presentProfilePopover(undefined)).toBeResolved();
     });
 
     // it('should have menu labels', async () => {
