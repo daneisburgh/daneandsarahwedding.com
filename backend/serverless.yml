@@ -30,7 +30,10 @@ provider:
   environment:
     APP_NAME: ${env:APP_NAME}
     NODE_ENV: ${env:NODE_ENV}
+    DOMAIN_NAME: ${env:DOMAIN_NAME}
     API_KEY: ${env:API_KEY}
+    API_URL: ${env:API_URL}
+    CLIENT_URL: ${env:CLIENT_URL}
     DB_HOST: ${env:DB_HOST}
     DB_USERNAME: ${env:DB_USERNAME}
     DB_PASSWORD: ${env:DB_PASSWORD}
