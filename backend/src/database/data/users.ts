@@ -1,9 +1,12 @@
-import { isNumber, toNumber } from "lodash";
-import { Op } from "sequelize";
+import { Op } from 'sequelize';
 
-import xlsx from "xlsx";
+import xlsx from 'xlsx';
+import fetch from 'node-fetch';
+import * as fs from 'fs';
 
-import User, { userColumns } from "../models/user";
+import User from '../models/user';
+
+const guestListFile = 'Guest List.xlsx';
 
 interface GuestObject {
     Name: string;
@@ -11,7 +14,7 @@ interface GuestObject {
     Persons: number;
 }
 
-async function genUsername(name: string): Promise<string> {
+async function generateUsername(name: string): Promise<string> {
     let split, splitName;
     if (name.includes('&')) {
         split = name.split(' & ');
@@ -32,14 +35,11 @@ async function genUsername(name: string): Promise<string> {
     }
 }
 
-export = async function () {
-    //update this to pull in new file updated in google drive
-    const workbook = xlsx.readFile("Guest List.xlsx");
-    const testSheetName = workbook.SheetNames[0];
-    const testSheet = workbook.Sheets[testSheetName];
+async function createOrUpdateUsers() {
+    const workbook = xlsx.readFile(guestListFile);
 
     for (const sheetName of workbook.SheetNames) {
-        if (sheetName == "Tracey and Chris" || sheetName == "Bob and Anne" || sheetName == "Sarah and Dane") {
+        if (sheetName == 'Tracey and Chris' || sheetName == 'Bob and Anne' || sheetName == 'Sarah and Dane') {
             const currentSheet = workbook.Sheets[sheetName];
             for (const value of xlsx.utils.sheet_to_json(currentSheet)) {
                 const guest = value as GuestObject;
@@ -50,7 +50,7 @@ export = async function () {
 
                     if (!currentUser) {
                         await User.create({
-                            username: await genUsername(guest.Name),
+                            username: await generateUsername(guest.Name),
                             name: guest.Name,
                             address: guest.Address,
                             maxGuests: guest.Persons,
@@ -61,11 +61,21 @@ export = async function () {
                             name: guest.Name,
                             address: guest.Address,
                             maxGuests: guest.Persons,
-                        });                        
+                        });
                     }
                 }
             }
         }
 
     }
+}
+
+export = async function () {
+    const url = process.env.GUEST_LIST_URL as string;
+    const response = await fetch(url);
+    const dest = fs.createWriteStream(`./${guestListFile}`);
+    response.body.pipe(dest);
+    dest.on('finish', async function () {
+        await createOrUpdateUsers();
+    });
 };
