@@ -34,15 +34,15 @@
                 </ion-button>
             </ion-buttons>
             <ion-buttons slot="end" class="log-in-profile">
-                <ion-button *ngIf="user" [ngClass]="{'active': router.url.includes('profile')}"
+                <ion-button *ngIf="user && user.email" [ngClass]="{'active': router.url.includes('profile')}"
                     (click)="presentProfilePopover($event)">
                     <ion-icon slot="start" name="person"></ion-icon>
                     <ion-label>{{user.username}}</ion-label>
                     <ion-icon slot="end" name="caret-down" class="caret-down caret-down-profile"></ion-icon>
                 </ion-button>
-                <ion-button *ngIf="!user" class="log-in" [fill]="logInOutButtonFill" (click)="presentLogInModal()">
+                <ion-button *ngIf="!user || !user.email" class="log-in" fill="outline" (click)="presentLogInModal()">
                     <ion-icon slot="start" name="log-in"></ion-icon>
-                    <ion-label *ngIf="!isMobile">Log In</ion-label>
+                    <ion-label>Log In</ion-label>
                 </ion-button>
             </ion-buttons>
         </ion-toolbar>
