@@ -14,7 +14,7 @@
             <ion-grid>
                 <ion-row>
                     <ion-col class="center-content-horizontal">
-                        <ion-item class="username">
+                        <ion-item>
                             <ion-label position="floating">Username</ion-label>
                             <ion-input type="text" [(ngModel)]="username" [disabled]="isSubmitting"></ion-input>
                         </ion-item>
@@ -22,16 +22,16 @@
                 </ion-row>
                 <ion-row>
                     <ion-col class="center-content-horizontal">
-                        <ion-item class="password">
+                        <ion-item>
                             <ion-label position="floating">Password</ion-label>
                             <ion-input type="password" [(ngModel)]="password" [disabled]="isSubmitting"></ion-input>
                         </ion-item>
                     </ion-col>
                 </ion-row>
-                <ion-row>
+                <ion-row class="forgot-password">
                     <ion-col class="ion-text-right">
                         &nbsp;
-                        <!-- <a class="forgot-password" (click)="presentResetPasswordModal()">Forgot password?</a> -->
+                        <a (click)="presentResetPasswordModal()">Forgot password?</a>
                     </ion-col>
                 </ion-row>
                 <ion-row>
@@ -39,10 +39,10 @@
                         <ion-button class="submit" (click)="submit()" [disabled]="isSubmitting">
                             Submit
                         </ion-button>
-                        <ion-text *ngIf="isSubmitting" class="message">
+                        <ion-text *ngIf="isSubmitting" class="submit-message">
                             <ion-spinner></ion-spinner>
                         </ion-text>
-                        <ion-text *ngIf="!isSubmitting && hasError" class="message" color="danger">
+                        <ion-text *ngIf="!isSubmitting && hasError" class="submit-message" color="danger">
                             {{errorMessage}}
                         </ion-text>
                     </ion-col>
