@@ -34,6 +34,7 @@
 }
 
 * {
+    font-size: 16px;
     font-family: "Times New Roman", Times, serif !important;
 }
 
@@ -48,6 +49,7 @@ ion-select {
 }
 
 ion-title {
+    font-size: 20px;
     padding: 0 8px 0 18px;
 
     &.grid {
@@ -55,11 +57,19 @@ ion-title {
     }
 }
 
-ion-card-header.ion-color-primary ion-card-title {
-    color: white !important;
+ion-card-header {
+    &.ion-color-primary ion-card-title {
+        color: white !important;
+    }
+
+    ion-card-title {
+        font-size: 18px;
+    }
 }
 
 ion-toast {
+    font-size: 20px;
+    
     @media screen and (min-width: $min-width-small) {
         width: 320px;
     }
@@ -105,7 +115,8 @@ ion-popover {
 }
 
 a {
-    font-weight: bolder;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .alert-wrapper {
@@ -150,10 +161,41 @@ a {
 
 .modal-wrapper {
     @media screen and (min-width: $min-width-medium) {
-        width: 256px !important;
+        width: 320px !important;
         height: 304px !important;
         border-radius: 5px !important;
         background: transparent !important;
+    }
+}
+
+.modal-inner {
+    width: 100%;
+    height: 100%;
+    margin-top: -2px;
+
+    ion-buttons.close {
+        margin-right: 10px;
+    }
+
+    ion-item {
+        width: 100%;
+        padding: 0;
+        font-size: 20px;
+        --highlight-background: var(--ion-color-primary) !important;
+
+        @media screen and (min-width: $min-width-medium) {
+            width: 90%;
+            margin-right: 4px;
+        }
+    }
+
+    .submit {
+        font-size: 20px;
+        margin: 0 0 0 12px;
+    }
+
+    .submit-message {
+        margin: 4px 0 0 16px;
     }
 }
 
