@@ -17,14 +17,15 @@
                                 Our wedding will be held on <b>October 24th, 2020</b> at <b>All Saints Catholic
                                     Church</b> in Walton, Kentucky.
                                 The ceremony will take place at <b>6:30 PM EST</b> with a reception immediately
-                                following in the church hall.
-                                Dinner and drinks will be provided.
-                                Let us know of any dietary restrictions in your <a routerLink="/about-us"
-                                    routerDirection="root">user profile</a>.
-                                Please feel free to <a href="mailto:hello@daneandsarahwedding.com"
-                                    target="_blank">contact
-                                    us</a> if you have any other questions.
-                                We look forward to celebrating our marriage with everyone this October!
+                                following in the church hall. Dinner and drinks will be provided.
+                                Please RSVP and fill out your
+                                <a *ngIf="user" routerLink="/profile" routerDirection="root">profile</a>
+                                <a *ngIf="!user" (click)="presentLogInModal()">profile</a>
+                                by <b>{{deadlineString}}</b>.
+                                Feel free to
+                                <a href="mailto:hello@daneandsarahwedding.com" target="_blank">contact us</a>
+                                if you have any other questions. We look forward to celebrating our marriage with
+                                everyone this October!
                             </ion-card-content>
                         </ion-card>
                     </ion-col>
