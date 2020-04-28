@@ -22,7 +22,6 @@ export class AppComponent {
     public get user() { return this.userService.user; }
     public get appTitle() { return this.utilsService.appTitle };
     public get isMobile() { return this.utilsService.isMobile; }
-    public get logInOutButtonFill() { return this.utilsService.isMobile ? 'clear' : 'outline'; }
 
     constructor(
         public router: Router,
@@ -51,14 +50,17 @@ export class AppComponent {
     }
 
     private async initializeApp() {
-        await this.userService.logIn().catch(_ => { });
+        try {
+            await this.userService.logIn();
+
+            if (!this.user.email) {
+                await this.userService.logOut();
+            }
+        } catch (error) { }
+
         await this.platform.ready();
-
-        if (this.platform.is('cordova')) {
-            this.statusBar.styleDefault();
-            this.splashScreen.hide();
-        }
-
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
         this.isReady = true;
     }
 }
