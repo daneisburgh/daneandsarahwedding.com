@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { EmailResetModalComponent } from './email-reset-modal.component';
+import { ChangeEmailModalComponent } from './change-email-modal.component';
 
-describe('EmailResetModalComponent', () => {
-    let component: EmailResetModalComponent;
-    let fixture: ComponentFixture<EmailResetModalComponent>;
+describe('ChangeEmailModalComponent', () => {
+    let component: ChangeEmailModalComponent;
+    let fixture: ComponentFixture<ChangeEmailModalComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [EmailResetModalComponent],
+            declarations: [ChangeEmailModalComponent],
             imports: [IonicModule.forRoot()]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(EmailResetModalComponent);
+        fixture = TestBed.createComponent(ChangeEmailModalComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     }));

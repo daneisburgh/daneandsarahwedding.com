@@ -6,11 +6,11 @@ import { UserService } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
-    selector: 'app-email-reset-modal',
-    templateUrl: './email-reset-modal.component.html',
-    styleUrls: ['./email-reset-modal.component.scss'],
+    selector: 'app-change-email-modal',
+    templateUrl: './change-email-modal.component.html',
+    styleUrls: ['./change-email-modal.component.scss'],
 })
-export class EmailResetModalComponent {
+export class ChangeEmailModalComponent {
     public email: string;
     public errorMessage: string;
 
@@ -19,7 +19,7 @@ export class EmailResetModalComponent {
 
     public get user() { return this.userService.user; }
     public get isMobile() { return this.utilsService.isMobile; }
-    public get title() { return this.user.email ? 'Add Email' : 'Reset Email'; }
+    public get title() { return this.user.email ? 'Change Email' : 'Add Email'; }
 
     private modal: HTMLIonModalElement;
 

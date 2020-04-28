@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 
 import { UserService } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
-import { EmailResetModalComponent } from '../email-reset-modal/email-reset-modal.component';
+import { ChangeEmailModalComponent } from '../change-email-modal/change-email-modal.component';
 
 const loginErrors = [
     'Invalid Username',
@@ -54,7 +54,7 @@ export class LogInModalComponent {
                 await this.router.navigate([route]);
             } else {
                 await this.utilsService.presentToast('danger', 'Please add an email to continue');
-                const modal = await this.modalController.create({ component: EmailResetModalComponent });
+                const modal = await this.modalController.create({ component: ChangeEmailModalComponent });
                 await modal.present();
                 await modal.onWillDismiss();
                 this.dismiss();
