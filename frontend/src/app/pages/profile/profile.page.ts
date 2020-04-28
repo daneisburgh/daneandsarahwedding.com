@@ -5,14 +5,16 @@ import { UtilsService } from '../../services/utils/utils.service';
 import { PopoverController } from '@ionic/angular';
 import { DeadlinePopoverComponent } from './deadline-popover/deadline-popover.component';
 
+const deadline = new Date('6/30/2020');
+export const deadlineString = deadline.toLocaleDateString();
+
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.page.html',
     styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage {
-    public deadline = new Date('6/30/2020');
-    public deadlineMessage = `Profile info can be changed until ${this.deadline.toLocaleDateString()}`;
+    public deadlineMessage = `Profile info can be changed until ${deadlineString}`;
     public roomOptions: number[] = [];
 
     public updatingIsAttending = false;
@@ -40,7 +42,7 @@ export class ProfilePage {
 
     public get user() { return this.userService.user; }
     public get isMobile() { return this.utilsService.isMobile; }
-    public get disableInputs() { return Date.now() >= this.deadline.getTime(); }
+    public get disableInputs() { return Date.now() >= deadline.getTime(); }
 
     constructor(
         private popoverController: PopoverController,
