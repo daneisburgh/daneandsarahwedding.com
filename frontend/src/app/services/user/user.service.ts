@@ -60,7 +60,6 @@ export class UserService {
             this.user = response.user;
         } catch (error) {
             await this.storage.remove(TOKEN_KEY);
-            console.error(error);
             throw error;
         }
     }
