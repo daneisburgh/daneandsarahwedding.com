@@ -1,5 +1,5 @@
-import admin from './admin';
-import users from './users';
+import admin from './scripts/admin';
+import users from './scripts/users';
 
-// admin();
+admin();
 users();

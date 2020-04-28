@@ -4,7 +4,7 @@ import xlsx from 'xlsx';
 import fetch from 'node-fetch';
 import * as fs from 'fs';
 
-import User from '../models/user';
+import User from '../../models/user';
 
 const guestListFile = 'Guest List.xlsx';
 
@@ -13,6 +13,16 @@ interface GuestObject {
     Address: string;
     Persons: number;
 }
+
+export = async function () {
+    const url = process.env.GUEST_LIST_URL as string;
+    const response = await fetch(url);
+    const dest = fs.createWriteStream(`./${guestListFile}`);
+    response.body.pipe(dest);
+    dest.on('finish', async function () {
+        await createOrUpdateUsers();
+    });
+};
 
 async function generateUsername(name: string): Promise<string> {
     let split, splitName;
@@ -68,13 +78,3 @@ async function createOrUpdateUsers() {
 
     }
 }
-
-export = async function () {
-    const url = process.env.GUEST_LIST_URL as string;
-    const response = await fetch(url);
-    const dest = fs.createWriteStream(`./${guestListFile}`);
-    response.body.pipe(dest);
-    dest.on('finish', async function () {
-        await createOrUpdateUsers();
-    });
-};
