@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { GalleryPopoverComponent } from './components/gallery-popover/gallery-popover.component';
 import { ProfilePopoverComponent } from './components/profile-popover/profile-popover.component';
+import { EmailResetModalComponent } from './components/email-reset-modal/email-reset-modal.component';
 import { LogInModalComponent } from './components/log-in-modal/log-in-modal.component';
 
 import { UserService } from './services/user/user.service';
@@ -45,11 +46,13 @@ import { UserGuard } from './guards/user/user.guard';
         AppComponent,
         GalleryPopoverComponent,
         ProfilePopoverComponent,
+        EmailResetModalComponent,
         LogInModalComponent
     ],
     entryComponents: [
         GalleryPopoverComponent,
         ProfilePopoverComponent,
+        EmailResetModalComponent,
         LogInModalComponent
     ],
     bootstrap: [
