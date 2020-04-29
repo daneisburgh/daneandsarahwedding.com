@@ -46,7 +46,10 @@ export class AppComponent {
     }
 
     public async presentLogInModal() {
-        (await this.modalController.create({ component: LogInModalComponent })).present();
+        (await this.modalController.create({
+            component: LogInModalComponent,
+            cssClass: 'app-log-in-modal'
+         })).present();
     }
 
     private async initializeApp() {

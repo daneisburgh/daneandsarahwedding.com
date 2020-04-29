@@ -12,7 +12,7 @@ const loginErrors = [
 ];
 
 @Component({
-    selector: 'app-log-in',
+    selector: 'app-log-in-modal',
     templateUrl: './log-in-modal.component.html',
     styleUrls: ['./log-in-modal.component.scss'],
 })
@@ -54,10 +54,13 @@ export class LogInModalComponent {
                 await this.router.navigate([route]);
             } else {
                 await this.utilsService.presentToast('danger', 'Please add an email to continue');
-                const modal = await this.modalController.create({ component: ChangeEmailModalComponent });
-                await modal.present();
-                await modal.onWillDismiss();
-                this.dismiss();
+                const changeEmailModal = await this.modalController.create({ 
+                    component: ChangeEmailModalComponent,
+                    cssClass: 'app-change-email-modal'
+                });
+                await changeEmailModal.present();
+                await changeEmailModal.onWillDismiss();
+                this.modal.dismiss();
             }
         } catch (error) {
             this.hasError = true;
