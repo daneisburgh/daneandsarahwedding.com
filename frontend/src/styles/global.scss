@@ -168,6 +168,20 @@ a {
     }
 }
 
+ion-modal {
+    &.app-log-in-modal .modal-wrapper {
+        height: 304px !important;
+    }
+
+    &.app-change-email-modal .modal-wrapper {
+        height: 216px !important;
+    }
+}
+
+ion-modal:not(:last-child) .modal-wrapper {
+    display: none !important;
+}
+
 .modal-inner {
     width: 100%;
 
