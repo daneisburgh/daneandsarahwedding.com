@@ -1,5 +1,9 @@
 .title-button {
-    font-size: 20px;
+    margin-bottom: 2px;
+
+    ion-label {
+        font-size: 20px !important;
+    }
 
     ion-icon {
         font-size: 14px;
@@ -8,7 +12,7 @@
 }
 
 .gallery-date {
-    padding-top: 10px;
+    padding-top: 14px;
 }
 
 .content-inner.gallery {

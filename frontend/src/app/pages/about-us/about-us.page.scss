@@ -21,7 +21,7 @@
 }
 
 .photos-card {
-    padding: 1px 0;
+    padding: 8px;
 
     div {
         cursor: pointer;
@@ -33,7 +33,7 @@
         font-size: 18px;
         background-size: cover;
         background-position: center center;
-        // transition: all 0.3s;
+        transition: all 0.3s;
 
         @media screen and (min-width: $min-width-large) {
             height: 78px;
@@ -41,7 +41,6 @@
 
         &:hover {
             transform: scale(1.02);
-            box-shadow: 0 0 5px var(--ion-color-dark);
         }
 
         &.engagement {
@@ -105,6 +104,11 @@ mgl-timeline {
 
 mgl-timeline-entry {
     margin-bottom: 24px;
+    transition: all 0.3s;
+
+    &:hover:not(.expanded) {
+        transform: scale(1.02);
+    }
 }
 
 mgl-timeline-entry-dot {
@@ -123,7 +127,7 @@ mgl-timeline-entry-header {
     text-align: left;
     padding-left: 25px;
     color: var(--ion-color-dark);
-    transition: all 0.4s;
+    transition: all 0.3s;
 
     &.expanded {
         color: var(--ion-color-light);
