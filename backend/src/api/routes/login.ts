@@ -34,6 +34,7 @@ export default async function (event: any) {
                     'username',
                     'name',
                     'email',
+                    'emailConfirmationTokenExpiration',
                     'isEmailConfirmed',
                     'guests',
                     'maxGuests',
