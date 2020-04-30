@@ -3,10 +3,15 @@ html
     head
         link(rel="stylesheet", href="styles.css", data-inline)
     body
-        p Hi #{user.name},
-        p Please confirm your email by clicking the button bellow.
+        p 
+            | Hi #{user.name},
+        p 
+            | Please confirm your email by clicking the button bellow.
+            | Please note that the button is valid until #{expirationDat}.
         p
-            button(onclick=`window.open('${clientUrl}?emailConfirmationToken=${user.emailConfirmationToken}', '_blank')`) Confirm Email
+            button(onclick=`window.open('${confirmationUrl}', '_blank')`) Confirm Email
+        p
+            | Let us know if you have any issues confirming your email address.
         p 
             | Regards,
             br
