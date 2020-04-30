@@ -53,16 +53,17 @@ export class LogInModalComponent {
                 const route = this.user.isAdmin ? '/users' : '/profile';
                 await this.router.navigate([route]);
             } else {
-                await this.utilsService.presentToast('danger', 'Please add an email to continue');
                 const changeEmailModal = await this.modalController.create({ 
                     component: ChangeEmailModalComponent,
-                    cssClass: 'app-change-email-modal'
+                    cssClass: 'app-change-email-modal add-email'
                 });
                 await changeEmailModal.present();
                 await changeEmailModal.onWillDismiss();
-                this.modal.dismiss();
             }
+            
+            this.modal.dismiss();
         } catch (error) {
+            console.error(error);
             this.hasError = true;
             this.errorMessage = loginErrors.includes(error.error) ? error.error : 'Bad Request';
         } finally {
