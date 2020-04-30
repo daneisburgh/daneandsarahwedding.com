@@ -7,7 +7,7 @@ html
             | Hi #{user.name},
         p 
             | Please confirm your email by clicking the button bellow.
-            | Please note that the button is valid until #{expirationDat}.
+            | Please note that the button is valid until #{expirationDate}.
         p
             button(onclick=`window.open('${confirmationUrl}', '_blank')`) Confirm Email
         p
