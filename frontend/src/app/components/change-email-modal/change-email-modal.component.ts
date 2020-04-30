@@ -5,6 +5,11 @@ import { ModalController } from '@ionic/angular';
 import { UserService } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
 
+const emailErrors = [
+    'Invalid Email',
+    'Email is Taken'
+];
+
 @Component({
     selector: 'app-change-email-modal',
     templateUrl: './change-email-modal.component.html',
@@ -25,6 +30,7 @@ export class ChangeEmailModalComponent {
 
     constructor(
         private modalController: ModalController,
+        private router: Router,
         private userService: UserService,
         private utilsService: UtilsService
     ) {
@@ -40,8 +46,14 @@ export class ChangeEmailModalComponent {
         this.isSubmitting = true;
 
         try {
+            await this.userService.changeEmail(this.email);
+            await this.router.navigate(['/profile']);
+            this.user.email = this.email;
+            this.dismiss();
         } catch (error) {
+            console.error(error);
             this.hasError = true;
+            this.errorMessage = emailErrors.includes(error.error) ? error.error : 'Bad Request';
         } finally {
             setTimeout(() => {
                 this.isSubmitting = false;
