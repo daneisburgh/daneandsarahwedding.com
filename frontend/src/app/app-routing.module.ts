@@ -11,7 +11,7 @@ const routes: Routes = [
     { path: 'gallery/:galleryName', loadChildren: './pages/gallery/gallery.module#GalleryPageModule' },
     { path: 'info', loadChildren: './pages/info/info.module#InfoPageModule' },
     { path: 'profile', loadChildren: './pages/profile/profile.module#ProfilePageModule', canActivate: [UserGuard] },
-    { path: 'users', loadChildren: './pages/users/users.module#UsersPageModule', canActivate: [AdminGuard] },
+    { path: 'users', loadChildren: './pages/users/users.module#UsersPageModule', canActivate: [UserGuard, AdminGuard] },
     { path: 'error/:statusCode', loadChildren: './pages/error/error.module#ErrorPageModule' },
     { path: '**', loadChildren: './pages/error/error.module#ErrorPageModule' }
 ];
