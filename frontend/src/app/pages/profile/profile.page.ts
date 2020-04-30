@@ -14,7 +14,7 @@ export const deadlineString = deadline.toLocaleDateString();
     styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage {
-    public deadlineMessage = `Profile info can be changed until ${deadlineString}`;
+    public deadlineMessage = `Profile info can be updated until ${deadlineString}`;
     public roomOptions: number[] = [];
 
     public updatingIsAttending = false;
