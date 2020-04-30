@@ -23,17 +23,19 @@ ion-text.email-confirmation {
 }
 
 ion-card-content {
-    padding-bottom: 0;
-
-    @media screen and (min-width: $min-width-small) {
-        padding-bottom: 8px;
-    }
+    padding: 0 !important;
 
     ion-item {
-        margin: 0 -16px;
+        margin: 0;
+        padding: 0;
 
         @media screen and (min-width: $min-width-small) {
-            margin: initial;
+            padding: 0 8px;
+
+            &:first-child,
+            &:last-child {
+                padding: 8px;
+            }
         }
     }
 }
