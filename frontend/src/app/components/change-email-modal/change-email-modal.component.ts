@@ -47,8 +47,8 @@ export class ChangeEmailModalComponent {
 
         try {
             await this.userService.changeEmail(this.email);
-            await this.router.navigate(['/profile']);
             this.user.email = this.email;
+            await this.router.navigate(['/profile']);
             this.dismiss();
         } catch (error) {
             console.error(error);
