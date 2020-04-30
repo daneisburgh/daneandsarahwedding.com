@@ -1,31 +1,27 @@
 import { pick } from 'lodash';
 
-import { createResponse, getRequestBody, verifyToken } from '../utils';
+import { createResponse, getRequestBody, getUserFromToken } from '../utils';
 import User from '../../database/models/user';
 
 export default async function (event: any) {
     try {
-        const { token, user } = getRequestBody(event);
-        let username: string;
+        const { token, updatedUser } = getRequestBody(event);
+        console.log(token, updatedUser);
+        let user: User;
 
         try {
-            const decoded = verifyToken(token);
-            username = decoded.username;
+            user = await getUserFromToken(token);
         } catch {
             return createResponse(401, 'Invalid Token');
         }
 
-        if (!username) {
-            return createResponse(401, 'Invalid Username');
-        }
-
-        await User.update(pick(user, [
+        await user.update(pick(updatedUser, [
             'guests',
             'isAttending',
             'requiresAccommodations',
             'totalRequiredRooms',
             'requiresTransportation'
-        ]), { where: { username } });
+        ]));
 
         return createResponse(200);
     } catch (error) {
