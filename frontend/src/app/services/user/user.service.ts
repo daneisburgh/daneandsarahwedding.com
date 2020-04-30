@@ -52,9 +52,7 @@ export class UserService {
             }
 
             const url = `${environment.apiUrl}/login`;
-            console.log('REQUEST logIn', url, body);
             const response = await this.httpClient.post<LogInResponse>(url, body).toPromise();
-            console.log('RESPONSE logIn', response);
 
             await this.storage.set(TOKEN_KEY, response.token);
             this.user = response.user;
@@ -76,7 +74,6 @@ export class UserService {
     public async update() {
         const url = `${environment.apiUrl}/update`;
         const body = { token: await this.storage.get(TOKEN_KEY), user: this.user };
-        console.log('REQUEST update', url, body);
         await this.httpClient.post(url, body).toPromise();
     }
 }

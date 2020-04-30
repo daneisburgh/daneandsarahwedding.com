@@ -19,15 +19,13 @@ export default async function (event: any) {
             return createResponse(401, 'Invalid Username');
         }
 
-        const response = await User.update(pick(user, [
+        await User.update(pick(user, [
             'guests',
             'isAttending',
             'requiresAccommodations',
             'totalRequiredRooms',
             'requiresTransportation'
         ]), { where: { username } });
-
-        console.log(response);
 
         return createResponse(200);
     } catch (error) {
