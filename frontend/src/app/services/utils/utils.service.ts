@@ -51,8 +51,7 @@ export class UtilsService {
             color,
             message,
             position: 'top',
-            duration: 6000,
-            cssClass: 'toast-styles'
+            duration: 6000
         };
 
         (await this.toastController.create(toastOptions)).present();
