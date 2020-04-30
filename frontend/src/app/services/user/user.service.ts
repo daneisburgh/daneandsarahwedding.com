@@ -72,8 +72,16 @@ export class UserService {
     }
 
     public async update() {
-        const url = `${environment.apiUrl}/user-update`;
-        const body = { token: await this.storage.get(TOKEN_KEY), user: this.user };
-        await this.httpClient.post(url, body).toPromise();
+        await this.httpClient.post(`${environment.apiUrl}/user-profile-update`, {
+            token: await this.storage.get(TOKEN_KEY),
+            updatedUser: this.user
+        }).toPromise();
+    }
+
+    public async changeEmail(email: string) {
+        await this.httpClient.post(`${environment.apiUrl}/user-change-email`, {
+            token: await this.storage.get(TOKEN_KEY),
+            email
+        }).toPromise();
     }
 }
