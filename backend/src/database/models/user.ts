@@ -29,7 +29,8 @@ export const userColumns = {
     },
     passwordResetToken: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        unique: true
     },
     passwordResetTokenExpiration: {
         type: DataTypes.DATE,
@@ -45,7 +46,8 @@ export const userColumns = {
     },
     emailConfirmationToken: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        unique: true
     },
     emailConfirmationTokenExpiration: {
         type: DataTypes.DATE,
@@ -88,12 +90,12 @@ export const userColumns = {
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: new Date
+        defaultValue: new Date()
     },
     updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: new Date
+        defaultValue: new Date()
     }
 };
 
@@ -131,12 +133,12 @@ User.beforeCreate(async (user: User) => {
 });
 
 User.beforeUpdate(async (user: User) => {
-    user.updatedAt = new Date;
+    user.updatedAt = new Date();
     
-    if (user.changed('password')) {
-        user.password = bcrypt.hashSync(user.password, 10);
-        user.isPasswordHashed = true;
-    }
+    // if (user.changed('password')) {
+    //     user.password = bcrypt.hashSync(user.password, 10);
+    //     user.isPasswordHashed = true;
+    // }
 });
 
 export default User;
