@@ -176,6 +176,10 @@ ion-modal {
     &.app-change-email-modal .modal-wrapper {
         height: 216px !important;
     }
+
+    &.app-change-email-modal.add-email .modal-wrapper {
+        height: 232px !important;
+    }
 }
 
 ion-modal:not(:last-child) .modal-wrapper {
