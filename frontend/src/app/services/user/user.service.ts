@@ -10,6 +10,7 @@ interface User {
     name: string;
     address: string;
     email: string;
+    emailConfirmationTokenExpiration: Date;
     isEmailConfirmed: boolean;
     guests: string[];
     maxGuests: number;
@@ -51,9 +52,7 @@ export class UserService {
                 body = { token };
             }
 
-            const url = `${environment.apiUrl}/login`;
-            const response = await this.httpClient.post<LogInResponse>(url, body).toPromise();
-
+            const response = await this.apiPost<LogInResponse>('login', body);
             await this.storage.set(TOKEN_KEY, response.token);
             this.user = response.user;
         } catch (error) {
@@ -72,16 +71,23 @@ export class UserService {
     }
 
     public async update() {
-        await this.httpClient.post(`${environment.apiUrl}/user-profile-update`, {
+        await this.apiPost('user-profile-update', {
             token: await this.storage.get(TOKEN_KEY),
             updatedUser: this.user
-        }).toPromise();
+        });
     }
 
     public async changeEmail(email: string) {
-        await this.httpClient.post(`${environment.apiUrl}/user-change-email`, {
+        await this.apiPost('user-change-email', {
             token: await this.storage.get(TOKEN_KEY),
             email
-        }).toPromise();
+        });
+    }
+
+    private async apiPost<T>(route: string, body: object) {
+        console.log('REQUEST', route, body);
+        const response = await this.httpClient.post<T>(`${environment.apiUrl}/${route}`, body).toPromise();
+        console.log('RESPONSE', route, response);
+        return response;
     }
 }
