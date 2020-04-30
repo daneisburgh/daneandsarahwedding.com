@@ -54,6 +54,10 @@ ion-title {
 
     &.grid {
         padding-left: 0;
+
+        ion-col:first-child {
+            font-size: 20px;
+        }
     }
 }
 
@@ -63,12 +67,18 @@ ion-card-header {
     }
 
     ion-card-title {
-        font-size: 18px;
+        font-size: 20px;
     }
 }
 
+ion-card-content {
+    font-size: 16px !important;
+}
+
 ion-toast {
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    width: 240px;
     
     @media screen and (min-width: $min-width-small) {
         width: 320px;
@@ -116,6 +126,7 @@ ion-popover {
 
 a {
     cursor: pointer;
+    font-weight: bold;
     text-decoration: underline;
 }
 
