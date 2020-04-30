@@ -49,17 +49,15 @@ export class AppComponent {
         (await this.modalController.create({
             component: LogInModalComponent,
             cssClass: 'app-log-in-modal'
-         })).present();
+        })).present();
     }
 
     private async initializeApp() {
-        try {
-            await this.userService.logIn();
+        await this.userService.logIn().catch(() => { });
 
-            if (!this.user.email) {
-                await this.userService.logOut();
-            }
-        } catch (error) { }
+        if (this.user && !this.user.email) {
+            await this.userService.logOut();
+        }
 
         await this.platform.ready();
         this.statusBar.styleDefault();
