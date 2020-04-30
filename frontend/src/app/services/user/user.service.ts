@@ -72,7 +72,7 @@ export class UserService {
     }
 
     public async update() {
-        const url = `${environment.apiUrl}/update`;
+        const url = `${environment.apiUrl}/user-update`;
         const body = { token: await this.storage.get(TOKEN_KEY), user: this.user };
         await this.httpClient.post(url, body).toPromise();
     }

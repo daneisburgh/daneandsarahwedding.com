@@ -66,10 +66,10 @@ functions:
           path: /api/login
           method: POST
           cors: true
-  api-update:
-    handler: build/api/routes/update.default
+  api-user-update:
+    handler: build/api/routes/user-update.default
     events:
       - http:
-          path: /api/update
+          path: /api/user-update
           method: POST
           cors: true
