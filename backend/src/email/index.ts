@@ -20,18 +20,18 @@ const emailTemplate = new EmailTemplate({
     juice: true,
     juiceResources: {
         preserveImportant: true,
-        webResources: { relativeTo: path.resolve('emails') }
+        webResources: { relativeTo: path.resolve(__dirname, 'emails') }
     }
 });
 
-export = async function(user: User, template: string) {
+export = async function (template: string, user: User, params: object) {
     try {
         const result = await emailTemplate.send({
-            template,
+            template: path.resolve(__dirname, 'emails', template),
             message: { to: user.email },
             locals: {
                 user,
-                clientUrl: process.env.CLIENT_URL
+                ...params
             }
         });
 
