@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .title.grid {
     padding-left: 8px;
 }
@@ -7,7 +9,7 @@
     margin-bottom: -2px;
 
     div {
-        margin-top: 4px;
+        margin-top: 2px;
     }
 
     ion-icon {
@@ -15,6 +17,23 @@
     }
 }
 
-ion-select {
+ion-select,
+ion-text.email-confirmation {
     font-weight: bold;
+}
+
+ion-card-content {
+    padding-bottom: 0;
+
+    @media screen and (min-width: $min-width-small) {
+        padding-bottom: 8px;
+    }
+
+    ion-item {
+        margin: 0 -16px;
+
+        @media screen and (min-width: $min-width-small) {
+            margin: initial;
+        }
+    }
 }

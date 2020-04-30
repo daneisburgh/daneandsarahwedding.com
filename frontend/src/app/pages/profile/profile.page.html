@@ -49,10 +49,18 @@
                             <ion-card-content>
                                 <ion-item color="light" lines="none">
                                     <ion-label>{{user.email}}</ion-label>
-                                    <ion-text slot="end">
-                                        <!-- <span *ngIf="user.isEmailConfirmed">Confirmed</span> -->
-                                        <a>Please confirm</a>
+                                    <br *ngIf="isMobile">
+                                    <ion-text *ngIf="!resendingEmailConfirmation" slot="end" class="email-confirmation">
+                                        <span *ngIf="user.isEmailConfirmed">Confirmed</span>
+                                        <span *ngIf="!user.isEmailConfirmed && !this.emailConfirmationHasExpired">
+                                            Check inbox for email confirmation
+                                        </span>
+                                        <a *ngIf="!user.isEmailConfirmed && this.emailConfirmationHasExpired"
+                                            (click)="resendEmailConfirmation()">
+                                            Resend Confirmation
+                                        </a>
                                     </ion-text>
+                                    <ion-spinner *ngIf="resendingEmailConfirmation" slot="end"></ion-spinner>
                                 </ion-item>
                             </ion-card-content>
                         </ion-card>

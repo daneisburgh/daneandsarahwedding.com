@@ -20,6 +20,7 @@ export class ProfilePage {
     public updatingIsAttending = false;
     public updatingRequiresAccommodations = false;
     public updatingRequiresTransportation = false;
+    public resendingEmailConfirmation = false;
 
     public interfaceOptions = {
         accommodation: {
@@ -43,6 +44,10 @@ export class ProfilePage {
     public get user() { return this.userService.user; }
     public get isMobile() { return this.utilsService.isMobile; }
     public get disableInputs() { return Date.now() >= deadline.getTime(); }
+    public get emailConfirmationHasExpired() {
+        return this.user.emailConfirmationTokenExpiration &&
+            this.user.emailConfirmationTokenExpiration < new Date()
+    }
 
     constructor(
         private popoverController: PopoverController,
@@ -52,6 +57,11 @@ export class ProfilePage {
 
     public ionViewDidEnter() {
         this.utilsService.setTitle(this.user.name);
+
+        if (!this.user.isEmailConfirmed) {
+            this.utilsService.presentToast('danger', 'Please confirm email to receive important updates');
+        }
+
         for (let i = 1; i <= this.user.maxGuests; i++) {
             this.roomOptions.push(i);
         }
@@ -91,6 +101,18 @@ export class ProfilePage {
         } finally {
             setTimeout(() => {
                 this.updatingRequiresAccommodations = false;
+            }, 1000);
+        }
+    }
+
+    public async resendEmailConfirmation() {
+        try {
+            this.resendingEmailConfirmation = true;
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setTimeout(() => {
+                this.resendingEmailConfirmation = false;
             }, 1000);
         }
     }
