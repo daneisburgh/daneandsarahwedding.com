@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 
+import { UtilsService } from '../utils/utils.service';
 import { environment } from '../../../environments/environment';
 
 interface User {
@@ -37,7 +38,8 @@ export class UserService {
     constructor(
         private httpClient: HttpClient,
         private router: Router,
-        private storage: Storage
+        private storage: Storage,
+        private utilsService: UtilsService
     ) { }
 
     public async logIn(body?: object) {
@@ -82,6 +84,23 @@ export class UserService {
             token: await this.storage.get(TOKEN_KEY),
             email
         });
+    }
+
+    public async confirmEmail(emailConfirmationToken: string) {
+        try {
+            await this.apiPost('user-confirm-email', {
+                emailConfirmationToken
+            });
+            this.utilsService.presentToast('success', 'Email Confirmed!');
+        } catch (error) {
+            console.error(error);
+            const errors = [
+                'Email confirmation link is invalid',
+                'Email confirmation link has expired'
+            ];
+            const message = errors.includes(error.error) ? error.error : 'Bad Request';
+            this.utilsService.presentToast('danger', message);
+        }
     }
 
     private async apiPost<T>(route: string, body: object) {
