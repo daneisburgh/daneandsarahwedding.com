@@ -26,6 +26,8 @@ export class UtilsService {
     public subjectRouteChange = new Subject<NavigationEnd>();
     public get isMobile() { return window.innerWidth < 992; }
 
+    private toast: HTMLIonToastElement;
+
     constructor(
         private menuController: MenuController,
         private router: Router,
@@ -54,7 +56,14 @@ export class UtilsService {
             duration: 6000
         };
 
-        (await this.toastController.create(toastOptions)).present();
+        if (this.toast) {
+            await this.toast.onDidDismiss();
+        }
+
+        this.toast = await this.toastController.create(toastOptions);
+        await this.toast.present();
+        await this.toast.onDidDismiss();
+        this.toast = undefined;
     }
 
     private watchRoute() {
