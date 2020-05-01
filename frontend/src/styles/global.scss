@@ -82,7 +82,7 @@ ion-toast {
     width: 240px;
     
     @media screen and (min-width: $min-width-small) {
-        width: 320px;
+        width: 328px;
     }
 }
 
@@ -173,7 +173,7 @@ a {
 
 .modal-wrapper {
     @media screen and (min-width: $min-width-medium) {
-        width: 320px !important;
+        width: 328px !important;
         height: 304px !important;
         border-radius: 5px !important;
         background: transparent !important;
