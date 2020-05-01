@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Platform, ModalController, PopoverController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import * as querystring from 'querystring';
 
 import { GalleryPopoverComponent } from './components/gallery-popover/gallery-popover.component';
 import { ProfilePopoverComponent } from './components/profile-popover/profile-popover.component';
@@ -63,5 +64,11 @@ export class AppComponent {
         this.statusBar.styleDefault();
         this.splashScreen.hide();
         this.isReady = true;
+
+        const { emailConfirmationToken } = querystring.parse(window.location.search.replace('?', ''));
+
+        if (emailConfirmationToken) {
+            await this.userService.confirmEmail(emailConfirmationToken as string);
+        }
     }
 }
