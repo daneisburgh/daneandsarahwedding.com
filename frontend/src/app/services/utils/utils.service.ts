@@ -46,7 +46,7 @@ export class UtilsService {
         return `/gallery/${path}`;
     }
 
-    public async presentToast(color: string, message: string) {
+    public async presentToast(color: 'success' | 'danger', message: string) {
         const toastOptions: ToastOptions = {
             color,
             message,
