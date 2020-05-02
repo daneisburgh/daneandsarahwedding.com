@@ -14,13 +14,13 @@ export const deadlineString = deadline.toLocaleDateString();
     styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage {
-    public deadlineMessage = `Profile info can be updated until ${deadlineString}`;
+    public readonly deadlineMessage = `Profile info can be updated until ${deadlineString}`;
     public roomOptions: number[] = [];
 
     public updatingIsAttending = false;
     public updatingRequiresAccommodations = false;
     public updatingRequiresTransportation = false;
-    public resendingEmailConfirmation = false;
+    public resendingEmailVerification = false;
 
     public interfaceOptions = {
         accommodation: {
@@ -58,8 +58,8 @@ export class ProfilePage {
     public ionViewDidEnter() {
         this.utilsService.setTitle(this.user.name);
 
-        if (!this.user.isEmailConfirmed) {
-            this.utilsService.presentToast('danger', 'Please confirm your email to receive important updates');
+        if (!this.user.isEmailVerified) {
+            this.utilsService.presentToast('danger', 'Please verify your email to receive important updates');
         }
 
         for (let i = 1; i <= this.user.maxGuests; i++) {
@@ -80,10 +80,10 @@ export class ProfilePage {
     public async handleUpdateIsAttending(event: CustomEvent) {
         try {
             this.updatingIsAttending = true;
-            this.user.isAttending = event.detail.value;
-            await this.userService.update();
+            await this.userService.update({ isAttending: event.detail.value });
         } catch (error) {
             console.error(error);
+            this.presentUpdateErrorToast();
         } finally {
             setTimeout(() => {
                 this.updatingIsAttending = false;
@@ -94,10 +94,10 @@ export class ProfilePage {
     public async handleUpdateRequiresAccommodations(event: CustomEvent) {
         try {
             this.updatingRequiresAccommodations = true;
-            this.user.requiresAccommodations = event.detail.value;
-            await this.userService.update();
+            await this.userService.update({ requiresAccommodations: event.detail.value });
         } catch (error) {
             console.error(error);
+            this.presentUpdateErrorToast();
         } finally {
             setTimeout(() => {
                 this.updatingRequiresAccommodations = false;
@@ -105,17 +105,21 @@ export class ProfilePage {
         }
     }
 
-    public async resendEmailConfirmation() {
+    public async resendEmailVerification() {
         try {
-            this.resendingEmailConfirmation = true;
+            this.resendingEmailVerification = true;
             await this.userService.changeEmail(this.user.email);
         } catch (error) {
             console.error(error);
             this.utilsService.presentToast('danger', 'Error sending email verification');
         } finally {
             setTimeout(() => {
-                this.resendingEmailConfirmation = false;
+                this.resendingEmailVerification = false;
             }, 1000);
         }
+    }
+
+    private presentUpdateErrorToast() {
+        this.utilsService.presentToast('danger', 'Error updating profile info');
     }
 }
