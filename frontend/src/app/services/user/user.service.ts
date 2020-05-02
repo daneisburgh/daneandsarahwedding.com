@@ -12,7 +12,7 @@ interface User {
     address: string;
     email: string;
     emailVerificationExpiration: Date;
-    isEmailConfirmed: boolean;
+    isEmailVerified: boolean;
     guests: string[];
     maxGuests: number;
     isAdmin: boolean;
@@ -22,7 +22,7 @@ interface User {
     requiresTransportation: boolean;
 }
 
-interface LogInResponse {
+interface UserResponse {
     user: User,
     token: string
 }
@@ -42,25 +42,22 @@ export class UserService {
         private utilsService: UtilsService
     ) { }
 
-    public async logIn(body?: object) {
+    private async apiPost(route: string, body: object) {
         try {
-            if (!body) {
-                const token = await this.storage.get(TOKEN_KEY);
-
-                if (!token) {
-                    throw new Error('Missing log in body and token');
-                }
-
-                body = { token };
-            }
-
-            const response = await this.apiPost<LogInResponse>('login', body);
+            console.log('REQUEST', route, body);
+            body = { ...body, token: await this.storage.get(TOKEN_KEY) };
+            const response = await this.httpClient.post<UserResponse>(`${environment.apiUrl}/${route}`, body).toPromise();
+            console.log('RESPONSE', route, response);
             await this.storage.set(TOKEN_KEY, response.token);
             this.user = response.user;
         } catch (error) {
-            await this.storage.remove(TOKEN_KEY);
+            console.error(error);
             throw error;
         }
+    }
+
+    public async logIn(credentials?: object) {
+        await this.apiPost('login', credentials);
     }
 
     public async logOut() {
@@ -72,27 +69,19 @@ export class UserService {
         this.user = undefined;
     }
 
-    public async update() {
-        await this.apiPost('user-profile-update', {
-            token: await this.storage.get(TOKEN_KEY),
-            updatedUser: this.user
-        });
+    public async update(updatedColumns: object) {
+        await this.apiPost('user-profile-update', { updatedColumns });
     }
 
     public async changeEmail(email: string) {
-        await this.apiPost('user-change-email', {
-            token: await this.storage.get(TOKEN_KEY),
-            email
-        });
-
-        this.user.email = email;
-        this.utilsService.presentToast('success', `Email verification sent!`)
+        await this.apiPost('user-email-change', { email });
+        this.utilsService.presentToast('success', `Email verification sent!`);
     }
 
-    public async confirmEmail(emailVerificationCode: string) {
+    public async verifyEmail(emailVerificationCode: string) {
         try {
-            await this.apiPost('user-confirm-email', { emailVerificationCode });
-            this.utilsService.presentToast('success', 'Email Confirmed!');
+            await this.apiPost('user-email-verify', { emailVerificationCode });
+            this.utilsService.presentToast('success', 'You email has been verified!');
         } catch (error) {
             console.error(error);
             const errors = [
@@ -101,13 +90,8 @@ export class UserService {
             ];
             const message = errors.includes(error.error) ? error.error : 'Bad Request';
             this.utilsService.presentToast('danger', message);
+        } finally {
+            this.router.navigate([(this.user ? '/profile' : '/home')]);
         }
-    }
-
-    private async apiPost<T>(route: string, body: object) {
-        console.log('REQUEST', route, body);
-        const response = await this.httpClient.post<T>(`${environment.apiUrl}/${route}`, body).toPromise();
-        console.log('RESPONSE', route, response);
-        return response;
     }
 }
