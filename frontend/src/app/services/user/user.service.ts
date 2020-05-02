@@ -75,21 +75,23 @@ export class UserService {
 
     public async changeEmail(email: string) {
         await this.apiPost('user-email-change', { email });
-        this.utilsService.presentToast('success', `Email verification sent!`);
+        this.utilsService.toast('success', 'Email verification sent',
+            'Please check your inbox and spam folders for an email with a link to verify your email address');
     }
 
     public async verifyEmail(emailVerificationCode: string) {
         try {
             await this.apiPost('user-email-verify', { emailVerificationCode });
-            this.utilsService.presentToast('success', 'Thank you for verifying your email address!');
+            this.utilsService.toast('success', 'Email verified', 'Thank you for verifying your email address');
         } catch (error) {
             console.error(error);
-            const errors = [
-                'Email verification link is invalid',
-                'Email verification link has expired'
-            ];
-            const message = errors.includes(error.error) ? error.error : 'Bad Request';
-            this.utilsService.presentToast('danger', message);
+            const errors = ['Invalid link', 'Link expired'];
+
+            if (errors.includes(error.error)) {
+                this.utilsService.toast('error', error.error, 'Please resend email verification link from your profile');
+            } else {
+                this.utilsService.toastBadRequest();
+            }
         } finally {
             this.router.navigate([(this.user ? '/profile' : '/home')]);
         }
