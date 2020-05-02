@@ -53,7 +53,7 @@ export class UtilsService {
             color,
             message,
             position: 'top',
-            duration: 6000
+            duration: 5000
         };
 
         if (this.toast) {
