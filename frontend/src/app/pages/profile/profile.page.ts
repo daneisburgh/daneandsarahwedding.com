@@ -108,8 +108,10 @@ export class ProfilePage {
     public async resendEmailConfirmation() {
         try {
             this.resendingEmailConfirmation = true;
+            await this.userService.changeEmail(this.user.email);
         } catch (error) {
             console.error(error);
+            this.utilsService.presentToast('danger', 'Error sending email verification');
         } finally {
             setTimeout(() => {
                 this.resendingEmailConfirmation = false;
