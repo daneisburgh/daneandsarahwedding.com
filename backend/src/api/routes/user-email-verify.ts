@@ -1,5 +1,3 @@
-import validator from 'validator';
-
 import { getRequestBody, createResponse, createUserResponse } from '../utils';
 import User from '../../database/models/user';
 
@@ -9,9 +7,9 @@ export default async function (event: any) {
         const user = await User.findOne({ where: { emailVerificationCode } });
 
         if (!user) {
-            return createResponse(400, 'Email verification link is invalid');
+            return createResponse(400, 'Invalid link');
         } else if (user.emailVerificationExpiration < new Date()) {
-            return createResponse(400, 'Email verification link has expired');
+            return createResponse(400, 'Link expired');
         } else {
             await user.update({
                 isEmailVerified: true,
