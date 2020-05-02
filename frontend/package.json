@@ -11,7 +11,7 @@
         "build:prod": "ionic build --configuration=production"
     },
     "dependencies": {
-        "@angular/animations": "^9.1.3",
+        "@angular/animations": "^9.1.4",
         "@angular/cdk": "^9.2.1",
         "@angular/common": "^9.1.3",
         "@angular/core": "^9.1.3",
@@ -30,6 +30,7 @@
         "builtin-status-codes": "^3.0.0",
         "hammerjs": "^2.0.8",
         "lodash": "^4.17.15",
+        "ngx-toastr": "^12.0.1",
         "protractor": "^5.4.4",
         "querystring": "^0.2.0",
         "rxjs": "^6.5.5",
