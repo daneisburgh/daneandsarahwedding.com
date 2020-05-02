@@ -17,7 +17,7 @@ export default async function (event: any) {
 
         if (!validator.isEmail(email)) {
             return createResponse(400, 'Invalid Email');
-        } else if ((await User.findOne({ where: { email } }))) {
+        } else if (user.email !== email && (await User.findOne({ where: { email } }))) {
             return createResponse(400, 'Email is Taken');
         } else {
             const expirationDays = 7;
