@@ -7,7 +7,7 @@ html
             | Hi #{user.name},
         p 
             | Please confirm your email by clicking the link bellow.
-            | Note that the link is only valid until #{expirationDate}.
+            | Note that the link is only valid for #{expirationHours} hours.
         p
             button(onclick=`window.open('${confirmationUrl}', '_blank')`) Confirm Email
         p

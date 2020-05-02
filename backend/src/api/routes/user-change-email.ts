@@ -20,8 +20,8 @@ export default async function (event: any) {
         } else if (user.email !== email && (await User.findOne({ where: { email } }))) {
             return createResponse(400, 'Email is Taken');
         } else {
-            const expirationDays = 7;
-            const emailConfirmationTokenExpiration = getTokenExpiration(expirationDays);
+            const expirationHours = 24;
+            const emailConfirmationTokenExpiration = getTokenExpiration(expirationHours);
 
             await user.update({
                 email,
@@ -31,7 +31,7 @@ export default async function (event: any) {
             });
 
             await sendEmail('email-confirmation', user, {
-                expirationDate: emailConfirmationTokenExpiration.toLocaleDateString(),
+                expirationHours,
                 confirmationUrl: `${process.env.CLIENT_URL}?emailConfirmationToken=${user.emailConfirmationToken}`
             });
 

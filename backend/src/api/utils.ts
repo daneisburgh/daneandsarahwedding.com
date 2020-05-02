@@ -36,8 +36,8 @@ export async function getRandomToken(tokenKey: string): Promise<string> {
     }
 }
 
-export function getTokenExpiration(days: number) {
+export function getTokenExpiration(hours: number) {
     const date = new Date();
-    date.setDate(date.getDate() + days);
+    date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
     return date;
 }
