@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
-import { ToastOptions } from '@ionic/core';
-import { MenuController, ToastController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
+import { ToastrService } from 'ngx-toastr';
 import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -26,13 +26,11 @@ export class UtilsService {
     public subjectRouteChange = new Subject<NavigationEnd>();
     public get isMobile() { return window.innerWidth < 992; }
 
-    private toast: HTMLIonToastElement;
-
     constructor(
         private menuController: MenuController,
         private router: Router,
         private title: Title,
-        private toastController: ToastController) {
+        private toastr: ToastrService) {
         this.watchRoute();
     }
 
@@ -48,22 +46,23 @@ export class UtilsService {
         return `/gallery/${path}`;
     }
 
-    public async presentToast(color: 'success' | 'danger', message: string) {
-        const toastOptions: ToastOptions = {
-            color,
-            message,
-            position: 'top',
-            duration: 5000
-        };
-
-        if (this.toast) {
-            await this.toast.onDidDismiss();
+    public toast(status: 'success' | 'warning' | 'error', title: string, message?: string) {
+        switch (status) {
+            case 'success':
+                this.toastr.success(message, title);
+                break;
+            case 'warning':
+                this.toastr.warning(message, title);
+                break;
+            case 'error':
+                this.toastr.error(message, title);
+                break;
         }
+    }
 
-        this.toast = await this.toastController.create(toastOptions);
-        await this.toast.present();
-        await this.toast.onDidDismiss();
-        this.toast = undefined;
+    public toastBadRequest() {
+        this.toast('error', 'Bad request',
+            'Please <a href="mailto:hello@daneandsarahwedding.com" target="_blank">contact us</a> if error persists');
     }
 
     private watchRoute() {
