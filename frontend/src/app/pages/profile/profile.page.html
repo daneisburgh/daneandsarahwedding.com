@@ -24,7 +24,7 @@
                 <ion-row>
                     <ion-col size="12" size-lg="6">
                         <ion-card color="light">
-                            <ion-card-header>
+                            <ion-card-header color="primary">
                                 <ion-card-title>RSVP</ion-card-title>
                             </ion-card-header>
                             <ion-card-content>
@@ -42,18 +42,44 @@
                         </ion-card>
                     </ion-col>
                     <ion-col size="12" size-lg="6">
-                        <ion-card color="light">
-                            <ion-card-header>
-                                <ion-card-title>Email</ion-card-title>
+                        <ion-card color="light" lines="none">
+                            <ion-card-header color="primary" class="email">
+                                <ion-card-title>
+                                    Email
+                                    <ion-icon *ngIf="displayChangeEmail" name="save" class="save"
+                                        (click)="resendEmailVerification(email)"></ion-icon>
+                                    <ion-icon *ngIf="displayChangeEmail" name="close" class="close"
+                                        (click)="toggleDisplayChangEmail()"></ion-icon>
+                                    <ion-icon *ngIf="!displayChangeEmail" name="create" class="create"
+                                        (click)="toggleDisplayChangEmail()"></ion-icon>
+                                </ion-card-title>
                             </ion-card-header>
-                            <ion-card-content>
+                            <ion-card-content class="email-verification">
+                                <ion-item color="light" lines="none">
+                                    <ion-label *ngIf="!displayChangeEmail">{{user.email}}</ion-label>
+                                    <ion-input *ngIf="displayChangeEmail" type="text" placeholder="Input new email"
+                                        [(ngModel)]="email" [disabled]="resendingEmailVerification"
+                                        (keydown)="changeEmailKeyDown($event)"></ion-input>
+                                    <ion-text *ngIf="!resendingEmailVerification" slot="end">
+                                        <a *ngIf="!displayChangeEmail && !user.isEmailVerified"
+                                            (click)="resendEmailVerification()">
+                                            Resend <span *ngIf="!isMobile">Verification</span>
+                                        </a>
+                                        <span *ngIf="!displayChangeEmail && user.isEmailVerified"
+                                            class="email-verified">Verified</span>
+                                        <span *ngIf="changeEmailErrorMessage" class="email-change-error">
+                                            {{changeEmailErrorMessage}}
+                                        </span>
+                                    </ion-text>
+                                    <ion-spinner *ngIf="resendingEmailVerification" slot="end"></ion-spinner>
+                                </ion-item>
                             </ion-card-content>
                         </ion-card>
                     </ion-col>
                     <ion-col size="12" size-lg="6">
                         <ion-card color="light">
-                            <ion-card-header>
-                                <ion-card-title>Info</ion-card-title>
+                            <ion-card-header color="primary">
+                                <ion-card-title>Accommodations and Transportation</ion-card-title>
                             </ion-card-header>
                             <ion-card-content>
                                 <ion-item color="light" lines="none">
@@ -64,8 +90,8 @@
                                         <ion-select-option [value]="false">No</ion-select-option>
                                     </ion-select>
                                 </ion-item>
-                                <ion-item color="light" lines="none" [disabled]="!user.requiresAccommodations">
-                                    <ion-label>How many rooms will you need?</ion-label>
+                                <ion-item color="light" lines="none">
+                                    <ion-label>How many rooms will you require?</ion-label>
                                     <ion-select placeholder="Select" [disabled]="disableInputs">
                                         <ion-select-option *ngFor="let option of roomOptions" [value]="option">
                                             {{option}}
@@ -85,7 +111,7 @@
                     </ion-col>
                     <ion-col size="12" size-lg="6">
                         <ion-card color="light">
-                            <ion-card-header>
+                            <ion-card-header color="primary">
                                 <ion-card-title>Guests</ion-card-title>
                             </ion-card-header>
                             <ion-card-content>

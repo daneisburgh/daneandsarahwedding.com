@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
-import { ToastOptions } from '@ionic/core';
-import { MenuController, ToastController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
+import { ToastrService } from 'ngx-toastr';
 import { filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -30,7 +30,7 @@ export class UtilsService {
         private menuController: MenuController,
         private router: Router,
         private title: Title,
-        private toastController: ToastController) {
+        private toastr: ToastrService) {
         this.watchRoute();
     }
 
@@ -46,16 +46,23 @@ export class UtilsService {
         return `/gallery/${path}`;
     }
 
-    public async presentToast(color: string, header: string, message?: string) {
-        const toastOptions: ToastOptions = {
-            color,
-            header,
-            message,
-            position: 'top',
-            duration: 60000
-        };
+    public toast(status: 'success' | 'warning' | 'error', title: string, message?: string) {
+        switch (status) {
+            case 'success':
+                this.toastr.success(message, title);
+                break;
+            case 'warning':
+                this.toastr.warning(message, title);
+                break;
+            case 'error':
+                this.toastr.error(message, title);
+                break;
+        }
+    }
 
-        (await this.toastController.create(toastOptions)).present();
+    public toastBadRequest() {
+        this.toast('error', 'Bad request',
+            'Please <a href="mailto:hello@daneandsarahwedding.com" target="_blank">contact us</a> if error persists');
     }
 
     private watchRoute() {

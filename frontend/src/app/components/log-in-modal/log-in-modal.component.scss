@@ -1,47 +1,7 @@
-@import "../../../styles/variables.scss";
+ion-row.forgot-password {
+    margin: -4px 0 10px 0;
 
-.modal-inner {
-    width: 100%;
-    margin-top: 8px;
-
-    @media screen and (min-width: $min-width-medium) {
-        width: 400px;
-        margin-top: 14px;
+    a {
+        margin-right: 24px;
     }
-
-    @media screen and (min-width: $min-width-large) {
-        margin-top: -10px;
-    }
-}
-
-ion-buttons.close {
-    margin-right: 10px;
-}
-
-ion-item {
-    width: 100%;
-    padding: 0;
-    --highlight-background: var(--ion-color-primary) !important;
-
-    @media screen and (min-width: $min-width-medium) {
-        width: 90%;
-        margin-right: 4px;
-    }
-}
-
-.forgot-password {
-    cursor: pointer;
-    margin-right: 12px;
-
-    &:hover {
-        text-decoration: underline;
-    }
-}
-
-.submit {
-    margin: 0 0 0 12px;
-}
-
-.message {
-    margin: 4px 0 0 20px;
 }

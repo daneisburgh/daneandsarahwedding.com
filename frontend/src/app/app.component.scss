@@ -36,18 +36,10 @@ ion-buttons {
 
     &.log-in-profile {
         ion-button.log-in {
-            margin-right: -6px;
-    
+            margin-right: 0;
+
             ion-icon {
-                margin-right: 0;
-            }
-    
-            @media screen and (min-width: $min-width-large) {
-                margin-right: 0;
-    
-                ion-icon {
-                    margin-right: 6px;
-                }
+                margin-right: 6px;
             }
         }
     }

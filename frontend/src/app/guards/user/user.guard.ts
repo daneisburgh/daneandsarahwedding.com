@@ -14,11 +14,14 @@ export class UserGuard implements CanActivate {
 
     public async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         try {
-            if (this.userService.user) {
-                return true;
+            if (!this.userService.user) {
+                await this.userService.logIn();
             }
 
-            await this.userService.logIn();
+            if (!this.userService.user.email) {
+                throw Error();
+            }
+
             return true;
         } catch (error) {
             await this.router.navigate(['/error', 401]);

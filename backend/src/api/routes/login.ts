@@ -1,53 +1,34 @@
 import bcrypt from 'bcryptjs';
-import { pick } from 'lodash';
 
-import { createResponse, getRequestBody, createToken, verifyToken } from '../utils';
+import { getRequestBody, getUserFromToken, createResponse, createUserResponse } from '../utils';
 import User from '../../database/models/user';
 
 export default async function (event: any) {
     try {
         const body = getRequestBody(event);
-        const { password, token } = body;
-        let { username } = body;
+        const { token, username, password } = body;
+        let user: User | null;
 
         if (token) {
             try {
-                const decoded = verifyToken(token);
-                username = decoded.username;
+                user = await getUserFromToken(token);
             } catch {
-                return createResponse(401, 'Invalid Token');
+                return createResponse(401, 'Invalid token');
             }
+        } else {
+            user = await User.findByPk(username);
         }
-
-        const user = await User.findOne({ where: { username: (username ? username : '') } });
 
         if (!user) {
-            return createResponse(401, 'Invalid Username');
-        }
-
-        if (!token && (
+            return createResponse(401, 'Invalid username');
+        } else if (!token && (
             (!user.isPasswordHashed && password !== user.password) ||
             (user.isPasswordHashed && !bcrypt.compareSync(password as string, user.password))
         )) {
-            return createResponse(401, 'Invalid Password');
+            return createResponse(401, 'Invalid password');
+        } else {
+            return createResponse(200, createUserResponse(user));
         }
-
-        return createResponse(200, {
-            token: createToken(username),
-            user: pick(user, [
-                'username',
-                'name',
-                'email',
-                'isEmailConfirmed',
-                'guests',
-                'maxGuests',
-                'isAdmin',
-                'isAttending',
-                'requiresAccommodations',
-                'totalRequiredRooms',
-                'requiresTransportation'
-            ])
-        });
     } catch (error) {
         console.error(error);
         return createResponse(500);

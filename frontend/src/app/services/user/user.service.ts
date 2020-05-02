@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 
+import { UtilsService } from '../utils/utils.service';
 import { environment } from '../../../environments/environment';
 
 interface User {
@@ -10,7 +11,8 @@ interface User {
     name: string;
     address: string;
     email: string;
-    isEmailConfirmed: boolean;
+    emailVerificationExpiration: Date;
+    isEmailVerified: boolean;
     guests: string[];
     maxGuests: number;
     isAdmin: boolean;
@@ -20,12 +22,16 @@ interface User {
     requiresTransportation: boolean;
 }
 
-interface LogInResponse {
+interface UserResponse {
     user: User,
     token: string
 }
 
 const TOKEN_KEY = 'userJWT';
+
+export const LOG_IN_ERRORS = ['Invalid username', 'Invalid password'];
+export const CHANGE_EMAIL_ERRORS = ['Invalid email', 'Email not changed', 'Email is taken'];
+export const VERIFY_EMAIL_ERRORS = ['Invalid link', 'Link expired'];
 
 @Injectable({
     providedIn: 'root'
@@ -36,33 +42,26 @@ export class UserService {
     constructor(
         private httpClient: HttpClient,
         private router: Router,
-        private storage: Storage
+        private storage: Storage,
+        private utilsService: UtilsService
     ) { }
 
-    public async logIn(body?: object) {
+    private async apiPost(route: string, body: object) {
         try {
-            if (!body) {
-                const token = await this.storage.get(TOKEN_KEY);
-
-                if (!token) {
-                    throw new Error('Missing log in body and token');
-                }
-
-                body = { token };
-            }
-
-            const url = `${environment.apiUrl}/login`;
-            console.log('REQUEST logIn', url, body);
-            const response = await this.httpClient.post<LogInResponse>(url, body).toPromise();
-            console.log('RESPONSE logIn', response);
-
+            console.log('REQUEST', route, body);
+            body = { ...body, token: await this.storage.get(TOKEN_KEY) };
+            const response = await this.httpClient.post<UserResponse>(`${environment.apiUrl}/${route}`, body).toPromise();
+            console.log('RESPONSE', route, response);
             await this.storage.set(TOKEN_KEY, response.token);
             this.user = response.user;
         } catch (error) {
-            await this.storage.remove(TOKEN_KEY);
             console.error(error);
             throw error;
         }
+    }
+
+    public async logIn(credentials?: object) {
+        await this.apiPost('login', credentials);
     }
 
     public async logOut() {
@@ -74,10 +73,30 @@ export class UserService {
         this.user = undefined;
     }
 
-    public async update() {
-        const url = `${environment.apiUrl}/update`;
-        const body = { token: await this.storage.get(TOKEN_KEY), user: this.user };
-        console.log('REQUEST update', url, body);
-        await this.httpClient.post(url, body).toPromise();
+    public async update(updatedColumns: object) {
+        await this.apiPost('user-profile-update', { updatedColumns });
+    }
+
+    public async changeEmail(email: string) {
+        await this.apiPost('user-email-change', { email });
+        this.utilsService.toast('success', 'Email verification sent',
+            'Please check your inbox and spam folders for an email with a link to verify your email address');
+    }
+
+    public async verifyEmail(emailVerificationCode: string) {
+        try {
+            await this.apiPost('user-email-verify', { emailVerificationCode });
+            this.utilsService.toast('success', 'Email verified', 'Thank you for verifying your email');
+        } catch (error) {
+            console.error(error);
+
+            if (VERIFY_EMAIL_ERRORS.includes(error.error)) {
+                this.utilsService.toast('error', error.error, 'Please resend email verification link from your profile');
+            } else {
+                this.utilsService.toastBadRequest();
+            }
+        } finally {
+            this.router.navigate([(this.user ? '/profile' : '/home')]);
+        }
     }
 }

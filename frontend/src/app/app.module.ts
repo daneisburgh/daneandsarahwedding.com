@@ -8,12 +8,14 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { GalleryPopoverComponent } from './components/gallery-popover/gallery-popover.component';
 import { ProfilePopoverComponent } from './components/profile-popover/profile-popover.component';
+import { ChangeEmailModalComponent } from './components/change-email-modal/change-email-modal.component';
 import { LogInModalComponent } from './components/log-in-modal/log-in-modal.component';
 
 import { UserService } from './services/user/user.service';
@@ -30,6 +32,12 @@ import { UserGuard } from './guards/user/user.guard';
         HttpClientModule,
         IonicModule.forRoot(),
         IonicStorageModule.forRoot(),
+        ToastrModule.forRoot({
+            disableTimeOut: true,
+            closeButton: true,
+            tapToDismiss: false,
+            preventDuplicates: true
+        }),
         AppRoutingModule
     ],
     providers: [
@@ -45,11 +53,13 @@ import { UserGuard } from './guards/user/user.guard';
         AppComponent,
         GalleryPopoverComponent,
         ProfilePopoverComponent,
+        ChangeEmailModalComponent,
         LogInModalComponent
     ],
     entryComponents: [
         GalleryPopoverComponent,
         ProfilePopoverComponent,
+        ChangeEmailModalComponent,
         LogInModalComponent
     ],
     bootstrap: [

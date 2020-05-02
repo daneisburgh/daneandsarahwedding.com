@@ -27,11 +27,12 @@ export const userColumns = {
         allowNull: false,
         defaultValue: false
     },
-    passwordResetToken: {
+    passwordResetCode: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        unique: true
     },
-    passwordResetTokenExpiration: {
+    passwordResetExpiration: {
         type: DataTypes.DATE,
         allowNull: true
     },
@@ -43,15 +44,16 @@ export const userColumns = {
             isEmail: true
         }
     },
-    emailConfirmationToken: {
+    emailVerificationCode: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        unique: true
     },
-    emailConfirmationTokenExpiration: {
+    emailVerificationExpiration: {
         type: DataTypes.DATE,
         allowNull: true
     },
-    isEmailConfirmed: {
+    isEmailVerified: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false
@@ -88,12 +90,12 @@ export const userColumns = {
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: new Date
+        defaultValue: new Date()
     },
     updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: new Date
+        defaultValue: new Date()
     }
 };
 
@@ -103,12 +105,12 @@ class User extends Model {
     public address!: string;
     public password!: string;
     public isPasswordHashed!: boolean;
-    public passwordResetToken!: string;
-    public passwordResetTokenExpiration!: Date;
+    public passwordResetCode!: string;
+    public passwordResetExpiration!: Date;
     public email!: string;
-    public emailConfirmationToken!: string;
-    public emailConfirmationTokenExpiration!: Date;
-    public isEmailConfirmed!: boolean;
+    public emailVerificationCode!: string;
+    public emailVerificationExpiration!: Date;
+    public isEmailVerified!: boolean;
     public guests!: object;
     public maxGuests!: number;
     public isAdmin!: boolean;
@@ -131,12 +133,12 @@ User.beforeCreate(async (user: User) => {
 });
 
 User.beforeUpdate(async (user: User) => {
-    user.updatedAt = new Date;
+    user.updatedAt = new Date();
     
-    if (user.changed('password')) {
-        user.password = bcrypt.hashSync(user.password, 10);
-        user.isPasswordHashed = true;
-    }
+    // if (user.changed('password')) {
+    //     user.password = bcrypt.hashSync(user.password, 10);
+    //     user.isPasswordHashed = true;
+    // }
 });
 
 export default User;

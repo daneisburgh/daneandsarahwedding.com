@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Platform, ModalController, PopoverController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import * as querystring from 'querystring';
 
 import { GalleryPopoverComponent } from './components/gallery-popover/gallery-popover.component';
 import { ProfilePopoverComponent } from './components/profile-popover/profile-popover.component';
@@ -22,7 +23,6 @@ export class AppComponent {
     public get user() { return this.userService.user; }
     public get appTitle() { return this.utilsService.appTitle };
     public get isMobile() { return this.utilsService.isMobile; }
-    public get logInOutButtonFill() { return this.utilsService.isMobile ? 'clear' : 'outline'; }
 
     constructor(
         public router: Router,
@@ -47,18 +47,28 @@ export class AppComponent {
     }
 
     public async presentLogInModal() {
-        (await this.modalController.create({ component: LogInModalComponent })).present();
+        (await this.modalController.create({
+            component: LogInModalComponent,
+            cssClass: 'app-log-in-modal'
+        })).present();
     }
 
     private async initializeApp() {
-        await this.userService.logIn().catch(_ => { });
-        await this.platform.ready();
+        await this.userService.logIn().catch(() => { });
 
-        if (this.platform.is('cordova')) {
-            this.statusBar.styleDefault();
-            this.splashScreen.hide();
+        if (this.user && !this.user.email) {
+            await this.userService.logOut();
         }
 
+        await this.platform.ready();
+        this.statusBar.styleDefault();
+        this.splashScreen.hide();
         this.isReady = true;
+
+        const { emailVerificationCode } = querystring.parse(window.location.search.replace('?', ''));
+
+        if (emailVerificationCode) {
+            await this.userService.verifyEmail(emailVerificationCode as string);
+        }
     }
 }

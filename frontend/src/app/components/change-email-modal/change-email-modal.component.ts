@@ -2,23 +2,22 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
-import { UserService, LOG_IN_ERRORS } from '../../services/user/user.service';
+import { UserService, CHANGE_EMAIL_ERRORS } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
-import { ChangeEmailModalComponent } from '../change-email-modal/change-email-modal.component';
 
 @Component({
-    selector: 'app-log-in-modal',
-    templateUrl: './log-in-modal.component.html',
-    styleUrls: ['./log-in-modal.component.scss'],
+    selector: 'app-change-email-modal',
+    templateUrl: './change-email-modal.component.html',
+    styleUrls: ['./change-email-modal.component.scss'],
 })
-export class LogInModalComponent {
-    public username: string;
-    public password: string;
+export class ChangeEmailModalComponent {
+    public email: string;
     public errorMessage: string;
     public isSubmitting = false;
 
     public get user() { return this.userService.user; }
     public get isMobile() { return this.utilsService.isMobile; }
+    public get title() { return this.user.email ? 'Change Email' : 'Add Email'; }
 
     private modal: HTMLIonModalElement;
 
@@ -36,28 +35,16 @@ export class LogInModalComponent {
     }
 
     public async submit() {
-        this.isSubmitting = true;
         this.errorMessage = undefined;
+        this.isSubmitting = true;
 
         try {
-            await this.userService.logIn({ username: this.username, password: this.password });
-
-            if (this.user.email) {
-                const route = this.user.isAdmin ? '/users' : '/profile';
-                await this.router.navigate([route]);
-            } else {
-                const changeEmailModal = await this.modalController.create({
-                    component: ChangeEmailModalComponent,
-                    cssClass: 'app-change-email-modal add-email'
-                });
-                await changeEmailModal.present();
-                await changeEmailModal.onWillDismiss();
-            }
-
-            this.modal.dismiss();
+            await this.userService.changeEmail(this.email);
+            await this.router.navigate(['/profile'], { state: { doNotDisplayEmailVerificationWarning: true } });
+            this.dismiss();
         } catch (error) {
             console.error(error);
-            this.errorMessage = LOG_IN_ERRORS.includes(error.error) ? error.error : 'Bad request';
+            this.errorMessage = CHANGE_EMAIL_ERRORS.includes(error.error) ? error.error : 'Bad request';
         } finally {
             setTimeout(() => {
                 this.isSubmitting = false;
@@ -72,8 +59,6 @@ export class LogInModalComponent {
             this.submit();
         }
     }
-
-    public presentResetPasswordModal() { }
 
     private async getModal() {
         this.modal = await this.modalController.getTop();

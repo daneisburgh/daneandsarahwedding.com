@@ -14,12 +14,6 @@ export class AdminGuard implements CanActivate {
 
     public async canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         try {
-            if (this.userService.user && this.userService.user.isAdmin) {
-                return true;
-            }
-
-            await this.userService.logIn();
-
             if (!this.userService.user.isAdmin) {
                 throw new Error();
             }
