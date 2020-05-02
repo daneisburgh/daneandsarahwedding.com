@@ -20,6 +20,10 @@
 ion-select,
 ion-text.email-verification {
     font-weight: bold;
+
+    .verified {
+        color: var(--ion-color-success);
+    }
 }
 
 ion-card-content {

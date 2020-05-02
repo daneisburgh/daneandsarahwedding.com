@@ -51,7 +51,7 @@
                                     <ion-label>{{user.email}}</ion-label>
                                     <br *ngIf="isMobile">
                                     <ion-text *ngIf="!resendingEmailVerification" slot="end" class="email-verification">
-                                        <span *ngIf="user.isEmailVerified">Verified</span>
+                                        <span *ngIf="user.isEmailVerified" class="verified">Verified</span>
                                         <a *ngIf="!user.isEmailVerified" (click)="resendEmailVerification()">
                                             Resend <span *ngIf="!isMobile">Verification</span>
                                         </a>
