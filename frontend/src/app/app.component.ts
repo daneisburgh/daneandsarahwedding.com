@@ -68,7 +68,7 @@ export class AppComponent {
         const { emailVerificationCode } = querystring.parse(window.location.search.replace('?', ''));
 
         if (emailVerificationCode) {
-            await this.userService.confirmEmail(emailVerificationCode as string);
+            await this.userService.verifyEmail(emailVerificationCode as string);
         }
     }
 }
