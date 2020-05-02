@@ -59,7 +59,7 @@ export class ProfilePage {
         this.utilsService.setTitle(this.user.name);
 
         if (!this.user.isEmailVerified) {
-            this.utilsService.presentToast('danger', 'Please verify your email address to receive important updates');
+            this.utilsService.toast('warning', 'Email address is not verified', 'Please verify your email address to receive important updates');
         }
 
         for (let i = 1; i <= this.user.maxGuests; i++) {
@@ -83,7 +83,7 @@ export class ProfilePage {
             await this.userService.update({ isAttending: event.detail.value });
         } catch (error) {
             console.error(error);
-            this.presentUpdateErrorToast();
+            this.utilsService.toastBadRequest();
         } finally {
             setTimeout(() => {
                 this.updatingIsAttending = false;
@@ -97,7 +97,7 @@ export class ProfilePage {
             await this.userService.update({ requiresAccommodations: event.detail.value });
         } catch (error) {
             console.error(error);
-            this.presentUpdateErrorToast();
+            this.utilsService.toastBadRequest();
         } finally {
             setTimeout(() => {
                 this.updatingRequiresAccommodations = false;
@@ -111,15 +111,11 @@ export class ProfilePage {
             await this.userService.changeEmail(this.user.email);
         } catch (error) {
             console.error(error);
-            this.utilsService.presentToast('danger', 'Error sending email verification');
+            this.utilsService.toastBadRequest();
         } finally {
             setTimeout(() => {
                 this.resendingEmailVerification = false;
             }, 1000);
         }
-    }
-
-    private presentUpdateErrorToast() {
-        this.utilsService.presentToast('danger', 'Error updating profile info');
     }
 }
