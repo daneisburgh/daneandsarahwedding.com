@@ -6,7 +6,7 @@ html
         p 
             | Hi #{user.name},
         p 
-            | Please verify your email address by clicking the link bellow.
+            | Please verify your email address by clicking the link below.
             | Note that the link is only valid for #{expirationHours} hours.
         p
             button(onclick=`window.open('${verificationUrl}', '_blank')`) Verify Email
