@@ -13,19 +13,19 @@ export default async function (event: any) {
             try {
                 user = await getUserFromToken(token);
             } catch {
-                return createResponse(401, 'Invalid Token');
+                return createResponse(401, 'Invalid token');
             }
         } else {
             user = await User.findByPk(username);
         }
 
         if (!user) {
-            return createResponse(401, 'Invalid Username');
+            return createResponse(401, 'Invalid username');
         } else if (!token && (
             (!user.isPasswordHashed && password !== user.password) ||
             (user.isPasswordHashed && !bcrypt.compareSync(password as string, user.password))
         )) {
-            return createResponse(401, 'Invalid Password');
+            return createResponse(401, 'Invalid password');
         } else {
             return createResponse(200, createUserResponse(user));
         }
