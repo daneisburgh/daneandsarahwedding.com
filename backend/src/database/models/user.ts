@@ -53,7 +53,7 @@ export const userColumns = {
         type: DataTypes.DATE,
         allowNull: true
     },
-    isEmailConfirmed: {
+    isEmailVerified: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false
@@ -110,7 +110,7 @@ class User extends Model {
     public email!: string;
     public emailVerificationCode!: string;
     public emailVerificationExpiration!: Date;
-    public isEmailConfirmed!: boolean;
+    public isEmailVerified!: boolean;
     public guests!: object;
     public maxGuests!: number;
     public isAdmin!: boolean;
