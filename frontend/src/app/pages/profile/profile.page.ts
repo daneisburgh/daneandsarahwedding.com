@@ -59,7 +59,7 @@ export class ProfilePage {
         this.utilsService.setTitle(this.user.name);
 
         if (!this.user.isEmailVerified) {
-            this.utilsService.presentToast('danger', 'Please verify your email to receive important updates');
+            this.utilsService.presentToast('danger', 'Please verify your email address to receive important updates');
         }
 
         for (let i = 1; i <= this.user.maxGuests; i++) {
