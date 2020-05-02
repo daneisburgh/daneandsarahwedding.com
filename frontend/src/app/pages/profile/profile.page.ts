@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { isUndefined } from 'lodash';
 
-import { UserService } from '../../services/user/user.service';
+import { UserService, CHANGE_EMAIL_ERRORS } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
 import { PopoverController } from '@ionic/angular';
 import { DeadlinePopoverComponent } from './deadline-popover/deadline-popover.component';
@@ -16,7 +17,10 @@ export const deadlineString = deadline.toLocaleDateString();
 export class ProfilePage {
     public readonly deadlineMessage = `Profile info can be updated until ${deadlineString}`;
     public roomOptions: number[] = [];
+    public email: string = '';
+    public changeEmailErrorMessage: string;
 
+    public displayChangeEmail = false;
     public updatingIsAttending = false;
     public updatingRequiresAccommodations = false;
     public updatingRequiresTransportation = false;
@@ -58,10 +62,9 @@ export class ProfilePage {
     public ionViewDidEnter() {
         this.utilsService.setTitle(this.user.name);
 
-        console.log(history.state);
-
         if (!history.state.doNotDisplayEmailVerificationWarning && !this.user.isEmailVerified) {
-            this.utilsService.toast('warning', 'Email address is not verified', 'Please verify your email address to receive important updates');
+            this.utilsService.toast('warning', 'Email address is not verified',
+                'Please verify your email address to receive wedding important updates');
         }
 
         for (let i = 1; i <= this.user.maxGuests; i++) {
@@ -107,17 +110,39 @@ export class ProfilePage {
         }
     }
 
-    public async resendEmailVerification() {
+    public async resendEmailVerification(email?: string) {
         try {
             this.resendingEmailVerification = true;
-            await this.userService.changeEmail(this.user.email);
+            await this.userService.changeEmail(!isUndefined(email) ? email : this.user.email);
+            this.changeEmailErrorMessage = undefined;
+            this.displayChangeEmail = false;
+            this.email = '';
         } catch (error) {
             console.error(error);
-            this.utilsService.toastBadRequest();
+
+            if (this.displayChangeEmail && CHANGE_EMAIL_ERRORS.includes(error.error)) {
+                this.changeEmailErrorMessage = error.error;
+            } else {
+                this.utilsService.toastBadRequest();
+            }
         } finally {
             setTimeout(() => {
                 this.resendingEmailVerification = false;
             }, 1000);
         }
+    }
+
+    public changeEmailKeyDown(event: KeyboardEvent) {
+        this.changeEmailErrorMessage = undefined;
+
+        if (event.key === 'Enter') {
+            this.resendEmailVerification(this.email);
+        }
+    }
+
+    public toggleDisplayChangEmail() {
+        this.email = '';
+        this.changeEmailErrorMessage = undefined;
+        this.displayChangeEmail = !this.displayChangeEmail;
     }
 }
