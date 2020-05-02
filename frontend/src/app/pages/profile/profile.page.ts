@@ -58,7 +58,9 @@ export class ProfilePage {
     public ionViewDidEnter() {
         this.utilsService.setTitle(this.user.name);
 
-        if (!this.user.isEmailVerified) {
+        console.log(history.state);
+
+        if (!history.state.doNotDisplayEmailVerificationWarning && !this.user.isEmailVerified) {
             this.utilsService.toast('warning', 'Email address is not verified', 'Please verify your email address to receive important updates');
         }
 

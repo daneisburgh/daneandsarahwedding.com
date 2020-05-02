@@ -47,7 +47,7 @@ export class ChangeEmailModalComponent {
 
         try {
             await this.userService.changeEmail(this.email);
-            await this.router.navigate(['/profile']);
+            await this.router.navigate(['/profile'], { state: { doNotDisplayEmailVerificationWarning: true } });
             this.dismiss();
         } catch (error) {
             console.error(error);
