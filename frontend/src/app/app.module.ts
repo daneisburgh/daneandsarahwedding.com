@@ -8,6 +8,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -31,6 +32,12 @@ import { UserGuard } from './guards/user/user.guard';
         HttpClientModule,
         IonicModule.forRoot(),
         IonicStorageModule.forRoot(),
+        ToastrModule.forRoot({
+            disableTimeOut: true,
+            closeButton: true,
+            tapToDismiss: false,
+            preventDuplicates: true
+        }),
         AppRoutingModule
     ],
     providers: [
