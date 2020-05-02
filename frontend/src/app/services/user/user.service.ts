@@ -29,6 +29,10 @@ interface UserResponse {
 
 const TOKEN_KEY = 'userJWT';
 
+export const LOG_IN_ERRORS = ['Invalid username', 'Invalid password'];
+export const CHANGE_EMAIL_ERRORS = ['Invalid email', 'Email not changed', 'Email is taken'];
+export const VERIFY_EMAIL_ERRORS = ['Invalid link', 'Link expired'];
+
 @Injectable({
     providedIn: 'root'
 })
@@ -82,12 +86,11 @@ export class UserService {
     public async verifyEmail(emailVerificationCode: string) {
         try {
             await this.apiPost('user-email-verify', { emailVerificationCode });
-            this.utilsService.toast('success', 'Email verified', 'Thank you for verifying your email address');
+            this.utilsService.toast('success', 'Email verified', 'Thank you for verifying your email');
         } catch (error) {
             console.error(error);
-            const errors = ['Invalid link', 'Link expired'];
 
-            if (errors.includes(error.error)) {
+            if (VERIFY_EMAIL_ERRORS.includes(error.error)) {
                 this.utilsService.toast('error', error.error, 'Please resend email verification link from your profile');
             } else {
                 this.utilsService.toastBadRequest();
