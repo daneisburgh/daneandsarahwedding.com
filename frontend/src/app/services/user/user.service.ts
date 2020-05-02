@@ -81,7 +81,7 @@ export class UserService {
     public async verifyEmail(emailVerificationCode: string) {
         try {
             await this.apiPost('user-email-verify', { emailVerificationCode });
-            this.utilsService.presentToast('success', 'You email has been verified!');
+            this.utilsService.presentToast('success', 'Thank you for verifying your email address!');
         } catch (error) {
             console.error(error);
             const errors = [
