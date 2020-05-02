@@ -47,8 +47,6 @@ export class ChangeEmailModalComponent {
 
         try {
             await this.userService.changeEmail(this.email);
-            this.user.email = this.email;
-            this.utilsService.presentToast('success', `Email confirmation sent to ${this.email}!`)
             await this.router.navigate(['/profile']);
             this.dismiss();
         } catch (error) {

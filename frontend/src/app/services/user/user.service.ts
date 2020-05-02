@@ -84,13 +84,14 @@ export class UserService {
             token: await this.storage.get(TOKEN_KEY),
             email
         });
+
+        this.user.email = email;
+        this.utilsService.presentToast('success', `Email confirmation sent!`)
     }
 
     public async confirmEmail(emailConfirmationToken: string) {
         try {
-            await this.apiPost('user-confirm-email', {
-                emailConfirmationToken
-            });
+            await this.apiPost('user-confirm-email', { emailConfirmationToken });
             this.utilsService.presentToast('success', 'Email Confirmed!');
         } catch (error) {
             console.error(error);
