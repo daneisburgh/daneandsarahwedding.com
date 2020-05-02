@@ -1,6 +1,6 @@
 import validator from 'validator';
 
-import { createResponse, getRequestBody, getUserFromToken, getRandomToken, getTokenExpiration } from '../utils';
+import { getRequestBody, getUserFromToken, createResponse, createUserResponse, createCodeAndExpiration } from '../utils';
 import User from '../../database/models/user';
 import sendEmail from '../../email';
 
@@ -21,21 +21,22 @@ export default async function (event: any) {
             return createResponse(400, 'Email is Taken');
         } else {
             const expirationHours = 24;
-            const emailVerificationExpiration = getTokenExpiration(expirationHours);
+            const { code, expiration } = await createCodeAndExpiration('emailVerificationCode', expirationHours);
 
             await user.update({
                 email,
-                emailVerificationCode: await getRandomToken('emailVerificationCode'),
-                emailVerificationExpiration,
-                isEmailConfirmed: false
+                emailVerificationCode: code,
+                emailVerificationExpiration: expiration,
+                isEmailVerified: false
             });
 
             await sendEmail('email-verification', user, {
+                code,
                 expirationHours,
-                verificationUrl: `${process.env.CLIENT_URL}?emailVerificationCode=${user.emailVerificationCode}`
+                verificationUrl: `${process.env.CLIENT_URL}?emailVerificationCode=${code}`
             });
 
-            return createResponse(200);
+            return createResponse(200, createUserResponse(user));
         }
     } catch (error) {
         console.error(error);

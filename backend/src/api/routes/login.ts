@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs';
-import { pick } from 'lodash';
 
-import { createResponse, getRequestBody, createTokenFromUsername, getUserFromToken } from '../utils';
+import { getRequestBody, getUserFromToken, createResponse, createUserResponse } from '../utils';
 import User from '../../database/models/user';
 
 export default async function (event: any) {
@@ -28,23 +27,7 @@ export default async function (event: any) {
         )) {
             return createResponse(401, 'Invalid Password');
         } else {
-            return createResponse(200, {
-                token: createTokenFromUsername(user.username),
-                user: pick(user, [
-                    'username',
-                    'name',
-                    'email',
-                    'emailVerificationExpiration',
-                    'isEmailConfirmed',
-                    'guests',
-                    'maxGuests',
-                    'isAdmin',
-                    'isAttending',
-                    'requiresAccommodations',
-                    'totalRequiredRooms',
-                    'requiresTransportation'
-                ])
-            });
+            return createResponse(200, createUserResponse(user));
         }
     } catch (error) {
         console.error(error);

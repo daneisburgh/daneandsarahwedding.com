@@ -1,6 +1,6 @@
 import validator from 'validator';
 
-import { createResponse, getRequestBody } from '../utils';
+import { getRequestBody, createResponse, createUserResponse } from '../utils';
 import User from '../../database/models/user';
 
 export default async function (event: any) {
@@ -14,12 +14,12 @@ export default async function (event: any) {
             return createResponse(400, 'Email verification link has expired');
         } else {
             await user.update({
-                isEmailConfirmed: true,
+                isEmailVerified: true,
                 emailVerificationCode: null,
                 emailVerificationExpiration: null
             });
 
-            return createResponse(200);
+            return createResponse(200, createUserResponse(user));
         }
     } catch (error) {
         console.error(error);

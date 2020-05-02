@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { get } from 'lodash';
+import { get, pick } from 'lodash';
 import User from '../database/models/user';
 
 const API_KEY = process.env.API_KEY as string;
@@ -12,8 +12,24 @@ export function createResponse(statusCode: number, body?: any) {
     return { statusCode, body: JSON.stringify(body) };
 }
 
-export function createTokenFromUsername(username: string) {
-    return jwt.sign({ username }, API_KEY, { expiresIn: '1 week' });
+export function createUserResponse(user: User) {
+    return {
+        token: jwt.sign({ username: user.username }, API_KEY, { expiresIn: '1 week' }),
+        user: pick(user, [
+            'username',
+            'name',
+            'email',
+            'emailVerificationExpiration',
+            'isEmailVerified',
+            'guests',
+            'maxGuests',
+            'isAdmin',
+            'isAttending',
+            'requiresAccommodations',
+            'totalRequiredRooms',
+            'requiresTransportation'
+        ])
+    };
 }
 
 export async function getUserFromToken(token: string) {
@@ -26,18 +42,14 @@ export async function getUserFromToken(token: string) {
     return user;
 }
 
-export async function getRandomToken(tokenKey: string): Promise<string> {
-    const token = Math.random().toString(36).substring(2);
+export async function createCodeAndExpiration(codeKey: string, expirationHours: number): Promise<any> {
+    const code = Math.random().toString(36).slice(2).substring(0, 5).toUpperCase();
 
-    if (await User.findOne({ where: { [tokenKey]: token } })) {
-        return await getRandomToken(tokenKey);
+    if (await User.findOne({ where: { [codeKey]: code } })) {
+        return await createCodeAndExpiration(codeKey, expirationHours);
     } else {
-        return token;
+        const expiration = new Date();
+        expiration.setTime(expiration.getTime() + (expirationHours * 60 * 60 * 1000));
+        return { code, expiration };
     }
-}
-
-export function getTokenExpiration(hours: number) {
-    const date = new Date();
-    date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
-    return date;
 }

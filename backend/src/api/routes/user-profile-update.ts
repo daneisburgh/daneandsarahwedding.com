@@ -1,12 +1,11 @@
 import { pick } from 'lodash';
 
-import { createResponse, getRequestBody, getUserFromToken } from '../utils';
+import { getRequestBody, getUserFromToken, createResponse, createUserResponse } from '../utils';
 import User from '../../database/models/user';
 
 export default async function (event: any) {
     try {
-        const { token, updatedUser } = getRequestBody(event);
-        console.log(token, updatedUser);
+        const { token, updatedColumns } = getRequestBody(event);
         let user: User;
 
         try {
@@ -15,7 +14,7 @@ export default async function (event: any) {
             return createResponse(401, 'Invalid Token');
         }
 
-        await user.update(pick(updatedUser, [
+        await user.update(pick(updatedColumns, [
             'guests',
             'isAttending',
             'requiresAccommodations',
@@ -23,7 +22,7 @@ export default async function (event: any) {
             'requiresTransportation'
         ]));
 
-        return createResponse(200);
+        return createResponse(200, createUserResponse(user));
     } catch (error) {
         console.error(error);
         return createResponse(500);
