@@ -42,7 +42,7 @@
                         <ion-text *ngIf="isSubmitting" class="submit-message">
                             <ion-spinner></ion-spinner>
                         </ion-text>
-                        <ion-text *ngIf="!isSubmitting && hasError" class="submit-message" color="danger">
+                        <ion-text *ngIf="!isSubmitting && errorMessage" class="submit-message" color="danger">
                             {{errorMessage}}
                         </ion-text>
                     </ion-col>

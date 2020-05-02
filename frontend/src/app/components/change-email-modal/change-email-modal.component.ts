@@ -2,13 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
-import { UserService } from '../../services/user/user.service';
+import { UserService, CHANGE_EMAIL_ERRORS } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
-
-const emailErrors = [
-    'Invalid Email',
-    'Email is Taken'
-];
 
 @Component({
     selector: 'app-change-email-modal',
@@ -18,9 +13,7 @@ const emailErrors = [
 export class ChangeEmailModalComponent {
     public email: string;
     public errorMessage: string;
-
     public isSubmitting = false;
-    public hasError = false;
 
     public get user() { return this.userService.user; }
     public get isMobile() { return this.utilsService.isMobile; }
@@ -42,7 +35,7 @@ export class ChangeEmailModalComponent {
     }
 
     public async submit() {
-        this.hasError = false;
+        this.errorMessage = undefined;
         this.isSubmitting = true;
 
         try {
@@ -51,8 +44,7 @@ export class ChangeEmailModalComponent {
             this.dismiss();
         } catch (error) {
             console.error(error);
-            this.hasError = true;
-            this.errorMessage = emailErrors.includes(error.error) ? error.error : 'Bad Request';
+            this.errorMessage = CHANGE_EMAIL_ERRORS.includes(error.error) ? error.error : 'Bad request';
         } finally {
             setTimeout(() => {
                 this.isSubmitting = false;
@@ -61,7 +53,7 @@ export class ChangeEmailModalComponent {
     }
 
     public keyDown(event: KeyboardEvent) {
-        this.hasError = false;
+        this.errorMessage = undefined;
 
         if (event.key === 'Enter') {
             this.submit();

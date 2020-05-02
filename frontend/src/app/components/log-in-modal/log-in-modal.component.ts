@@ -2,14 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
-import { UserService } from '../../services/user/user.service';
+import { UserService, LOG_IN_ERRORS } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
 import { ChangeEmailModalComponent } from '../change-email-modal/change-email-modal.component';
-
-const loginErrors = [
-    'Invalid Username',
-    'Invalid Password'
-];
 
 @Component({
     selector: 'app-log-in-modal',
@@ -20,9 +15,7 @@ export class LogInModalComponent {
     public username: string;
     public password: string;
     public errorMessage: string;
-
     public isSubmitting = false;
-    public hasError = false;
 
     public get user() { return this.userService.user; }
     public get isMobile() { return this.utilsService.isMobile; }
@@ -43,8 +36,8 @@ export class LogInModalComponent {
     }
 
     public async submit() {
-        this.hasError = false;
         this.isSubmitting = true;
+        this.errorMessage = undefined;
 
         try {
             await this.userService.logIn({ username: this.username, password: this.password });
@@ -53,19 +46,18 @@ export class LogInModalComponent {
                 const route = this.user.isAdmin ? '/users' : '/profile';
                 await this.router.navigate([route]);
             } else {
-                const changeEmailModal = await this.modalController.create({ 
+                const changeEmailModal = await this.modalController.create({
                     component: ChangeEmailModalComponent,
                     cssClass: 'app-change-email-modal add-email'
                 });
                 await changeEmailModal.present();
                 await changeEmailModal.onWillDismiss();
             }
-            
+
             this.modal.dismiss();
         } catch (error) {
             console.error(error);
-            this.hasError = true;
-            this.errorMessage = loginErrors.includes(error.error) ? error.error : 'Bad Request';
+            this.errorMessage = LOG_IN_ERRORS.includes(error.error) ? error.error : 'Bad request';
         } finally {
             setTimeout(() => {
                 this.isSubmitting = false;
@@ -74,7 +66,7 @@ export class LogInModalComponent {
     }
 
     public keyDown(event: KeyboardEvent) {
-        this.hasError = false;
+        this.errorMessage = undefined;
 
         if (event.key === 'Enter') {
             this.submit();
