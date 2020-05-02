@@ -5,6 +5,7 @@ services:
     container_name: database
     image: postgres:10.7
     environment:
+      - POSTGRES_DB=${NODE_ENV}
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     expose:
