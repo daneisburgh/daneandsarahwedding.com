@@ -5,18 +5,18 @@ import User from '../../database/models/user';
 
 export default async function (event: any) {
     try {
-        const { emailConfirmationToken } = getRequestBody(event);
-        const user = await User.findOne({ where: { emailConfirmationToken } });
+        const { emailVerificationCode } = getRequestBody(event);
+        const user = await User.findOne({ where: { emailVerificationCode } });
 
         if (!user) {
             return createResponse(400, 'Email confirmation link is invalid');
-        } else if (user.emailConfirmationTokenExpiration < new Date()) {
+        } else if (user.emailVerificationExpiration < new Date()) {
             return createResponse(400, 'Email confirmation link has expired');
         } else {
             await user.update({
                 isEmailConfirmed: true,
-                emailConfirmationToken: null,
-                emailConfirmationTokenExpiration: null
+                emailVerificationCode: null,
+                emailVerificationExpiration: null
             });
 
             return createResponse(200);

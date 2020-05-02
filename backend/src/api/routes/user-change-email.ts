@@ -21,18 +21,18 @@ export default async function (event: any) {
             return createResponse(400, 'Email is Taken');
         } else {
             const expirationHours = 24;
-            const emailConfirmationTokenExpiration = getTokenExpiration(expirationHours);
+            const emailVerificationExpiration = getTokenExpiration(expirationHours);
 
             await user.update({
                 email,
-                emailConfirmationToken: await getRandomToken('emailConfirmationToken'),
-                emailConfirmationTokenExpiration,
+                emailVerificationCode: await getRandomToken('emailVerificationCode'),
+                emailVerificationExpiration,
                 isEmailConfirmed: false
             });
 
             await sendEmail('email-confirmation', user, {
                 expirationHours,
-                confirmationUrl: `${process.env.CLIENT_URL}?emailConfirmationToken=${user.emailConfirmationToken}`
+                confirmationUrl: `${process.env.CLIENT_URL}?emailVerificationCode=${user.emailVerificationCode}`
             });
 
             return createResponse(200);

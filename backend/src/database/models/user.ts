@@ -27,12 +27,12 @@ export const userColumns = {
         allowNull: false,
         defaultValue: false
     },
-    passwordResetToken: {
+    passwordResetCode: {
         type: DataTypes.STRING,
         allowNull: true,
         unique: true
     },
-    passwordResetTokenExpiration: {
+    passwordResetExpiration: {
         type: DataTypes.DATE,
         allowNull: true
     },
@@ -44,12 +44,12 @@ export const userColumns = {
             isEmail: true
         }
     },
-    emailConfirmationToken: {
+    emailVerificationCode: {
         type: DataTypes.STRING,
         allowNull: true,
         unique: true
     },
-    emailConfirmationTokenExpiration: {
+    emailVerificationExpiration: {
         type: DataTypes.DATE,
         allowNull: true
     },
@@ -105,11 +105,11 @@ class User extends Model {
     public address!: string;
     public password!: string;
     public isPasswordHashed!: boolean;
-    public passwordResetToken!: string;
-    public passwordResetTokenExpiration!: Date;
+    public passwordResetCode!: string;
+    public passwordResetExpiration!: Date;
     public email!: string;
-    public emailConfirmationToken!: string;
-    public emailConfirmationTokenExpiration!: Date;
+    public emailVerificationCode!: string;
+    public emailVerificationExpiration!: Date;
     public isEmailConfirmed!: boolean;
     public guests!: object;
     public maxGuests!: number;

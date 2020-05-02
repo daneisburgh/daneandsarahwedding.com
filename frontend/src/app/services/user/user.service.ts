@@ -11,7 +11,7 @@ interface User {
     name: string;
     address: string;
     email: string;
-    emailConfirmationTokenExpiration: Date;
+    emailVerificationExpiration: Date;
     isEmailConfirmed: boolean;
     guests: string[];
     maxGuests: number;
@@ -89,9 +89,9 @@ export class UserService {
         this.utilsService.presentToast('success', `Email confirmation sent!`)
     }
 
-    public async confirmEmail(emailConfirmationToken: string) {
+    public async confirmEmail(emailVerificationCode: string) {
         try {
-            await this.apiPost('user-confirm-email', { emailConfirmationToken });
+            await this.apiPost('user-confirm-email', { emailVerificationCode });
             this.utilsService.presentToast('success', 'Email Confirmed!');
         } catch (error) {
             console.error(error);

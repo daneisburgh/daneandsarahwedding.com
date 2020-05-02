@@ -44,9 +44,9 @@ export class ProfilePage {
     public get user() { return this.userService.user; }
     public get isMobile() { return this.utilsService.isMobile; }
     public get disableInputs() { return Date.now() >= deadline.getTime(); }
-    public get emailConfirmationHasExpired() {
-        return this.user.emailConfirmationTokenExpiration &&
-            this.user.emailConfirmationTokenExpiration < new Date()
+    public get emailVerificationHasExpired() {
+        return this.user.emailVerificationExpiration &&
+            this.user.emailVerificationExpiration < new Date()
     }
 
     constructor(

@@ -65,10 +65,10 @@ export class AppComponent {
         this.splashScreen.hide();
         this.isReady = true;
 
-        const { emailConfirmationToken } = querystring.parse(window.location.search.replace('?', ''));
+        const { emailVerificationCode } = querystring.parse(window.location.search.replace('?', ''));
 
-        if (emailConfirmationToken) {
-            await this.userService.confirmEmail(emailConfirmationToken as string);
+        if (emailVerificationCode) {
+            await this.userService.confirmEmail(emailVerificationCode as string);
         }
     }
 }
