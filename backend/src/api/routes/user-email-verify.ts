@@ -9,9 +9,9 @@ export default async function (event: any) {
         const user = await User.findOne({ where: { emailVerificationCode } });
 
         if (!user) {
-            return createResponse(400, 'Email confirmation link is invalid');
+            return createResponse(400, 'Email verification link is invalid');
         } else if (user.emailVerificationExpiration < new Date()) {
-            return createResponse(400, 'Email confirmation link has expired');
+            return createResponse(400, 'Email verification link has expired');
         } else {
             await user.update({
                 isEmailConfirmed: true,

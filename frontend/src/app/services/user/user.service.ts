@@ -86,7 +86,7 @@ export class UserService {
         });
 
         this.user.email = email;
-        this.utilsService.presentToast('success', `Email confirmation sent!`)
+        this.utilsService.presentToast('success', `Email verification sent!`)
     }
 
     public async confirmEmail(emailVerificationCode: string) {
@@ -96,8 +96,8 @@ export class UserService {
         } catch (error) {
             console.error(error);
             const errors = [
-                'Email confirmation link is invalid',
-                'Email confirmation link has expired'
+                'Email verification link is invalid',
+                'Email verification link has expired'
             ];
             const message = errors.includes(error.error) ? error.error : 'Bad Request';
             this.utilsService.presentToast('danger', message);

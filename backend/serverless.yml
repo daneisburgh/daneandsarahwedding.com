@@ -66,18 +66,18 @@ functions:
           path: /api/login
           method: POST
           cors: true
-  api-user-change-email:
-    handler: build/api/routes/user-change-email.default
+  api-user-email-change:
+    handler: build/api/routes/user-email-change.default
     events:
       - http:
-          path: /api/user-change-email
+          path: /api/user-email-change
           method: POST
           cors: true
-  api-user-confirm-email:
-    handler: build/api/routes/user-confirm-email.default
+  api-user-email-verify:
+    handler: build/api/routes/user-email-verify.default
     events:
       - http:
-          path: /api/user-confirm-email
+          path: /api/user-email-verify
           method: POST
           cors: true
   api-user-profile-update:

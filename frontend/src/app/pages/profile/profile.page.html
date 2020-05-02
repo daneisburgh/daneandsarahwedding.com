@@ -50,7 +50,7 @@
                                 <ion-item color="light" lines="none">
                                     <ion-label>{{user.email}}</ion-label>
                                     <br *ngIf="isMobile">
-                                    <ion-text *ngIf="!resendingEmailConfirmation" slot="end" class="email-confirmation">
+                                    <ion-text *ngIf="!resendingEmailConfirmation" slot="end" class="email-verification">
                                         <span *ngIf="user.isEmailConfirmed">Confirmed</span>
                                         <a *ngIf="!user.isEmailConfirmed" (click)="resendEmailConfirmation()">
                                             Resend <span *ngIf="!isMobile">Confirmation</span>

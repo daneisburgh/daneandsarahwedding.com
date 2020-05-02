@@ -30,9 +30,9 @@ export default async function (event: any) {
                 isEmailConfirmed: false
             });
 
-            await sendEmail('email-confirmation', user, {
+            await sendEmail('email-verification', user, {
                 expirationHours,
-                confirmationUrl: `${process.env.CLIENT_URL}?emailVerificationCode=${user.emailVerificationCode}`
+                verificationUrl: `${process.env.CLIENT_URL}?emailVerificationCode=${user.emailVerificationCode}`
             });
 
             return createResponse(200);
