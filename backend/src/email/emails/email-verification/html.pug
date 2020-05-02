@@ -1,22 +1,18 @@
 doctype html
 html
     head
-        link(rel="stylesheet", href="styles.css", data-inline)
+        link(rel="stylesheet" href="styles.css", data-inline)
     body
         p 
             | Hi #{user.name},
         p 
-            | Please verify your email by clicking the link bellow.
+            | Please verify your email address by clicking the link bellow.
+            | Note that the link is only valid for #{expirationHours} hours.
         p
             button(onclick=`window.open('${verificationUrl}', '_blank')`) Verify Email
-        
         p
-            | If the link does not work, please enter the following code into the email 
-            | verification input in your profile:
-        p
-            | <h4>#{code}</h4>
-        p
-            | Let us know if you have any issues verifying your email.
+            | Feel free to reply to this email if you have any issues verifying your 
+            | email address or if you are not the intended recipient.
         p 
             | Regards,
             br

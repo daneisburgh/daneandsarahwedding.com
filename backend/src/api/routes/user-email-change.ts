@@ -31,7 +31,6 @@ export default async function (event: any) {
             });
 
             await sendEmail('email-verification', user, {
-                code,
                 expirationHours,
                 verificationUrl: `${process.env.CLIENT_URL}?emailVerificationCode=${code}`
             });
