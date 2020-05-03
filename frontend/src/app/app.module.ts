@@ -33,7 +33,7 @@ import { UserGuard } from './shared/guards/user/user.guard';
             disableTimeOut: true,
             closeButton: true,
             tapToDismiss: false,
-            preventDuplicates: true
+            preventDuplicates: false
         }),
         AppRoutingModule
     ],
