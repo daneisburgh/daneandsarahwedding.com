@@ -92,6 +92,10 @@ ion-modal {
             height: 232px !important;
         }
 
+        &.app-modal-change-password .modal-wrapper {
+            height: 286px !important;
+        }
+
         &.app-modal-change-password.send-email .modal-wrapper {
             height: 232px !important;
             width: 360px !important;
@@ -100,15 +104,21 @@ ion-modal {
 
     &.app-modal-change-email,
     &.app-modal-change-password {
-        ion-row.email {
-            ion-col.add-email-message {
+        ion-row {
+            &.email,
+            &.password {
                 margin-bottom: 16px;
-                padding: 0 0 0 16px;
             }
 
-            @media screen and (min-width: $min-width-medium) {
+            &.email {
                 ion-col.add-email-message {
-                    padding: 0 0 0 32px;
+                    padding: 0 0 0 16px;
+                }
+
+                @media screen and (min-width: $min-width-medium) {
+                    ion-col.add-email-message {
+                        padding: 0 0 0 32px;
+                    }
                 }
             }
         }
