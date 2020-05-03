@@ -43,8 +43,7 @@ export class LogInModalComponent {
             await this.userService.logIn({ username: this.username, password: this.password });
 
             if (this.user.email) {
-                const route = this.user.isAdmin ? '/users' : '/profile';
-                await this.router.navigate([route]);
+                await this.router.navigate(['/profile']);
             } else {
                 const changeEmailModal = await this.modalController.create({
                     component: ChangeEmailModalComponent,

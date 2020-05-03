@@ -20,8 +20,6 @@ import { LogInModalComponent } from './components/log-in-modal/log-in-modal.comp
 
 import { UserService } from './services/user/user.service';
 import { UtilsService } from './services/utils/utils.service';
-
-import { AdminGuard } from './guards/admin/admin.guard';
 import { UserGuard } from './guards/user/user.guard';
 
 @NgModule({
@@ -46,7 +44,6 @@ import { UserGuard } from './guards/user/user.guard';
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         UserService,
         UtilsService,
-        AdminGuard,
         UserGuard
     ],
     declarations: [

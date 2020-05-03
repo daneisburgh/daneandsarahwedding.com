@@ -23,7 +23,6 @@ export function createUserResponse(user: User) {
             'isEmailVerified',
             'guests',
             'maxGuests',
-            'isAdmin',
             'isAttending',
             'requiresAccommodations',
             'totalRequiredRooms',

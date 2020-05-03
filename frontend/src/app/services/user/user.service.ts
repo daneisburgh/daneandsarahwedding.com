@@ -15,7 +15,6 @@ interface User {
     isEmailVerified: boolean;
     guests: string[];
     maxGuests: number;
-    isAdmin: boolean;
     isAttending: boolean;
     requiresAccommodations: boolean;
     totalRequiredRooms: number
