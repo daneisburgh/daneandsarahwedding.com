@@ -29,7 +29,7 @@ export class InfoPage {
     public async presentLogInModal() {
         (await this.modalController.create({
             component: ModalLogInComponent,
-            cssClass: 'app-log-in-modal'
+            cssClass: 'app-modal-log-in'
         })).present();
     }
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
 import { ModalChangeEmailComponent } from '../modal-change-email/modal-change-email.component';
+import { ModalChangePasswordComponent } from '../modal-change-password/modal-change-password.component';
 import { UserService, LOG_IN_ERRORS } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
 
@@ -28,7 +29,7 @@ export class ModalLogInComponent {
         private userService: UserService,
         private utilsService: UtilsService
     ) {
-        this.getModal();
+        this.setModal();
     }
 
     public dismiss() {
@@ -47,7 +48,7 @@ export class ModalLogInComponent {
             } else {
                 const changeEmailModal = await this.modalController.create({
                     component: ModalChangeEmailComponent,
-                    cssClass: 'app-change-email-modal add-email'
+                    cssClass: 'app-modal-change-email add-email'
                 });
                 await changeEmailModal.present();
                 await changeEmailModal.onWillDismiss();
@@ -72,9 +73,17 @@ export class ModalLogInComponent {
         }
     }
 
-    public presentResetPasswordModal() { }
+    public async presentResetPasswordModal() {
+        const resetPasswordModal = await this.modalController.create({
+            component: ModalChangePasswordComponent,
+            cssClass: 'app-modal-change-password send-email'
+        });
+        await resetPasswordModal.present();
+        await resetPasswordModal.onWillDismiss();
+        this.modal.dismiss();
+    }
 
-    private async getModal() {
+    private async setModal() {
         this.modal = await this.modalController.getTop();
     }
 }
