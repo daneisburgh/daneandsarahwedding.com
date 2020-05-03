@@ -5,7 +5,6 @@ import { ModalController } from '@ionic/angular';
 import { UserService, CHANGE_EMAIL_ERRORS } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
 
-
 @Component({
     selector: 'app-modal-change-email',
     templateUrl: './modal-change-email.component.html',
@@ -28,7 +27,7 @@ export class ModalChangeEmailComponent {
         private userService: UserService,
         private utilsService: UtilsService
     ) {
-        this.getModal();
+        this.setModal();
     }
 
     public dismiss() {
@@ -61,7 +60,7 @@ export class ModalChangeEmailComponent {
         }
     }
 
-    private async getModal() {
+    private async setModal() {
         this.modal = await this.modalController.getTop();
     }
 }
