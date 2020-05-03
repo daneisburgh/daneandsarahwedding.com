@@ -77,14 +77,14 @@ export class UserService {
     }
 
     public async changeEmail(email: string) {
-        await this.apiPost('user-email-change', { email });
+        await this.apiPost('user-change-email', { email });
         this.utilsService.toast('success', 'Email verification sent',
             'Please check your inbox and spam folders for an email with a link to verify your email address');
     }
 
     public async verifyEmail(emailVerificationCode: string) {
         try {
-            await this.apiPost('user-email-verify', { emailVerificationCode });
+            await this.apiPost('user-verify-email', { emailVerificationCode });
             this.utilsService.toast('success', 'Email verified', 'Thank you for verifying your email');
         } catch (error) {
             console.error(error);
