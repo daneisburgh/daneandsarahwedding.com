@@ -57,6 +57,10 @@ ion-card-content {
     }
 
     &.email-verification {
+        ion-item {
+            pointer-events: auto;
+        }
+
         ion-label {
             opacity: 1 !important;
         }
