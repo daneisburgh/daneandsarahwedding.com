@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import builtinStatusCodes from 'builtin-status-codes';
 import { get } from 'lodash';
 
-import { UtilsService } from '../../services/utils/utils.service';
+import { UtilsService } from '../../shared/services/utils/utils.service';
 
 @Component({
     selector: 'app-error',

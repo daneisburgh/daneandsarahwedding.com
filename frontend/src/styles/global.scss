@@ -79,16 +79,49 @@ ion-card-content {
 }
 
 ion-modal {
-    &.app-log-in-modal .modal-wrapper {
-        height: 304px !important;
+    @media screen and (min-width: $min-width-medium) {
+        &.app-modal-log-in .modal-wrapper {
+            height: 304px !important;
+        }
+
+        &.app-modal-change-email .modal-wrapper {
+            height: 216px !important;
+        }
+
+        &.app-modal-change-email.add-email .modal-wrapper {
+            height: 232px !important;
+        }
+
+        &.app-modal-change-password .modal-wrapper {
+            height: 286px !important;
+        }
+
+        &.app-modal-change-password.send-email .modal-wrapper {
+            height: 232px !important;
+            width: 360px !important;
+        }
     }
 
-    &.app-change-email-modal .modal-wrapper {
-        height: 216px !important;
-    }
+    &.app-modal-change-email,
+    &.app-modal-change-password {
+        ion-row {
+            &.email,
+            &.password {
+                margin-bottom: 16px;
+            }
 
-    &.app-change-email-modal.add-email .modal-wrapper {
-        height: 232px !important;
+            &.email {
+                ion-col.add-email-message {
+                    padding: 0 0 0 16px;
+                }
+
+                @media screen and (min-width: $min-width-medium) {
+                    ion-col.add-email-message {
+                        padding: 0 0 0 32px;
+                    }
+                }
+            }
+        }
     }
 
     .modal-wrapper {
@@ -127,7 +160,7 @@ ion-modal {
         .submit-message {
             margin: 4px 0 0 16px;
         }
-        
+
         ion-spinner {
             margin-bottom: -3px;
         }

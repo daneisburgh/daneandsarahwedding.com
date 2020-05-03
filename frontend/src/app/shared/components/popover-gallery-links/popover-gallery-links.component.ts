@@ -4,11 +4,11 @@ import { PopoverController } from '@ionic/angular';
 import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
-    selector: 'app-gallery-popover',
-    templateUrl: './gallery-popover.component.html',
-    styleUrls: ['./gallery-popover.component.scss'],
+    selector: 'app-popover-gallery-links',
+    templateUrl: './popover-gallery-links.component.html',
+    styleUrls: ['./popover-gallery-links.component.scss'],
 })
-export class GalleryPopoverComponent {
+export class PopoverGalleryLinksComponent {
     constructor(
         public popoverController: PopoverController,
         public utilsService: UtilsService

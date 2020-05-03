@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 
-import { GalleryPopoverComponent } from '../../components/gallery-popover/gallery-popover.component';
-import { UtilsService } from '../../services/utils/utils.service';
+import { PopoverGalleryLinksComponent } from '../../shared/components/popover-gallery-links/popover-gallery-links.component';
+import { UtilsService } from '../../shared/services/utils/utils.service';
 
 interface Gallery {
     name: string;
@@ -37,6 +37,6 @@ export class GalleryPage {
     }
 
     public async presentGalleryPopover(event: any) {
-        (await this.popoverController.create({ event, component: GalleryPopoverComponent })).present();
+        (await this.popoverController.create({ event, component: PopoverGalleryLinksComponent })).present();
     }
 }

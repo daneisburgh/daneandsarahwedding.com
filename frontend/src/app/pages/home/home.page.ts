@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { UtilsService } from '../../services/utils/utils.service';
+import { UtilsService } from '../../shared/services/utils/utils.service';
 
 @Component({
     selector: 'app-home',

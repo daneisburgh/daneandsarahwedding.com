@@ -5,11 +5,13 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as querystring from 'querystring';
 
-import { GalleryPopoverComponent } from './components/gallery-popover/gallery-popover.component';
-import { ProfilePopoverComponent } from './components/profile-popover/profile-popover.component';
-import { LogInModalComponent } from './components/log-in-modal/log-in-modal.component';
-import { UserService } from './services/user/user.service';
-import { UtilsService } from './services/utils/utils.service';
+
+import { ModalChangePasswordComponent } from './shared/components/modal-change-password/modal-change-password.component';
+import { ModalLogInComponent } from './shared/components/modal-log-in/modal-log-in.component';
+import { PopoverGalleryLinksComponent } from './shared/components/popover-gallery-links/popover-gallery-links.component';
+import { PopoverProfileLinksComponent } from './shared/components/popover-profile-links/popover-profile-links.component';
+import { UserService, CHANGE_PASSWORD_ERRORS } from './shared/services/user/user.service';
+import { UtilsService } from './shared/services/utils/utils.service';
 
 @Component({
     selector: 'app-root',
@@ -38,18 +40,18 @@ export class AppComponent {
 
     public async presentGalleryPopover(event: any) {
         const cssClass = 'gallery-popover';
-        (await this.popoverController.create({ event, cssClass, component: GalleryPopoverComponent })).present();
+        (await this.popoverController.create({ event, cssClass, component: PopoverGalleryLinksComponent })).present();
     }
 
     public async presentProfilePopover(event: any) {
         const cssClass = 'profile-popover';
-        (await this.popoverController.create({ event, cssClass, component: ProfilePopoverComponent })).present();
+        (await this.popoverController.create({ event, cssClass, component: PopoverProfileLinksComponent })).present();
     }
 
     public async presentLogInModal() {
         (await this.modalController.create({
-            component: LogInModalComponent,
-            cssClass: 'app-log-in-modal'
+            component: ModalLogInComponent,
+            cssClass: 'app-modal-log-in'
         })).present();
     }
 
@@ -65,10 +67,26 @@ export class AppComponent {
         this.splashScreen.hide();
         this.isReady = true;
 
-        const { emailVerificationCode } = querystring.parse(window.location.search.replace('?', ''));
+        const { emailVerificationCode, passwordChangeCode } = querystring.parse(window.location.search.replace('?', ''));
 
         if (emailVerificationCode) {
             await this.userService.verifyEmail(emailVerificationCode as string);
+        } else if (passwordChangeCode) {
+            try {
+                await this.userService.changePassword(passwordChangeCode as string);
+            } catch (error) {
+                if (CHANGE_PASSWORD_ERRORS.includes(error.error)) {
+                    this.utilsService.toast('error', error.error, 'Please resubmit password change request from login');
+                } else {
+                    (await this.modalController.create({
+                        component: ModalChangePasswordComponent,
+                        componentProps: { code: passwordChangeCode },
+                        cssClass: 'app-modal-change-password'
+                    })).present();
+                }
+            } finally {
+                this.router.navigate([(this.user ? '/profile' : '/home')]);
+            }
         }
     }
 }

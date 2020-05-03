@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { isUndefined } from 'lodash';
 
-import { UserService, CHANGE_EMAIL_ERRORS } from '../../services/user/user.service';
-import { UtilsService } from '../../services/utils/utils.service';
+import { UserService, CHANGE_EMAIL_ERRORS } from '../../shared/services/user/user.service';
+import { UtilsService } from '../../shared/services/utils/utils.service';
 import { PopoverController } from '@ionic/angular';
 import { DeadlinePopoverComponent } from './deadline-popover/deadline-popover.component';
 
@@ -63,7 +63,7 @@ export class ProfilePage {
         this.utilsService.setTitle(this.user.name);
 
         if (!history.state.doNotDisplayEmailVerificationWarning && !this.user.isEmailVerified) {
-            this.utilsService.toast('warning', 'Email address is not verified',
+            this.utilsService.toast('warning', 'Email is not verified',
                 'Please verify your email address to receive important wedding updates');
         }
 

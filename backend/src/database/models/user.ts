@@ -27,12 +27,12 @@ export const userColumns = {
         allowNull: false,
         defaultValue: false
     },
-    passwordResetCode: {
+    passwordChangeCode: {
         type: DataTypes.STRING,
         allowNull: true,
         unique: true
     },
-    passwordResetExpiration: {
+    passwordChangeExpiration: {
         type: DataTypes.DATE,
         allowNull: true
     },
@@ -100,8 +100,8 @@ class User extends Model {
     public address!: string;
     public password!: string;
     public isPasswordHashed!: boolean;
-    public passwordResetCode!: string;
-    public passwordResetExpiration!: Date;
+    public passwordChangeCode!: string;
+    public passwordChangeExpiration!: Date;
     public email!: string;
     public emailVerificationCode!: string;
     public emailVerificationExpiration!: Date;
@@ -129,10 +129,10 @@ User.beforeCreate(async (user: User) => {
 User.beforeUpdate(async (user: User) => {
     user.updatedAt = new Date();
     
-    // if (user.changed('password')) {
-    //     user.password = bcrypt.hashSync(user.password, 10);
-    //     user.isPasswordHashed = true;
-    // }
+    if (user.changed('password')) {
+        user.password = bcrypt.hashSync(user.password, 10);
+        user.isPasswordHashed = true;
+    }
 });
 
 export default User;

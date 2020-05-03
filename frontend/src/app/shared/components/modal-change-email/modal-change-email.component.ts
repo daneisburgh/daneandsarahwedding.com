@@ -6,11 +6,11 @@ import { UserService, CHANGE_EMAIL_ERRORS } from '../../services/user/user.servi
 import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
-    selector: 'app-change-email-modal',
-    templateUrl: './change-email-modal.component.html',
-    styleUrls: ['./change-email-modal.component.scss'],
+    selector: 'app-modal-change-email',
+    templateUrl: './modal-change-email.component.html',
+    styleUrls: ['./modal-change-email.component.scss'],
 })
-export class ChangeEmailModalComponent {
+export class ModalChangeEmailComponent {
     public email: string;
     public errorMessage: string;
     public isSubmitting = false;
@@ -27,7 +27,7 @@ export class ChangeEmailModalComponent {
         private userService: UserService,
         private utilsService: UtilsService
     ) {
-        this.getModal();
+        this.setModal();
     }
 
     public dismiss() {
@@ -60,7 +60,7 @@ export class ChangeEmailModalComponent {
         }
     }
 
-    private async getModal() {
+    private async setModal() {
         this.modal = await this.modalController.getTop();
     }
 }
