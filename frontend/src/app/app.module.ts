@@ -13,8 +13,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { ModalLogInComponent } from './shared/components/modal-log-in/modal-log-in.component';
 import { ModalChangeEmailComponent } from './shared/components/modal-change-email/modal-change-email.component';
+import { ModalChangePasswordComponent } from './shared/components/modal-change-password/modal-change-password.component';
+import { ModalLogInComponent } from './shared/components/modal-log-in/modal-log-in.component';
 import { PopoverGalleryLinksComponent } from './shared/components/popover-gallery-links/popover-gallery-links.component';
 import { PopoverProfileLinksComponent } from './shared/components/popover-profile-links/popover-profile-links.component';
 import { UserService } from './shared/services/user/user.service';
@@ -48,12 +49,14 @@ import { UserGuard } from './shared/guards/user/user.guard';
     declarations: [
         AppComponent,
         ModalChangeEmailComponent,
+        ModalChangePasswordComponent,
         ModalLogInComponent,
         PopoverGalleryLinksComponent,
         PopoverProfileLinksComponent
     ],
     entryComponents: [
         ModalChangeEmailComponent,
+        ModalChangePasswordComponent,
         ModalLogInComponent,
         PopoverGalleryLinksComponent,
         PopoverProfileLinksComponent
