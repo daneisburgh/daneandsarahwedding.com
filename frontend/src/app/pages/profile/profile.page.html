@@ -52,6 +52,13 @@
                                         (click)="toggleDisplayChangeEmail()"></ion-icon>
                                     <ion-icon *ngIf="!displayChangeEmail" name="create" class="create"
                                         (click)="toggleDisplayChangeEmail()"></ion-icon>
+                                    <ion-text>
+                                        <a *ngIf="!user.isEmailVerified && !resendingEmailVerification && !displayChangeEmail"
+                                            (click)="resendEmailVerification()">
+                                            Resend Verification
+                                        </a>
+                                        <ion-spinner *ngIf="resendingEmailVerification" color="light"></ion-spinner>
+                                    </ion-text>
                                 </ion-card-title>
                             </ion-card-header>
                             <ion-card-content class="email-verification">
@@ -60,18 +67,15 @@
                                     <ion-input *ngIf="displayChangeEmail" type="text" placeholder="Input new email"
                                         [(ngModel)]="email" [disabled]="resendingEmailVerification"
                                         (keydown)="changeEmailKeyDown($event)"></ion-input>
-                                    <ion-text *ngIf="!resendingEmailVerification" slot="end">
-                                        <a *ngIf="!displayChangeEmail && !user.isEmailVerified"
-                                            (click)="resendEmailVerification()">
-                                            Resend <span *ngIf="!isMobile">Verification</span>
-                                        </a>
+                                    <ion-text slot="end">
                                         <span *ngIf="!displayChangeEmail && user.isEmailVerified"
                                             class="email-verified">Verified</span>
-                                        <span *ngIf="changeEmailErrorMessage" class="change-email-error">
+                                        <span *ngIf="!displayChangeEmail && !user.isEmailVerified"
+                                            class="email-error">Not verified</span>
+                                        <span *ngIf="displayChangeEmail && changeEmailErrorMessage" class="email-error">
                                             {{changeEmailErrorMessage}}
                                         </span>
                                     </ion-text>
-                                    <ion-spinner *ngIf="resendingEmailVerification" slot="end"></ion-spinner>
                                 </ion-item>
                             </ion-card-content>
                         </ion-card>
@@ -79,7 +83,7 @@
                     <ion-col size="12" size-lg="6">
                         <ion-card color="light">
                             <ion-card-header color="primary">
-                                <ion-card-title>Accommodations and Transportation</ion-card-title>
+                                <ion-card-title>Accommodations & Transportation</ion-card-title>
                             </ion-card-header>
                             <ion-card-content>
                                 <ion-item color="light" lines="none" [disabled]="!user.isAttending">

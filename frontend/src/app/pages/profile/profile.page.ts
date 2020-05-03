@@ -21,9 +21,6 @@ export class ProfilePage {
     public changeEmailErrorMessage: string;
 
     public displayChangeEmail = false;
-    public updatingIsAttending = false;
-    public updatingRequiresAccommodations = false;
-    public updatingRequiresTransportation = false;
     public resendingEmailVerification = false;
 
     public isUpdating = {

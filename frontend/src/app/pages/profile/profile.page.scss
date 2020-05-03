@@ -23,6 +23,20 @@ ion-select {
 
 ion-card-header {
     &.email {
+        ion-card-title ion-text {
+            float: right;
+            margin: 1px 2px 0 0;
+
+            a {
+                color: white;
+                font-weight: normal;
+            }
+
+            ion-spinner {
+                margin-top: -4px;
+            }
+        }
+
         ion-icon {
             cursor: pointer;
             font-size: 20px;
@@ -31,10 +45,6 @@ ion-card-header {
             &.create {
                 font-size: 24px;
             }
-        }
-
-        .change-email-error {
-            color: var(--ion-color-danger);
         }
     }
 }
@@ -74,7 +84,7 @@ ion-card-content {
             color: var(--ion-color-success);
         }
 
-        .change-email-error {
+        .email-error {
             color: var(--ion-color-danger);
         }
     }
