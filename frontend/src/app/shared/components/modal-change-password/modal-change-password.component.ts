@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
-import { UserService, CHANGE_PASSWORD_ERRORS } from '../../services/user/user.service';
+import { UserService, PASSWORD_EMAIL_ERRORS } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
 
 @Component({
@@ -12,19 +12,22 @@ import { UtilsService } from '../../services/utils/utils.service';
 })
 export class ModalChangePasswordComponent {
     @Input()
-    public token: string;
+    public code: string;
 
     public email: string;
+    public newPassword: string;
+    public confirmPassword: string;
     public errorMessage: string;
     public isSubmitting = false;
 
     public get isMobile() { return this.utilsService.isMobile; }
-    public get title() { return this.token ? 'Reset Password' : 'Input Email'; }
+    public get title() { return this.code ? 'Change Password' : 'Input Email'; }
 
     private modal: HTMLIonModalElement;
 
     constructor(
         private modalController: ModalController,
+        private router: Router,
         private userService: UserService,
         private utilsService: UtilsService
     ) {
@@ -39,12 +42,26 @@ export class ModalChangePasswordComponent {
         this.errorMessage = undefined;
         this.isSubmitting = true;
 
+        console.log(this.code, this.newPassword, this.confirmPassword);
+
         try {
-            await this.userService.passwordEmail(this.email);
-            this.dismiss();
+            if (this.code) {
+                if (this.newPassword !== this.confirmPassword) {
+                    this.errorMessage = 'Passwords do not match';
+                } else {
+                    await this.userService.changePassword(this.code, this.newPassword);
+                    this.utilsService.toast('success', 'Password changed successfully');
+                    this.router.navigate(['/profile']);
+                    this.dismiss();
+                }
+            } else {
+                await this.userService.passwordEmail(this.email);
+                this.dismiss();
+            }
         } catch (error) {
             console.error(error);
-            this.errorMessage = CHANGE_PASSWORD_ERRORS.includes(error.error) ? error.error : 'Bad request';
+            this.errorMessage = error.error === 'Invalid password' ||
+                PASSWORD_EMAIL_ERRORS.includes(error.error) ? error.error : 'Bad request';
         } finally {
             setTimeout(() => {
                 this.isSubmitting = false;
