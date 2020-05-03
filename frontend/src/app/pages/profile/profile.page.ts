@@ -63,7 +63,7 @@ export class ProfilePage {
         this.utilsService.setTitle(this.user.name);
 
         if (!history.state.doNotDisplayEmailVerificationWarning && !this.user.isEmailVerified) {
-            this.utilsService.toast('warning', 'Email address is not verified',
+            this.utilsService.toast('warning', 'Email is not verified',
                 'Please verify your email address to receive important wedding updates');
         }
 
