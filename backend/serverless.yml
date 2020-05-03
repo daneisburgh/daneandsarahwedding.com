@@ -73,6 +73,13 @@ functions:
           path: /api/user-change-email
           method: POST
           cors: true
+  api-user-password-email:
+    handler: build/api/routes/user-password-email.default
+    events:
+      - http:
+          path: /api/user-password-email
+          method: POST
+          cors: true
   api-user-verify-email:
     handler: build/api/routes/user-verify-email.default
     events:
