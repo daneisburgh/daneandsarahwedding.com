@@ -129,10 +129,10 @@ User.beforeCreate(async (user: User) => {
 User.beforeUpdate(async (user: User) => {
     user.updatedAt = new Date();
     
-    // if (user.changed('password')) {
-    //     user.password = bcrypt.hashSync(user.password, 10);
-    //     user.isPasswordHashed = true;
-    // }
+    if (user.changed('password')) {
+        user.password = bcrypt.hashSync(user.password, 10);
+        user.isPasswordHashed = true;
+    }
 });
 
 export default User;
