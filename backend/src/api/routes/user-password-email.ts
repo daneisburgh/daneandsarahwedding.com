@@ -1,31 +1,38 @@
-import { getRequestBody, getUserFromToken, createResponse, createUserResponse, createCodeAndExpiration } from '../utils';
+import validator from 'validator';
+
+import { getRequestBody, createResponse, createCodeAndExpiration } from '../utils';
 import User from '../../database/models/user';
 import sendEmail from '../../email';
 
 export default async function (event: any) {
     try {
         const { email } = getRequestBody(event);
-        const user = await User.findOne({ where: { email } });
 
-        if (!user) {
+        if (!validator.isEmail(email)) {
             return createResponse(400, 'Invalid email');
-        } else if (!user.isEmailVerified) {
-            return createResponse(400, 'Email not verified');
         } else {
-            const expirationHours = 2;
-            const { code, expiration } = await createCodeAndExpiration('passwordChangeCode', expirationHours);
+            const user = await User.findOne({ where: { email } });
 
-            await user.update({
-                passwordChangeCode: code,
-                passwordChangeExpiration: expiration
-            });
+            if (!user) {
+                return createResponse(400, 'Invalid email');
+            } else if (!user.isEmailVerified) {
+                return createResponse(400, 'Email not verified');
+            } else {
+                const expirationHours = 2;
+                const { code, expiration } = await createCodeAndExpiration('passwordChangeCode', expirationHours);
 
-            await sendEmail('password-change', user, {
-                expirationHours,
-                verificationUrl: `${process.env.CLIENT_URL}?passwordChangeCode=${code}`
-            });
+                await user.update({
+                    passwordChangeCode: code,
+                    passwordChangeExpiration: expiration
+                });
 
-            return createResponse(200, createUserResponse(user));
+                await sendEmail('password-change', user, {
+                    expirationHours,
+                    verificationUrl: `${process.env.CLIENT_URL}?passwordChangeCode=${code}`
+                });
+
+                return createResponse(200);
+            }
         }
     } catch (error) {
         console.error(error);
