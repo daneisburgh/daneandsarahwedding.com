@@ -29,8 +29,9 @@ interface UserResponse {
 const TOKEN_KEY = 'userJWT';
 
 export const LOG_IN_ERRORS = ['Invalid username', 'Invalid password'];
-export const CHANGE_EMAIL_ERRORS = ['Invalid email', 'Email not changed', 'Email is taken'];
 export const VERIFY_EMAIL_ERRORS = ['Invalid link', 'Link expired'];
+export const CHANGE_EMAIL_ERRORS = ['Invalid email', 'Email not changed', 'Email is taken'];
+export const CHANGE_PASSWORD_ERRORS = ['Invalid email', 'Email not verified'];
 
 @Injectable({
     providedIn: 'root'
@@ -80,6 +81,12 @@ export class UserService {
         await this.apiPost('user-change-email', { email });
         this.utilsService.toast('success', 'Email verification sent',
             'Please check your inbox and spam folders for an email with a link to verify your email address');
+    }
+
+    public async passwordEmail(email: string) {
+        await this.apiPost('user-password-email', { email });
+        this.utilsService.toast('success', 'Password change email sent',
+            'Please check your inbox and spam folders for an email with a link to change your password');
     }
 
     public async verifyEmail(emailVerificationCode: string) {
