@@ -90,13 +90,11 @@ async function createOrUpdateUsers() {
                             maxGuests: guest.Persons,
                             guests: await generateGuestNames(guest.Name)
                         });
-                    } else {
-                        if (currentUser.address != guest.Address || currentUser.maxGuests != guest.Persons) {
-                            await currentUser.update({
-                                address: guest.Address,
-                                maxGuests: guest.Persons,
-                            });
-                        }
+                    } else if (currentUser.address != guest.Address || currentUser.maxGuests != guest.Persons) {
+                        await currentUser.update({
+                            address: guest.Address,
+                            maxGuests: guest.Persons,
+                        });
                     }
                 }
             }
