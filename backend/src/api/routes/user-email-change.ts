@@ -17,8 +17,6 @@ export default async function (event: any) {
 
         if (!validator.isEmail(email)) {
             return createResponse(400, 'Invalid email');
-        } else if (user.email && user.email === email) {
-            return createResponse(400, 'Email not changed');
         } else if (user.email !== email && (await User.findOne({ where: { email } }))) {
             return createResponse(400, 'Email is taken');
         } else {
