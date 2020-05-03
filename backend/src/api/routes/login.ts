@@ -5,18 +5,17 @@ import User from '../../database/models/user';
 
 export default async function (event: any) {
     try {
-        const body = getRequestBody(event);
-        const { token, username, password } = body;
-        let user: User | null;
+        const { username, password, token } = getRequestBody(event);
+        let user: User | null = null;
 
-        if (token) {
+        if (username) {
+            user = await User.findByPk(username);
+        } else if (token) {
             try {
                 user = await getUserFromToken(token);
             } catch {
                 return createResponse(401, 'Invalid token');
             }
-        } else {
-            user = await User.findByPk(username);
         }
 
         if (!user) {
