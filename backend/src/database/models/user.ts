@@ -60,7 +60,7 @@ export const userColumns = {
     },
     guests: {
         type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: true
+        allowNull: false
     },
     maxGuests: {
         type: DataTypes.INTEGER,

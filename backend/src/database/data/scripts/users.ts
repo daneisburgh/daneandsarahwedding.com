@@ -46,6 +46,30 @@ async function generateUsername(name: string): Promise<string> {
     }
 }
 
+async function generateGuestNames(name: string): Promise<Array<string>> {
+    let splitSuffix, splitGuest, guest1, guest2, lastName, arrayGuests;
+    if (name.includes(',')) {
+        splitSuffix = name.split(',')[0];
+    } else {
+        splitSuffix = name;
+    }
+    if (splitSuffix.includes('&')) {
+        splitGuest = splitSuffix.split(' & ');
+        if (splitGuest[0].includes(' ')) {
+            arrayGuests = [splitGuest[0], splitGuest[1]];
+        }
+        else {
+            lastName = splitGuest[1].split(' ')[1];
+            guest1 = splitGuest[0] + ' ' + lastName;
+            guest2 = splitGuest[1].split(' ')[0] + ' ' + lastName;
+            arrayGuests = [guest1, guest2];
+        }
+    } else {
+        arrayGuests = [splitSuffix];
+    }
+    return arrayGuests;
+}
+
 async function createOrUpdateUsers() {
     const workbook = xlsx.readFile(guestListFile);
 
@@ -64,10 +88,10 @@ async function createOrUpdateUsers() {
                             name: guest.Name,
                             address: guest.Address,
                             maxGuests: guest.Persons,
+                            guests: await generateGuestNames(guest.Name)
                         });
-                    } else {
+                    } else if (currentUser.address != guest.Address || currentUser.maxGuests != guest.Persons) {
                         await currentUser.update({
-                            name: guest.Name,
                             address: guest.Address,
                             maxGuests: guest.Persons,
                         });
