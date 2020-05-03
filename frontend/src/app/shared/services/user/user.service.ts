@@ -31,7 +31,8 @@ const TOKEN_KEY = 'userJWT';
 export const LOG_IN_ERRORS = ['Invalid username', 'Invalid password'];
 export const VERIFY_EMAIL_ERRORS = ['Invalid link', 'Link expired'];
 export const CHANGE_EMAIL_ERRORS = ['Invalid email', 'Email not changed', 'Email is taken'];
-export const CHANGE_PASSWORD_ERRORS = ['Invalid email', 'Email not verified'];
+export const PASSWORD_EMAIL_ERRORS = ['Invalid email', 'Email not verified'];
+export const CHANGE_PASSWORD_ERRORS = ['Invalid link', 'Link expired'];
 
 @Injectable({
     providedIn: 'root'
@@ -52,8 +53,11 @@ export class UserService {
             body = { ...body, token: await this.storage.get(TOKEN_KEY) };
             const response = await this.httpClient.post<UserResponse>(`${environment.apiUrl}/${route}`, body).toPromise();
             console.log('RESPONSE', route, response);
-            await this.storage.set(TOKEN_KEY, response.token);
-            this.user = response.user;
+
+            if (response) {
+                await this.storage.set(TOKEN_KEY, response.token);
+                this.user = response.user;
+            }
         } catch (error) {
             console.error(error);
             throw error;
@@ -83,15 +87,9 @@ export class UserService {
             'Please check your inbox and spam folders for an email with a link to verify your email address');
     }
 
-    public async passwordEmail(email: string) {
-        await this.apiPost('user-password-email', { email });
-        this.utilsService.toast('success', 'Password change email sent',
-            'Please check your inbox and spam folders for an email with a link to change your password');
-    }
-
-    public async verifyEmail(emailVerificationCode: string) {
+    public async verifyEmail(code: string) {
         try {
-            await this.apiPost('user-verify-email', { emailVerificationCode });
+            await this.apiPost('user-verify-email', { code });
             this.utilsService.toast('success', 'Email verified', 'Thank you for verifying your email');
         } catch (error) {
             console.error(error);
@@ -104,5 +102,15 @@ export class UserService {
         } finally {
             this.router.navigate([(this.user ? '/profile' : '/home')]);
         }
+    }
+
+    public async passwordEmail(email: string) {
+        await this.apiPost('user-password-email', { email });
+        this.utilsService.toast('success', 'Password change email sent',
+            'Please check your inbox and spam folders for an email with a link to change your password');
+    }
+
+    public async changePassword(code: string, password?: string) {
+        await this.apiPost('user-change-password', { code, password });
     }
 }
