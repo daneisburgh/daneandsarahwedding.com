@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 
-import { GalleryPopoverComponent } from '../../components/gallery-popover/gallery-popover.component';
-import { UtilsService } from '../../services/utils/utils.service';
+import { GalleryPopoverComponent } from '../../shared/components/gallery-popover/gallery-popover.component';
+import { UtilsService } from '../../shared/services/utils/utils.service';
 
 interface Gallery {
     name: string;

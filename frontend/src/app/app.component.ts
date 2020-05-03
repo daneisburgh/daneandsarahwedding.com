@@ -5,11 +5,11 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as querystring from 'querystring';
 
-import { GalleryPopoverComponent } from './components/gallery-popover/gallery-popover.component';
-import { ProfilePopoverComponent } from './components/profile-popover/profile-popover.component';
-import { LogInModalComponent } from './components/log-in-modal/log-in-modal.component';
-import { UserService } from './services/user/user.service';
-import { UtilsService } from './services/utils/utils.service';
+import { GalleryPopoverComponent } from './shared/components/gallery-popover/gallery-popover.component';
+import { ProfilePopoverComponent } from './shared/components/profile-popover/profile-popover.component';
+import { LogInModalComponent } from './shared/components/log-in-modal/log-in-modal.component';
+import { UserService } from './shared/services/user/user.service';
+import { UtilsService } from './shared/services/utils/utils.service';
 
 @Component({
     selector: 'app-root',

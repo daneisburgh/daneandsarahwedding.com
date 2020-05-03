@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-import { UserGuard } from './guards/user/user.guard';
+import { UserGuard } from './shared/guards/user/user.guard';
 
 const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },

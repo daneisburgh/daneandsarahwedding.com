@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { isUndefined } from 'lodash';
 
-import { UserService, CHANGE_EMAIL_ERRORS } from '../../services/user/user.service';
-import { UtilsService } from '../../services/utils/utils.service';
+import { UserService, CHANGE_EMAIL_ERRORS } from '../../shared/services/user/user.service';
+import { UtilsService } from '../../shared/services/utils/utils.service';
 import { PopoverController } from '@ionic/angular';
 import { DeadlinePopoverComponent } from './deadline-popover/deadline-popover.component';
 

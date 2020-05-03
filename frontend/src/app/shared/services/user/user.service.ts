@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 
 import { UtilsService } from '../utils/utils.service';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 interface User {
     username: string;

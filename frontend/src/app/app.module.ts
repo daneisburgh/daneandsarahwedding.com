@@ -13,14 +13,14 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { GalleryPopoverComponent } from './components/gallery-popover/gallery-popover.component';
-import { ProfilePopoverComponent } from './components/profile-popover/profile-popover.component';
-import { ChangeEmailModalComponent } from './components/change-email-modal/change-email-modal.component';
-import { LogInModalComponent } from './components/log-in-modal/log-in-modal.component';
+import { GalleryPopoverComponent } from './shared/components/gallery-popover/gallery-popover.component';
+import { ProfilePopoverComponent } from './shared/components/profile-popover/profile-popover.component';
+import { ChangeEmailModalComponent } from './shared/components/change-email-modal/change-email-modal.component';
+import { LogInModalComponent } from './shared/components/log-in-modal/log-in-modal.component';
 
-import { UserService } from './services/user/user.service';
-import { UtilsService } from './services/utils/utils.service';
-import { UserGuard } from './guards/user/user.guard';
+import { UserService } from './shared/services/user/user.service';
+import { UtilsService } from './shared/services/utils/utils.service';
+import { UserGuard } from './shared/guards/user/user.guard';
 
 @NgModule({
     imports: [

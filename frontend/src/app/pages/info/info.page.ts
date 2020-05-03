@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { deadlineString } from '../profile/profile.page';
-import { LogInModalComponent } from '../../components/log-in-modal/log-in-modal.component';
-import { UserService } from '../../services/user/user.service';
-import { UtilsService } from '../../services/utils/utils.service';
+import { LogInModalComponent } from '../../shared/components/log-in-modal/log-in-modal.component';
+import { UserService } from '../../shared/services/user/user.service';
+import { UtilsService } from '../../shared/services/utils/utils.service';
 
 @Component({
     selector: 'app-info',
