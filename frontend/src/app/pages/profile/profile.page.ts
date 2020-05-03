@@ -64,7 +64,7 @@ export class ProfilePage {
 
         if (!history.state.doNotDisplayEmailVerificationWarning && !this.user.isEmailVerified) {
             this.utilsService.toast('warning', 'Email address is not verified',
-                'Please verify your email address to receive wedding important updates');
+                'Please verify your email address to receive important wedding updates');
         }
 
         for (let i = 1; i <= this.user.maxGuests; i++) {
@@ -113,10 +113,15 @@ export class ProfilePage {
     public async resendEmailVerification(email?: string) {
         try {
             this.resendingEmailVerification = true;
-            await this.userService.changeEmail(!isUndefined(email) ? email : this.user.email);
-            this.changeEmailErrorMessage = undefined;
-            this.displayChangeEmail = false;
-            this.email = '';
+
+            if (email === this.user.email) {
+                throw { error: 'Email not changed' };
+            } else {
+                await this.userService.changeEmail(isUndefined(email) ? this.user.email : email);
+                this.changeEmailErrorMessage = undefined;
+                this.displayChangeEmail = false;
+                this.email = '';
+            }
         } catch (error) {
             console.error(error);
 
@@ -140,7 +145,7 @@ export class ProfilePage {
         }
     }
 
-    public toggleDisplayChangEmail() {
+    public toggleDisplayChangeEmail() {
         this.email = '';
         this.changeEmailErrorMessage = undefined;
         this.displayChangeEmail = !this.displayChangeEmail;
