@@ -6,10 +6,11 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as querystring from 'querystring';
 
 
+import { ModalChangePasswordComponent } from './shared/components/modal-change-password/modal-change-password.component';
 import { ModalLogInComponent } from './shared/components/modal-log-in/modal-log-in.component';
 import { PopoverGalleryLinksComponent } from './shared/components/popover-gallery-links/popover-gallery-links.component';
 import { PopoverProfileLinksComponent } from './shared/components/popover-profile-links/popover-profile-links.component';
-import { UserService } from './shared/services/user/user.service';
+import { UserService, CHANGE_PASSWORD_ERRORS } from './shared/services/user/user.service';
 import { UtilsService } from './shared/services/utils/utils.service';
 
 @Component({
@@ -66,10 +67,26 @@ export class AppComponent {
         this.splashScreen.hide();
         this.isReady = true;
 
-        const { emailVerificationCode } = querystring.parse(window.location.search.replace('?', ''));
+        const { emailVerificationCode, passwordChangeCode } = querystring.parse(window.location.search.replace('?', ''));
 
         if (emailVerificationCode) {
             await this.userService.verifyEmail(emailVerificationCode as string);
+        } else if (passwordChangeCode) {
+            try {
+                await this.userService.changePassword(passwordChangeCode as string);
+            } catch (error) {
+                if (CHANGE_PASSWORD_ERRORS.includes(error.error)) {
+                    this.utilsService.toast('error', error.error, 'Please resubmit password change request from login');
+                } else {
+                    (await this.modalController.create({
+                        component: ModalChangePasswordComponent,
+                        componentProps: { code: passwordChangeCode },
+                        cssClass: 'app-modal-change-password'
+                    })).present();
+                }
+            } finally {
+                this.router.navigate([(this.user ? '/profile' : '/home')]);
+            }
         }
     }
 }
