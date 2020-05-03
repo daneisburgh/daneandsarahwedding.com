@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import { deadlineString } from '../profile/profile.page';
-import { LogInModalComponent } from '../../shared/components/log-in-modal/log-in-modal.component';
+import { ModalLogInComponent } from '../../shared/components/modal-log-in/modal-log-in.component';
 import { UserService } from '../../shared/services/user/user.service';
 import { UtilsService } from '../../shared/services/utils/utils.service';
 
@@ -28,7 +28,7 @@ export class InfoPage {
 
     public async presentLogInModal() {
         (await this.modalController.create({
-            component: LogInModalComponent,
+            component: ModalLogInComponent,
             cssClass: 'app-log-in-modal'
         })).present();
     }

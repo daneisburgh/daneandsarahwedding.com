@@ -5,9 +5,10 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as querystring from 'querystring';
 
-import { GalleryPopoverComponent } from './shared/components/gallery-popover/gallery-popover.component';
-import { ProfilePopoverComponent } from './shared/components/profile-popover/profile-popover.component';
-import { LogInModalComponent } from './shared/components/log-in-modal/log-in-modal.component';
+
+import { ModalLogInComponent } from './shared/components/modal-log-in/modal-log-in.component';
+import { PopoverGalleryLinksComponent } from './shared/components/popover-gallery-links/popover-gallery-links.component';
+import { PopoverProfileLinksComponent } from './shared/components/popover-profile-links/popover-profile-links.component';
 import { UserService } from './shared/services/user/user.service';
 import { UtilsService } from './shared/services/utils/utils.service';
 
@@ -38,17 +39,17 @@ export class AppComponent {
 
     public async presentGalleryPopover(event: any) {
         const cssClass = 'gallery-popover';
-        (await this.popoverController.create({ event, cssClass, component: GalleryPopoverComponent })).present();
+        (await this.popoverController.create({ event, cssClass, component: PopoverGalleryLinksComponent })).present();
     }
 
     public async presentProfilePopover(event: any) {
         const cssClass = 'profile-popover';
-        (await this.popoverController.create({ event, cssClass, component: ProfilePopoverComponent })).present();
+        (await this.popoverController.create({ event, cssClass, component: PopoverProfileLinksComponent })).present();
     }
 
     public async presentLogInModal() {
         (await this.modalController.create({
-            component: LogInModalComponent,
+            component: ModalLogInComponent,
             cssClass: 'app-log-in-modal'
         })).present();
     }

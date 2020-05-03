@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { ChangeEmailModalComponent } from './change-email-modal.component';
+import { PopoverGalleryLinksComponent } from './popover-gallery-links.component';
 
-describe('ChangeEmailModalComponent', () => {
-    let component: ChangeEmailModalComponent;
-    let fixture: ComponentFixture<ChangeEmailModalComponent>;
+describe('PopoverGalleryLinksComponent', () => {
+    let component: PopoverGalleryLinksComponent;
+    let fixture: ComponentFixture<PopoverGalleryLinksComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ChangeEmailModalComponent],
+            declarations: [PopoverGalleryLinksComponent],
             imports: [IonicModule.forRoot()]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(ChangeEmailModalComponent);
+        fixture = TestBed.createComponent(PopoverGalleryLinksComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     }));

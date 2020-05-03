@@ -62,7 +62,7 @@ export class UtilsService {
 
     public toastBadRequest() {
         this.toast('error', 'Bad request',
-            'Please <a href="mailto:hello@daneandsarahwedding.com" target="_blank">contact us</a> if error persists');
+            'Please contact us if the error persists');
     }
 
     private watchRoute() {

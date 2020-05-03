@@ -2,16 +2,16 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
+import { ModalChangeEmailComponent } from '../modal-change-email/modal-change-email.component';
 import { UserService, LOG_IN_ERRORS } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
-import { ChangeEmailModalComponent } from '../change-email-modal/change-email-modal.component';
 
 @Component({
-    selector: 'app-log-in-modal',
-    templateUrl: './log-in-modal.component.html',
-    styleUrls: ['./log-in-modal.component.scss'],
+    selector: 'app-modal-log-in',
+    templateUrl: './modal-log-in.component.html',
+    styleUrls: ['./modal-log-in.component.scss'],
 })
-export class LogInModalComponent {
+export class ModalLogInComponent {
     public username: string;
     public password: string;
     public errorMessage: string;
@@ -46,7 +46,7 @@ export class LogInModalComponent {
                 await this.router.navigate(['/profile']);
             } else {
                 const changeEmailModal = await this.modalController.create({
-                    component: ChangeEmailModalComponent,
+                    component: ModalChangeEmailComponent,
                     cssClass: 'app-change-email-modal add-email'
                 });
                 await changeEmailModal.present();

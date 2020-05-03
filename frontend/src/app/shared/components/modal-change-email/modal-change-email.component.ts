@@ -5,12 +5,13 @@ import { ModalController } from '@ionic/angular';
 import { UserService, CHANGE_EMAIL_ERRORS } from '../../services/user/user.service';
 import { UtilsService } from '../../services/utils/utils.service';
 
+
 @Component({
-    selector: 'app-change-email-modal',
-    templateUrl: './change-email-modal.component.html',
-    styleUrls: ['./change-email-modal.component.scss'],
+    selector: 'app-modal-change-email',
+    templateUrl: './modal-change-email.component.html',
+    styleUrls: ['./modal-change-email.component.scss'],
 })
-export class ChangeEmailModalComponent {
+export class ModalChangeEmailComponent {
     public email: string;
     public errorMessage: string;
     public isSubmitting = false;
