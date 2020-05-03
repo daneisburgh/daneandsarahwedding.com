@@ -26,6 +26,13 @@ export class ProfilePage {
     public updatingRequiresTransportation = false;
     public resendingEmailVerification = false;
 
+    public isUpdating = {
+        isAttending: false,
+        requiresAccommodations: false,
+        totalRequiredRooms: false,
+        requiresTransportation: false
+    }
+
     public interfaceOptions = {
         accommodation: {
             subHeader: `
@@ -82,31 +89,21 @@ export class ProfilePage {
         })).present();
     }
 
-    public async handleUpdateIsAttending(event: CustomEvent) {
-        try {
-            this.updatingIsAttending = true;
-            await this.userService.update({ isAttending: event.detail.value });
-        } catch (error) {
-            console.error(error);
-            this.utilsService.toastBadRequest();
-        } finally {
-            setTimeout(() => {
-                this.updatingIsAttending = false;
-            }, 1000);
-        }
-    }
+    public async update(column: string, event: CustomEvent) {
+        const value = event.detail.value;
 
-    public async handleUpdateRequiresAccommodations(event: CustomEvent) {
-        try {
-            this.updatingRequiresAccommodations = true;
-            await this.userService.update({ requiresAccommodations: event.detail.value });
-        } catch (error) {
-            console.error(error);
-            this.utilsService.toastBadRequest();
-        } finally {
-            setTimeout(() => {
-                this.updatingRequiresAccommodations = false;
-            }, 1000);
+        if (this.user[column] !== value) {
+            try {
+                this.isUpdating[column] = true;
+                await this.userService.update({ [column]: value });
+            } catch (error) {
+                console.error(error);
+                this.utilsService.toastBadRequest();
+            } finally {
+                setTimeout(() => {
+                    this.isUpdating[column] = false;
+                }, 1000);
+            }
         }
     }
 
