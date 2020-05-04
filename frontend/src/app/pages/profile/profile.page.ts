@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { isUndefined } from 'lodash';
+import { isUndefined, isEqual } from 'lodash';
 
 import { UserService, CHANGE_EMAIL_ERRORS } from '../../shared/services/user/user.service';
 import { UtilsService } from '../../shared/services/utils/utils.service';
@@ -16,18 +16,25 @@ export const deadlineString = deadline.toLocaleDateString();
 })
 export class ProfilePage {
     public readonly deadlineMessage = `Profile info can be updated until ${deadlineString}`;
+    public readonly deadlineExpired = Date.now() >= deadline.getTime();
+
+    public email: string;
+    public guests: string[];
     public roomOptions: number[] = [];
-    public email: string = '';
+
     public changeEmailErrorMessage: string;
+    public changeGuestsErrorMessage: string;
 
     public displayChangeEmail = false;
+    public displayChangeGuests = false;
     public resendingEmailVerification = false;
 
     public isUpdating = {
         isAttending: false,
         requiresAccommodations: false,
         totalRequiredRooms: false,
-        requiresTransportation: false
+        requiresTransportation: false,
+        guests: false
     }
 
     public interfaceOptions = {
@@ -51,7 +58,6 @@ export class ProfilePage {
 
     public get user() { return this.userService.user; }
     public get isMobile() { return this.utilsService.isMobile; }
-    public get disableInputs() { return Date.now() >= deadline.getTime(); }
     public get emailVerificationHasExpired() {
         return this.user.emailVerificationExpiration &&
             this.user.emailVerificationExpiration < new Date()
@@ -65,14 +71,11 @@ export class ProfilePage {
 
     public ionViewDidEnter() {
         this.utilsService.setTitle(this.user.name);
+        this.setRoomOptions();
 
         if (!history.state.doNotDisplayEmailVerificationWarning && !this.user.isEmailVerified) {
             this.utilsService.toast('warning', 'Email is not verified',
                 'Please verify your email address to receive important wedding updates');
-        }
-
-        for (let i = 1; i <= this.user.maxGuests; i++) {
-            this.roomOptions.push(i);
         }
     }
 
@@ -86,16 +89,16 @@ export class ProfilePage {
         })).present();
     }
 
-    public async update(column: string, event: CustomEvent) {
-        const value = event.detail.value;
-
-        if (this.user[column] !== value) {
+    public async updateColumn(column: string, value: any) {
+        if (!isEqual(this.user[column], value)) {
             try {
                 this.isUpdating[column] = true;
                 await this.userService.update({ [column]: value });
+                return true;
             } catch (error) {
                 console.error(error);
                 this.utilsService.toastBadRequest();
+                return false;
             } finally {
                 setTimeout(() => {
                     this.isUpdating[column] = false;
@@ -104,31 +107,48 @@ export class ProfilePage {
         }
     }
 
-    public async resendEmailVerification(email?: string) {
-        try {
-            this.resendingEmailVerification = true;
+    public async updateGuests() {
+        if (await this.updateColumn('guests', this.guests)) {
+            this.toggleDisplayChangeGuests();
+        }
+    }
 
-            if (email === this.user.email) {
-                throw { error: 'Email not changed' };
-            } else {
+    public async resendEmailVerification(email?: string) {
+        if (email !== this.user.email) {
+            try {
+                this.resendingEmailVerification = true;
                 await this.userService.changeEmail(isUndefined(email) ? this.user.email : email);
                 this.changeEmailErrorMessage = undefined;
-                this.displayChangeEmail = false;
-                this.email = '';
+            } catch (error) {
+                console.error(error);
+    
+                if (this.displayChangeEmail && CHANGE_EMAIL_ERRORS.includes(error.error)) {
+                    this.changeEmailErrorMessage = error.error;
+                } else {
+                    this.utilsService.toastBadRequest();
+                }
+            } finally {
+                setTimeout(() => {
+                    this.resendingEmailVerification = false;
+    
+                    if (!this.changeEmailErrorMessage) {
+                        this.displayChangeEmail = false;
+                    }
+                }, 1000);
             }
-        } catch (error) {
-            console.error(error);
-
-            if (this.displayChangeEmail && CHANGE_EMAIL_ERRORS.includes(error.error)) {
-                this.changeEmailErrorMessage = error.error;
-            } else {
-                this.utilsService.toastBadRequest();
-            }
-        } finally {
-            setTimeout(() => {
-                this.resendingEmailVerification = false;
-            }, 1000);
         }
+    }
+
+    public toggleDisplayChangeEmail() {
+        this.email = this.user.email;
+        this.changeEmailErrorMessage = undefined;
+        this.displayChangeEmail = !this.displayChangeEmail;
+    }
+
+    public toggleDisplayChangeGuests() {
+        this.guests = this.user.guests.slice();
+        this.changeGuestsErrorMessage = undefined;
+        this.displayChangeGuests = !this.displayChangeGuests;
     }
 
     public changeEmailKeyDown(event: KeyboardEvent) {
@@ -139,9 +159,22 @@ export class ProfilePage {
         }
     }
 
-    public toggleDisplayChangeEmail() {
-        this.email = '';
-        this.changeEmailErrorMessage = undefined;
-        this.displayChangeEmail = !this.displayChangeEmail;
+    public changeGuestsKeyDown(event: KeyboardEvent) {
+        this.changeGuestsErrorMessage = undefined;
+
+        if (event.key === 'Enter') {
+            this.updateGuests();
+        }
+    }
+
+    public changeGuestsTrackBy(index: any, item: any) {
+        return index;
+    }
+
+    private setRoomOptions() {
+        this.roomOptions = [];
+        for (let i = 1; i <= this.user.guests.length; i++) {
+            this.roomOptions.push(i);
+        }
     }
 }

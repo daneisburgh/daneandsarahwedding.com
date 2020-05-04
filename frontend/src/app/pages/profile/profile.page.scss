@@ -11,21 +11,38 @@
     div {
         margin-top: 2px;
     }
-
-    ion-icon {
-        font-size: 20px;
-    }
 }
 
 ion-select {
     font-weight: bold;
 }
 
+ion-icon {
+    cursor: pointer;
+    font-size: 20px;
+
+    &.create {
+        font-size: 24px;
+    }
+
+    &.close {
+        font-size: 26px;
+    }
+}
+
+ion-input {
+    border-bottom: 1px solid var(--ion-color-medium);
+
+    &.ng-valid {
+        border-bottom: 1px solid var(--ion-color-dark);
+    }
+}
+
 ion-card-header {
     &.email {
         ion-card-title ion-text {
             float: right;
-            margin: 1px 2px 0 0;
+            margin-top: 1px;
 
             a {
                 color: white;
@@ -36,15 +53,28 @@ ion-card-header {
                 margin-top: -4px;
             }
         }
+    }
 
-        ion-icon {
-            cursor: pointer;
-            font-size: 20px;
-            margin: -6px 0 -3px 8px;
+    &.guests {
+        ion-card-title ion-spinner {
+            float: right;
+            margin-top: -3px;
+        }
+    }
 
-            &.create {
-                font-size: 24px;
-            }
+    ion-icon {
+        margin: -6px 0 0 8px;
+
+        &.create {
+            margin-bottom: -4px;
+        }
+
+        &.close {
+            margin-bottom: -6px;
+        }
+
+        &.save {
+            margin-bottom: -3px;
         }
     }
 }
@@ -55,37 +85,60 @@ ion-card-content {
     ion-item {
         margin: 0;
         padding: 0;
+        pointer-events: auto;
 
         @media screen and (min-width: $min-width-small) {
             padding: 0 8px;
 
-            &:first-child,
+            &:first-child {
+                padding-top: 8px;
+            }
+
             &:last-child {
-                padding: 8px;
+                padding-bottom: 8px;
+            }
+        }
+
+        ion-spinner {
+            margin-top: 2px;
+        }
+    }
+
+    ion-label {
+        opacity: 1 !important;
+    }
+
+    &.email {
+        ion-input {
+            margin: -8px 0 0 -8px;
+            padding-left: 8px !important;
+        }
+
+        ion-text {
+            width: 30%;
+            text-align: right;
+
+            ion-spinner {
+                margin-top: 4px;
+            }
+
+            .email-verified {
+                color: var(--ion-color-success);
+            }
+
+            .email-error {
+                color: var(--ion-color-danger);
             }
         }
     }
 
-    &.email-verification {
-        ion-item {
-            pointer-events: auto;
-        }
-
-        ion-label {
-            opacity: 1 !important;
-        }
-
+    &.guests {
         ion-input {
-            margin: 1px 0 0 -8px;
-            padding-left: 0 !important;
+            margin: -8px 0 0 0;
         }
 
-        .email-verified {
-            color: var(--ion-color-success);
-        }
-
-        .email-error {
-            color: var(--ion-color-danger);
+        span {
+            margin-right: 8px;
         }
     }
 }
