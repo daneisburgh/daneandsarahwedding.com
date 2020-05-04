@@ -31,6 +31,12 @@ ion-buttons {
             &.gallery {
                 margin-right: -6px;
             }
+
+            &.registry {
+                ion-icon.open{
+                    font-size: 12px;
+                }
+            }
         }
     }
 
@@ -146,4 +152,10 @@ ion-title {
 .caret-down-gallery-mobile {
     position: absolute;
     margin: 1px 0 0 50px;
+}
+
+.open-mobile {
+    font-size: 12px;
+    position: absolute;
+    margin: 1px 0 0 58px;
 }
