@@ -1,5 +1,7 @@
+@import "../../../styles/variables.scss";
+
 .title.grid {
-    padding-left: 4px;
+    padding-left: 8px;
 }
 
 .deadline {
@@ -7,7 +9,7 @@
     margin-bottom: -2px;
 
     div {
-        margin-top: 4px;
+        margin-top: 2px;
     }
 
     ion-icon {
@@ -16,5 +18,60 @@
 }
 
 ion-select {
-    font-weight: bolder;
+    font-weight: bold;
+}
+
+ion-card-header {
+    &.email {
+        ion-icon {
+            cursor: pointer;
+            font-size: 20px;
+            margin: -6px 0 -3px 8px;
+
+            &.create {
+                font-size: 24px;
+            }
+        }
+
+        .change-email-error {
+            color: var(--ion-color-danger);
+        }
+    }
+}
+
+ion-card-content {
+    padding: 0 !important;
+
+    ion-item {
+        margin: 0;
+        padding: 0;
+
+        @media screen and (min-width: $min-width-small) {
+            padding: 0 8px;
+
+            &:first-child,
+            &:last-child {
+                padding: 8px;
+            }
+        }
+    }
+
+    &.email-verification {
+        ion-label {
+            opacity: 1 !important;
+        }
+
+        ion-input {
+            margin: 1px 0 0 -8px;
+            padding-left: 0 !important;
+        }
+
+        .email-verified {
+            color: var(--ion-color-success);
+        }
+
+        .change-email-error {
+            color: var(--ion-color-danger);
+        }
+    }
 }

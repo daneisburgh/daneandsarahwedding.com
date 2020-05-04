@@ -28,7 +28,7 @@ export const emailColumns = {
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: new Date
+        defaultValue: new Date()
     }
 }
 

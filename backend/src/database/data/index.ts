@@ -1,5 +1,3 @@
-import admin from './admin';
-import users from './users';
+import users from './scripts/users';
 
-// admin();
 users();

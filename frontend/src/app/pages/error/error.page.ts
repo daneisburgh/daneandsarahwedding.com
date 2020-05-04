@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import builtinStatusCodes from 'builtin-status-codes';
 import { get } from 'lodash';
 
-import { UtilsService } from '../../services/utils/utils.service';
+import { UtilsService } from '../../shared/services/utils/utils.service';
 
 @Component({
     selector: 'app-error',
@@ -13,7 +13,7 @@ import { UtilsService } from '../../services/utils/utils.service';
 export class ErrorPage {
     public statusCode: number;
     public get statusText() { return get(builtinStatusCodes, this.statusCode); }
-    public get statusMessage() { return this.statusCode ? `${this.statusCode}: ${this.statusText}` : ''; }
+    public get statusMessage() { return this.statusCode ? `Error: ${this.statusText}` : ''; }
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -21,8 +21,8 @@ export class ErrorPage {
     ) { }
 
     public ionViewDidEnter() {
+        this.utilsService.setTitle('Error');
         const params = this.activatedRoute.snapshot.params;
         this.statusCode = params.statusCode && get(builtinStatusCodes, params.statusCode) ? params.statusCode : 404;
-        this.utilsService.setTitle(this.statusText);
     }
 }

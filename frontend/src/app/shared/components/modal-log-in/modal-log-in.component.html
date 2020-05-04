@@ -1,0 +1,53 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-title class="content-inner">Log In</ion-title>
+        <ion-buttons slot="end" class=:close>
+            <ion-button (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="center-content-horizontal">
+        <div class="content-inner modal-inner" (keydown)="keyDown($event)">
+            <ion-grid>
+                <ion-row>
+                    <ion-col class="center-content-horizontal">
+                        <ion-item>
+                            <ion-label position="floating">Username</ion-label>
+                            <ion-input type="text" [(ngModel)]="username" [disabled]="isSubmitting"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="center-content-horizontal">
+                        <ion-item>
+                            <ion-label position="floating">Password</ion-label>
+                            <ion-input type="password" [(ngModel)]="password" [disabled]="isSubmitting"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="forgot-password">
+                    <ion-col class="ion-text-right">
+                        &nbsp;
+                        <a (click)="presentResetPasswordModal()">Forgot password?</a>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="center-content-vertical">
+                        <ion-button class="submit" (click)="submit()" [disabled]="isSubmitting">
+                            Submit
+                        </ion-button>
+                        <ion-text *ngIf="isSubmitting" class="submit-message">
+                            <ion-spinner></ion-spinner>
+                        </ion-text>
+                        <ion-text *ngIf="!isSubmitting && errorMessage" class="submit-message" color="danger">
+                            {{errorMessage}}
+                        </ion-text>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </div>
+</ion-content>

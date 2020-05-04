@@ -25,6 +25,20 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import "~@angular/material/theming";
+
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+/* Toast styles */
+@import "~ngx-toastr/toastr";
+
 /* App style variables */
 @import "./variables.scss";
 
@@ -34,7 +48,14 @@
 }
 
 * {
+    font-size: 16px;
     font-family: "Times New Roman", Times, serif !important;
+}
+
+a {
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 ion-button {
@@ -42,27 +63,112 @@ ion-button {
     --border-radius: 5px !important;
 }
 
-ion-select {
-    margin-top: 4px;
-    line-height: 18px;
-}
+ion-card-header {
+    &.ion-color-primary ion-card-title {
+        color: white !important;
+    }
 
-ion-title {
-    padding: 0 8px 0 18px;
-
-    &.grid {
-        padding-left: 0;
+    ion-card-title {
+        font-size: 20px;
     }
 }
 
-ion-card-header.ion-color-primary ion-card-title {
-    color: white !important;
+ion-card-content {
+    font-size: 16px !important;
+    padding: 16px !important;
 }
 
-ion-toast {
-    @media screen and (min-width: $min-width-small) {
-        width: 320px;
+ion-modal {
+    @media screen and (min-width: $min-width-medium) {
+        &.app-modal-log-in .modal-wrapper {
+            height: 304px !important;
+        }
+
+        &.app-modal-change-email .modal-wrapper {
+            height: 216px !important;
+        }
+
+        &.app-modal-change-email.add-email .modal-wrapper {
+            height: 232px !important;
+        }
+
+        &.app-modal-change-password .modal-wrapper {
+            height: 286px !important;
+        }
+
+        &.app-modal-change-password.send-email .modal-wrapper {
+            height: 232px !important;
+            width: 360px !important;
+        }
     }
+
+    &.app-modal-change-email,
+    &.app-modal-change-password {
+        ion-row {
+            &.email,
+            &.password {
+                margin-bottom: 16px;
+            }
+
+            &.email {
+                ion-col.add-email-message {
+                    padding: 0 0 0 16px;
+                }
+
+                @media screen and (min-width: $min-width-medium) {
+                    ion-col.add-email-message {
+                        padding: 0 0 0 32px;
+                    }
+                }
+            }
+        }
+    }
+
+    .modal-wrapper {
+        @media screen and (min-width: $min-width-medium) {
+            width: 328px !important;
+            height: 304px !important;
+            border-radius: 5px !important;
+            background: transparent !important;
+        }
+    }
+
+    .modal-inner {
+        width: 100%;
+
+        ion-buttons.close {
+            margin-right: 10px;
+        }
+
+        ion-item {
+            width: 100%;
+            padding: 0;
+            font-size: 20px;
+            --highlight-background: var(--ion-color-primary) !important;
+
+            @media screen and (min-width: $min-width-medium) {
+                width: 90%;
+                margin-right: 4px;
+            }
+        }
+
+        .submit {
+            font-size: 20px;
+            margin: 0 0 0 12px;
+        }
+
+        .submit-message {
+            margin: 4px 0 0 16px;
+        }
+
+        ion-spinner {
+            margin-bottom: -3px;
+        }
+    }
+}
+
+ion-modal:not(:last-child) .modal-wrapper {
+    display: none !important;
 }
 
 ion-popover {
@@ -104,8 +210,22 @@ ion-popover {
     }
 }
 
-a {
-    font-weight: bolder;
+ion-select {
+    margin-top: 4px;
+    line-height: 18px;
+}
+
+ion-title {
+    font-size: 20px;
+    padding: 0 8px 0 18px;
+
+    &.grid {
+        padding-left: 0;
+
+        ion-col:first-child {
+            font-size: 20px;
+        }
+    }
 }
 
 .alert-wrapper {
@@ -135,6 +255,20 @@ a {
     margin: 0 auto;
 }
 
+.mgl-timeline-entry-card {
+    background-color: var(--ion-color-light) !important;
+}
+
+.mgl-timeline-entry-card-header {
+    border-radius: 5px !important;
+    background-color: var(--ion-color-light-shade) !important;
+}
+
+.mgl-timeline-line {
+    border-radius: 5px !important;
+    background-color: var(--ion-color-medium) !important;
+}
+
 .page-outer {
     height: 100%;
     overflow-y: scroll;
@@ -148,25 +282,38 @@ a {
     }
 }
 
-.modal-wrapper {
-    @media screen and (min-width: $min-width-medium) {
-        width: 256px !important;
-        height: 304px !important;
-        border-radius: 5px !important;
-        background: transparent !important;
+.toast-container .ngx-toastr {
+    padding: 13px 14px 12px;
+    background-image: none;
+    box-shadow: 0 0 5px black;
+
+    &.toast-success {
+        background-color: var(--ion-color-success);
     }
-}
 
-.mgl-timeline-entry-card {
-    background-color: var(--ion-color-light) !important;
-}
+    &.toast-warning {
+        background-color: var(--ion-color-warning);
+    }
 
-.mgl-timeline-entry-card-header {
-    border-radius: 5px !important;
-    background-color: var(--ion-color-light-shade) !important;
-}
+    &.toast-error {
+        background-color: var(--ion-color-danger);
+    }
 
-.mgl-timeline-line {
-    border-radius: 5px !important;
-    background-color: var(--ion-color-medium) !important;
+    &:hover {
+        cursor: initial;
+        box-shadow: 0 0 5px black;
+    }
+
+    button {
+        margin: 0;
+        line-height: 12px;
+
+        span {
+            font-size: 24px;
+        }
+    }
+
+    .toast-title {
+        margin-bottom: 4px;
+    }
 }

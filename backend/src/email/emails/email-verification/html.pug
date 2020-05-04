@@ -1,0 +1,19 @@
+doctype html
+html
+    head
+        link(rel="stylesheet" href="styles.css", data-inline)
+    body
+        p 
+            | Hi #{user.name},
+        p 
+            | Please verify your email address by clicking the link below.
+            | Note that the link is only valid for #{expirationHours} hours.
+        p
+            button(onclick=`window.open('${verificationUrl}', '_blank')`) Verify Email
+        p
+            | Feel free to reply to this email if you have any issues verifying your 
+            | email address or if you are not the intended recipient.
+        p 
+            | Regards,
+            br
+            | Dane & Sarah
