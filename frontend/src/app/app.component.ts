@@ -13,6 +13,8 @@ import { PopoverProfileLinksComponent } from './shared/components/popover-profil
 import { UserService, CHANGE_PASSWORD_ERRORS } from './shared/services/user/user.service';
 import { UtilsService } from './shared/services/utils/utils.service';
 
+export const emailUrl = 'mailto:hello@daneandsarahwedding.com';
+
 @Component({
     selector: 'app-root',
     templateUrl: 'app.component.html',
@@ -21,6 +23,8 @@ import { UtilsService } from './shared/services/utils/utils.service';
 export class AppComponent {
     public isReady = false;
     public readonly currentYear = new Date().getFullYear();
+    public readonly registryUrl = 'https://www.zola.com/registry/daneandsarahwedding';
+    public readonly emailUrl = emailUrl;
 
     public get user() { return this.userService.user; }
     public get appTitle() { return this.utilsService.appTitle };

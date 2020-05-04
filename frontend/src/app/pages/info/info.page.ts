@@ -5,6 +5,7 @@ import { deadlineString } from '../profile/profile.page';
 import { ModalLogInComponent } from '../../shared/components/modal-log-in/modal-log-in.component';
 import { UserService } from '../../shared/services/user/user.service';
 import { UtilsService } from '../../shared/services/utils/utils.service';
+import { emailUrl } from '../../app.component';
 
 @Component({
     selector: 'app-info',
@@ -12,7 +13,8 @@ import { UtilsService } from '../../shared/services/utils/utils.service';
     styleUrls: ['./info.page.scss'],
 })
 export class InfoPage {
-    public deadlineString = deadlineString;
+    public readonly deadlineString = deadlineString;
+    public readonly emailUrl = emailUrl;
 
     public get user() { return this.userService.user; }
 

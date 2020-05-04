@@ -23,7 +23,7 @@
                                 <a *ngIf="!user" (click)="presentLogInModal()">profile</a>
                                 by <b>{{deadlineString}}</b>.
                                 Feel free to
-                                <a href="mailto:hello@daneandsarahwedding.com" target="_blank">contact us</a>
+                                <a [href]="emailUrl" target="_blank">contact us</a>
                                 if you have any other questions. We look forward to celebrating our marriage with
                                 everyone this October!
                             </ion-card-content>
