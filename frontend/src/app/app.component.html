@@ -27,6 +27,11 @@
                     <ion-label>Gallery</ion-label>
                     <ion-icon slot="end" name="caret-down" class="caret-down caret-down-gallery-desktop"></ion-icon>
                 </ion-button>
+                <ion-button class="registry" href="https://www.zola.com/registry/daneandsarahwedding" target="_blank">
+                    <ion-icon slot="start" name="gift"></ion-icon>
+                    <ion-label>Registry</ion-label>
+                    <ion-icon slot="end" name="open" class="open"></ion-icon>
+                </ion-button>
                 <ion-button *ngIf="user && user.isAdmin" routerLink="/users" routerDirection="root"
                     [ngClass]="{'active': router.url.includes('users')}">
                     <ion-icon slot="start" name="people"></ion-icon>

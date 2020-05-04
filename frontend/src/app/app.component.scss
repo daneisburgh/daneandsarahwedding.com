@@ -31,6 +31,12 @@ ion-buttons {
             &.gallery {
                 margin-right: -6px;
             }
+
+            &.registry {
+                ion-icon.open{
+                    font-size: 12px;
+                }
+            }
         }
     }
 
