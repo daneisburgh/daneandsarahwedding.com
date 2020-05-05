@@ -47,6 +47,7 @@
                                 <ion-card-title>
                                     Email
                                     <ion-icon *ngIf="displayChangeEmail" name="save" class="save"
+                                        [ngClass]="{'disabled': isChangeEmailDisabled}"
                                         (click)="resendEmailVerification(email)"></ion-icon>
                                     <ion-icon *ngIf="displayChangeEmail" name="close" class="close"
                                         (click)="toggleDisplayChangeEmail()"></ion-icon>
@@ -134,7 +135,8 @@
                                 <ion-card-title>
                                     Guests
                                     <ion-icon *ngIf="displayChangeGuests" name="save" class="save"
-                                        (click)="updateGuests()"></ion-icon>
+                                        [ngClass]="{'disabled': isChangeGuestsDisabled}" (click)="updateGuests()">
+                                    </ion-icon>
                                     <ion-icon *ngIf="displayChangeGuests" name="close" class="close"
                                         (click)="toggleDisplayChangeGuests()"></ion-icon>
                                     <ion-icon *ngIf="!displayChangeGuests" name="create" class="create"

@@ -58,6 +58,8 @@ export class ProfilePage {
 
     public get user() { return this.userService.user; }
     public get isMobile() { return this.utilsService.isMobile; }
+    public get isChangeEmailDisabled() { return this.user.email === this.email; }
+    public get isChangeGuestsDisabled() { return isEqual(this.user.guests, this.guests) }
     public get emailVerificationHasExpired() {
         return this.user.emailVerificationExpiration &&
             this.user.emailVerificationExpiration < new Date()
@@ -121,7 +123,7 @@ export class ProfilePage {
                 this.changeEmailErrorMessage = undefined;
             } catch (error) {
                 console.error(error);
-    
+
                 if (this.displayChangeEmail && CHANGE_EMAIL_ERRORS.includes(error.error)) {
                     this.changeEmailErrorMessage = error.error;
                 } else {
@@ -130,7 +132,7 @@ export class ProfilePage {
             } finally {
                 setTimeout(() => {
                     this.resendingEmailVerification = false;
-    
+
                     if (!this.changeEmailErrorMessage) {
                         this.displayChangeEmail = false;
                     }

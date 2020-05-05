@@ -21,6 +21,11 @@ ion-icon {
     cursor: pointer;
     font-size: 20px;
 
+    &.disabled {
+        cursor: initial;
+        color: var(--ion-color-medium);
+    }
+
     &.create {
         font-size: 24px;
     }
