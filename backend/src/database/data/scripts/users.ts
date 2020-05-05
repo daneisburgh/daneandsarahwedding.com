@@ -83,10 +83,13 @@ async function createOrUpdateUsers() {
                     const currentUser = await User.findOne({ where: { name: guest.Name } });
 
                     if (!currentUser) {
+                        const username = await generateUsername(guest.Name);
+
                         await User.create({
-                            username: await generateUsername(guest.Name),
+                            username,
                             name: guest.Name,
                             address: guest.Address,
+                            minGuests: username.includes('&') ? 2 : 1,
                             maxGuests: guest.Persons,
                             guests: await generateGuestNames(guest.Name)
                         });
