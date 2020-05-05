@@ -17,23 +17,27 @@ ion-select {
     font-weight: bold;
 }
 
-ion-icon {
-    cursor: pointer;
-    font-size: 20px;
+// ion-icon {
+//     cursor: pointer;
+//     font-size: 20px;
 
-    &.disabled {
-        cursor: initial;
-        color: var(--ion-color-medium);
-    }
+//     &.disabled {
+//         cursor: initial;
+//         color: var(--ion-color-medium);
+//     }
 
-    &.create {
-        font-size: 24px;
-    }
+//     &.create {
+//         font-size: 24px;
+//     }
 
-    &.close {
-        font-size: 26px;
-    }
-}
+//     &.close {
+//         font-size: 26px;
+//     }
+
+//     &.add {
+//         font-size: 28px;
+//     }
+// }
 
 ion-input {
     border-bottom: 1px solid var(--ion-color-medium);
@@ -44,43 +48,37 @@ ion-input {
 }
 
 ion-card-header {
+    ion-spinner {
+        float: right;
+        margin-top: -4px;
+    }
+    
     &.email {
-        ion-card-title ion-text {
+        ion-buttons {
             float: right;
-            margin-top: 1px;
+            margin: -4px -8px 0 0;
 
-            a {
-                color: white;
-                font-weight: normal;
+            .change ion-icon {
+                font-size: 20px;
+                margin: -4px 4px 0 0;
             }
 
-            ion-spinner {
-                margin-top: -4px;
+            .resend ion-icon {
+                margin-right: 6px;
+            }
+
+            .save ion-icon {
+                margin-right: 8px;
+            }
+
+            .cancel ion-icon {
+                font-size: 20px;
+                margin: -2px 4px 0 0;
             }
         }
     }
 
     &.guests {
-        ion-card-title ion-spinner {
-            float: right;
-            margin-top: -3px;
-        }
-    }
-
-    ion-icon {
-        margin: -6px 0 0 8px;
-
-        &.create {
-            margin-bottom: -4px;
-        }
-
-        &.close {
-            margin-bottom: -6px;
-        }
-
-        &.save {
-            margin-bottom: -3px;
-        }
     }
 }
 
