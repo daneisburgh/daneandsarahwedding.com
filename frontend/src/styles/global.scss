@@ -58,6 +58,14 @@ a {
     text-decoration: underline;
 }
 
+app-profile {
+    ion-input {
+        input {
+            padding: 10px 0 0 0 !important;
+        }
+    }
+}
+
 ion-button {
     text-transform: none !important;
     --border-radius: 5px !important;
@@ -76,12 +84,6 @@ ion-card-header {
 ion-card-content {
     font-size: 16px !important;
     padding: 16px !important;
-}
-
-ion-input {
-    input {
-        padding: 10px 0 0 0 !important;
-    }
 }
 
 ion-modal {
@@ -253,7 +255,7 @@ ion-title {
 }
 
 .content-outer {
-    min-width: 300px;
+    min-width: 320px;
 }
 
 .content-inner {
