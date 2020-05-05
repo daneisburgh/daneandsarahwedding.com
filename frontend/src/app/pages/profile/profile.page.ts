@@ -60,6 +60,7 @@ export class ProfilePage {
     public get isMobile() { return this.utilsService.isMobile; }
     public get isChangeEmailDisabled() { return this.user.email === this.email; }
     public get isChangeGuestsDisabled() { return isEqual(this.user.guests, this.guests) }
+    public get isAddGuestsDisabled() { return this.user.guests.length === this.user.maxGuests; }
     public get emailVerificationHasExpired() {
         return this.user.emailVerificationExpiration &&
             this.user.emailVerificationExpiration < new Date()
@@ -73,6 +74,7 @@ export class ProfilePage {
 
     public ionViewDidEnter() {
         this.utilsService.setTitle(this.user.name);
+        this.guests = this.user.guests.slice();
         this.setRoomOptions();
 
         if (!history.state.doNotDisplayEmailVerificationWarning && !this.user.isEmailVerified) {
@@ -109,35 +111,24 @@ export class ProfilePage {
         }
     }
 
-    public async updateGuests() {
-        if (await this.updateColumn('guests', this.guests)) {
-            this.toggleDisplayChangeGuests();
-        }
-    }
+    public async resendEmailVerification(email: string) {
+        try {
+            this.resendingEmailVerification = true;
+            await this.userService.changeEmail(email);
+            this.changeEmailErrorMessage = undefined;
+            this.displayChangeEmail = false;
+        } catch (error) {
+            console.error(error);
 
-    public async resendEmailVerification(email?: string) {
-        if (email !== this.user.email) {
-            try {
-                this.resendingEmailVerification = true;
-                await this.userService.changeEmail(isUndefined(email) ? this.user.email : email);
-                this.changeEmailErrorMessage = undefined;
-            } catch (error) {
-                console.error(error);
-
-                if (this.displayChangeEmail && CHANGE_EMAIL_ERRORS.includes(error.error)) {
-                    this.changeEmailErrorMessage = error.error;
-                } else {
-                    this.utilsService.toastBadRequest();
-                }
-            } finally {
-                setTimeout(() => {
-                    this.resendingEmailVerification = false;
-
-                    if (!this.changeEmailErrorMessage) {
-                        this.displayChangeEmail = false;
-                    }
-                }, 1000);
+            if (this.displayChangeEmail && CHANGE_EMAIL_ERRORS.includes(error.error)) {
+                this.changeEmailErrorMessage = error.error;
+            } else {
+                this.utilsService.toastBadRequest();
             }
+        } finally {
+            setTimeout(() => {
+                this.resendingEmailVerification = false;
+            }, 1000);
         }
     }
 
@@ -147,18 +138,31 @@ export class ProfilePage {
         this.displayChangeEmail = !this.displayChangeEmail;
     }
 
-    public toggleDisplayChangeGuests() {
-        this.guests = this.user.guests.slice();
-        this.changeGuestsErrorMessage = undefined;
-        this.displayChangeGuests = !this.displayChangeGuests;
-    }
-
     public changeEmailKeyDown(event: KeyboardEvent) {
         this.changeEmailErrorMessage = undefined;
 
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && this.email !== this.user.email) {
             this.resendEmailVerification(this.email);
         }
+    }
+
+    public toggleDisplayChangeGuests() {
+        this.changeGuestsErrorMessage = undefined;
+        this.displayChangeGuests = !this.displayChangeGuests;
+        this.guests.filter(guest => guest && guest.length > 0);
+        this.user.guests = this.guests;
+    }
+
+    public async updateGuests() {
+        if (await this.updateColumn('guests', this.guests)) {
+            this.guests = this.user.guests.slice();
+            this.toggleDisplayChangeGuests();
+            this.setRoomOptions();
+        }
+    }
+
+    public addGuest() {
+        this.guests.push('');
     }
 
     public changeGuestsKeyDown(event: KeyboardEvent) {
