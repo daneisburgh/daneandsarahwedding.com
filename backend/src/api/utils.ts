@@ -22,6 +22,7 @@ export function createUserResponse(user: User) {
             'emailVerificationExpiration',
             'isEmailVerified',
             'guests',
+            'minGuests',
             'maxGuests',
             'isAttending',
             'requiresAccommodations',

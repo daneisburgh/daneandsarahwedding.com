@@ -62,6 +62,10 @@ export const userColumns = {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false
     },
+    minGuests: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     maxGuests: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -107,6 +111,7 @@ class User extends Model {
     public emailVerificationExpiration!: Date;
     public isEmailVerified!: boolean;
     public guests!: object;
+    public minGuests!: number;
     public maxGuests!: number;
     public isAttending!: boolean;
     public requiresAccommodations!: boolean;

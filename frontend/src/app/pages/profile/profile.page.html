@@ -29,14 +29,14 @@
                             </ion-card-header>
                             <ion-card-content>
                                 <ion-item color="light" lines="none">
-                                    <ion-label>Can you attend the wedding?</ion-label>
-                                    <ion-select *ngIf="!updatingIsAttending" class="select" placeholder="Select"
-                                        [value]="user.isAttending" [disabled]="disableInputs"
-                                        (ionChange)="handleUpdateIsAttending($event)">
+                                    <ion-label>Will you attend the wedding?</ion-label>
+                                    <ion-select *ngIf="!isUpdating['isAttending']" class="select" placeholder="Select"
+                                        [value]="user.isAttending" [disabled]="deadlineExpired"
+                                        (ionChange)="updateColumn('isAttending', $event.detail.value)">
                                         <ion-select-option [value]="true">Yes</ion-select-option>
                                         <ion-select-option [value]="false">No</ion-select-option>
                                     </ion-select>
-                                    <ion-spinner *ngIf="updatingIsAttending" slot="end"></ion-spinner>
+                                    <ion-spinner *ngIf="isUpdating['isAttending']" slot="end"></ion-spinner>
                                 </ion-item>
                             </ion-card-content>
                         </ion-card>
@@ -46,32 +46,48 @@
                             <ion-card-header color="primary" class="email">
                                 <ion-card-title>
                                     Email
-                                    <ion-icon *ngIf="displayChangeEmail" name="save" class="save"
-                                        (click)="resendEmailVerification(email)"></ion-icon>
-                                    <ion-icon *ngIf="displayChangeEmail" name="close" class="close"
-                                        (click)="toggleDisplayChangeEmail()"></ion-icon>
-                                    <ion-icon *ngIf="!displayChangeEmail" name="create" class="create"
-                                        (click)="toggleDisplayChangeEmail()"></ion-icon>
+                                    <ion-spinner *ngIf="isResendingEmailVerification" color="light"></ion-spinner>
+                                    <ion-buttons *ngIf="!isResendingEmailVerification">
+                                        <ion-button *ngIf="!displayChangeEmail" class="change"
+                                            (click)="toggleDisplayChangeEmail()">
+                                            <ion-icon name="create"></ion-icon>
+                                            <ion-label>Change <span *ngIf="!isMobile">Email</span></ion-label>
+                                        </ion-button>
+                                        <ion-button *ngIf="!displayChangeEmail && !user.isEmailVerified" class="resend"
+                                            (click)="resendEmailVerification(user.email)">
+                                            <ion-icon name="send"></ion-icon>
+                                            <ion-label>Resend <span *ngIf="!isMobile">Verification</span></ion-label>
+                                        </ion-button>
+                                        <ion-button *ngIf="displayChangeEmail" class="save"
+                                            [disabled]="isChangeEmailDisabled" (click)="resendEmailVerification(email)">
+                                            <ion-icon name="save"></ion-icon>
+                                            <ion-label>Save</ion-label>
+                                        </ion-button>
+                                        <ion-button *ngIf="displayChangeEmail" class="cancel"
+                                            (click)="toggleDisplayChangeEmail()">
+                                            <ion-icon name="close"></ion-icon>
+                                            <ion-label>Cancel</ion-label>
+                                        </ion-button>
+                                    </ion-buttons>
                                 </ion-card-title>
                             </ion-card-header>
-                            <ion-card-content class="email-verification">
+                            <ion-card-content class="email">
                                 <ion-item color="light" lines="none">
                                     <ion-label *ngIf="!displayChangeEmail">{{user.email}}</ion-label>
-                                    <ion-input *ngIf="displayChangeEmail" type="text" placeholder="Input new email"
-                                        [(ngModel)]="email" [disabled]="resendingEmailVerification"
+                                    <ion-input *ngIf="displayChangeEmail" type="text" placeholder="Input email"
+                                        [(ngModel)]="email" [disabled]="isResendingEmailVerification"
                                         (keydown)="changeEmailKeyDown($event)"></ion-input>
-                                    <ion-text *ngIf="!resendingEmailVerification" slot="end">
-                                        <a *ngIf="!displayChangeEmail && !user.isEmailVerified"
-                                            (click)="resendEmailVerification()">
-                                            Resend <span *ngIf="!isMobile">Verification</span>
-                                        </a>
+                                    <ion-text slot="end">
                                         <span *ngIf="!displayChangeEmail && user.isEmailVerified"
                                             class="email-verified">Verified</span>
-                                        <span *ngIf="changeEmailErrorMessage" class="change-email-error">
+                                        <span *ngIf="!displayChangeEmail && !user.isEmailVerified"
+                                            class="email-error">Not verified</span>
+                                        <span
+                                            *ngIf="displayChangeEmail && changeEmailErrorMessage && !isResendingEmailVerification"
+                                            class="email-error">
                                             {{changeEmailErrorMessage}}
                                         </span>
                                     </ion-text>
-                                    <ion-spinner *ngIf="resendingEmailVerification" slot="end"></ion-spinner>
                                 </ion-item>
                             </ion-card-content>
                         </ion-card>
@@ -79,42 +95,100 @@
                     <ion-col size="12" size-lg="6">
                         <ion-card color="light">
                             <ion-card-header color="primary">
-                                <ion-card-title>Accommodations and Transportation</ion-card-title>
+                                <ion-card-title>Accommodations & Transportation</ion-card-title>
                             </ion-card-header>
                             <ion-card-content>
-                                <ion-item color="light" lines="none">
+                                <ion-item color="light" lines="none" [disabled]="deadlineExpired || !user.isAttending">
                                     <ion-label>Will you require accommodations?</ion-label>
-                                    <ion-select placeholder="Select" [disabled]="disableInputs"
-                                        [interfaceOptions]="interfaceOptions.accommodation">
+                                    <ion-select *ngIf="!isUpdating['requiresAccommodations']" placeholder="Select"
+                                        [value]="user.requiresAccommodations"
+                                        [interfaceOptions]="interfaceOptions.accommodation"
+                                        (ionChange)="updateColumn('requiresAccommodations', $event.detail.value)">
                                         <ion-select-option [value]="true">Yes</ion-select-option>
                                         <ion-select-option [value]="false">No</ion-select-option>
                                     </ion-select>
+                                    <ion-spinner *ngIf="isUpdating['requiresAccommodations']" slot="end"></ion-spinner>
                                 </ion-item>
-                                <ion-item color="light" lines="none">
+                                <ion-item color="light" lines="none"
+                                    [disabled]="deadlineExpired || !user.isAttending || !user.requiresAccommodations">
                                     <ion-label>How many rooms will you require?</ion-label>
-                                    <ion-select placeholder="Select" [disabled]="disableInputs">
+                                    <ion-select *ngIf="!isUpdating['totalRequiredRooms']" placeholder="Select"
+                                        [value]="user.totalRequiredRooms"
+                                        (ionChange)="updateColumn('totalRequiredRooms', $event.detail.value)">
                                         <ion-select-option *ngFor="let option of roomOptions" [value]="option">
                                             {{option}}
                                         </ion-select-option>
                                     </ion-select>
+                                    <ion-spinner *ngIf="isUpdating['totalRequiredRooms']" slot="end"></ion-spinner>
                                 </ion-item>
-                                <ion-item color="light" lines="none">
+                                <ion-item color="light" lines="none"
+                                    [disabled]="deadlineExpired || !user.isAttending || !user.requiresAccommodations">
                                     <ion-label>Will you require transportation?</ion-label>
-                                    <ion-select placeholder="Select" [disabled]="disableInputs"
-                                        [interfaceOptions]="interfaceOptions.transportation">
+                                    <ion-select *ngIf="!isUpdating['requiresTransportation']" placeholder="Select"
+                                        [value]="user.requiresTransportation"
+                                        [interfaceOptions]="interfaceOptions.transportation"
+                                        (ionChange)="updateColumn('requiresTransportation', $event.detail.value)">
                                         <ion-select-option [value]="true">Yes</ion-select-option>
                                         <ion-select-option [value]="false">No</ion-select-option>
                                     </ion-select>
+                                    <ion-spinner *ngIf="isUpdating['requiresTransportation']" slot="end"></ion-spinner>
                                 </ion-item>
                             </ion-card-content>
                         </ion-card>
                     </ion-col>
                     <ion-col size="12" size-lg="6">
                         <ion-card color="light">
-                            <ion-card-header color="primary">
-                                <ion-card-title>Guests</ion-card-title>
+                            <ion-card-header color="primary" class="guests">
+                                <ion-card-title>
+                                    Guests
+                                    <ion-spinner *ngIf="isUpdating.guests" color="light"></ion-spinner>
+                                    <ion-buttons *ngIf="!isUpdating.guests">
+                                        <ion-button *ngIf="!displayChangeGuests" class="change"
+                                            (click)="toggleDisplayChangeGuests()">
+                                            <ion-icon name="create"></ion-icon>
+                                            <ion-label>
+                                                Change<span *ngIf="canAddOrRemoveGuests">{{addOrRemoveString}}</span>
+                                                <span *ngIf="!isMobile">&nbsp;Guests</span></ion-label>
+                                        </ion-button>
+                                        <ion-button *ngIf="displayChangeGuests" class="save"
+                                            [disabled]="isChangeGuestsDisabled" (click)="updateGuests()">
+                                            <ion-icon name="save"></ion-icon>
+                                            <ion-label>Save</ion-label>
+                                        </ion-button>
+                                        <ion-button *ngIf="displayChangeGuests" class="cancel"
+                                            (click)="toggleDisplayChangeGuests()">
+                                            <ion-icon name="close"></ion-icon>
+                                            <ion-label>Cancel</ion-label>
+                                        </ion-button>
+                                    </ion-buttons>
+                                </ion-card-title>
                             </ion-card-header>
-                            <ion-card-content>
+                            <ion-card-content class="guests">
+                                <ion-item color="light" lines="none"
+                                    *ngFor="let guest of guests; index as i; trackBy: changeGuestsTrackBy">
+                                    <span class="index">{{i + 1}})</span>
+                                    <ion-label *ngIf="!displayChangeGuests">{{guest}}</ion-label>
+                                    <ion-input *ngIf="displayChangeGuests" type="text" placeholder="Input guest's name"
+                                        [(ngModel)]="guests[i]" [disabled]="isUpdating.guests"
+                                        (keydown)="changeGuestsKeyDown($event)"></ion-input>
+                                    <ion-buttons class="remove">
+                                        <ion-button
+                                            *ngIf="displayChangeGuests && canAddOrRemoveGuests && (i+1) > user.minGuests"
+                                            (click)="removeGuest(i)">
+                                            <ion-icon name="trash"></ion-icon>
+                                            Remove<span *ngIf="!isMobile">&nbsp;Guest</span>
+                                        </ion-button>
+                                    </ion-buttons>
+                                </ion-item>
+                                <ion-item *ngIf="displayChangeGuests && canAddOrRemoveGuests" color="light" lines="none"
+                                    class="add">
+                                    <ion-buttons>
+                                        <ion-button (click)="addGuest()" [disabled]="guests.length === user.maxGuests">
+                                            <ion-icon name="add"></ion-icon>
+                                            <ion-label>Add<span *ngIf="!isMobile">&nbsp;Guest</span></ion-label>
+                                        </ion-button>
+                                    </ion-buttons>
+                                </ion-item>
                             </ion-card-content>
                         </ion-card>
                     </ion-col>

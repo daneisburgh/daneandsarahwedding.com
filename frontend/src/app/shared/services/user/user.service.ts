@@ -14,6 +14,7 @@ interface User {
     emailVerificationExpiration: Date;
     isEmailVerified: boolean;
     guests: string[];
+    minGuests: number;
     maxGuests: number;
     isAttending: boolean;
     requiresAccommodations: boolean;

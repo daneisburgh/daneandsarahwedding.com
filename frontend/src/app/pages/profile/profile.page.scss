@@ -11,30 +11,46 @@
     div {
         margin-top: 2px;
     }
-
-    ion-icon {
-        font-size: 20px;
-    }
 }
 
 ion-select {
     font-weight: bold;
 }
 
-ion-card-header {
-    &.email {
-        ion-icon {
-            cursor: pointer;
-            font-size: 20px;
-            margin: -6px 0 -3px 8px;
+ion-input {
+    border-bottom: 1px solid var(--ion-color-medium);
 
-            &.create {
-                font-size: 24px;
-            }
+    &.ng-valid {
+        border-bottom: 1px solid var(--ion-color-dark);
+    }
+}
+
+ion-card-header {
+    ion-spinner {
+        float: right;
+        margin-top: -4px;
+    }
+
+    ion-buttons {
+        float: right;
+        margin: -4px -8px 0 0;
+
+        .change ion-icon {
+            font-size: 20px;
+            margin: -4px 4px 0 0;
         }
 
-        .change-email-error {
-            color: var(--ion-color-danger);
+        .resend ion-icon {
+            margin-right: 6px;
+        }
+
+        .save ion-icon {
+            margin-right: 8px;
+        }
+
+        .cancel ion-icon {
+            font-size: 20px;
+            margin: -2px 4px 0 0;
         }
     }
 }
@@ -45,33 +61,95 @@ ion-card-content {
     ion-item {
         margin: 0;
         padding: 0;
+        pointer-events: auto;
 
         @media screen and (min-width: $min-width-small) {
             padding: 0 8px;
 
-            &:first-child,
+            &:first-child {
+                padding-top: 8px;
+            }
+
             &:last-child {
-                padding: 8px;
+                padding-bottom: 8px;
+            }
+        }
+
+        ion-spinner {
+            margin-top: 2px;
+        }
+    }
+
+    ion-label {
+        opacity: 1 !important;
+    }
+
+    &.email {
+        ion-input {
+            margin: -8px 0 0 -8px;
+            padding-left: 8px !important;
+        }
+
+        ion-text {
+            width: 30%;
+            text-align: right;
+
+            ion-spinner {
+                margin-top: 4px;
+            }
+
+            .email-verified {
+                color: var(--ion-color-success);
+            }
+
+            .email-error {
+                color: var(--ion-color-danger);
             }
         }
     }
 
-    &.email-verification {
-        ion-label {
-            opacity: 1 !important;
-        }
-
+    &.guests {
         ion-input {
-            margin: 1px 0 0 -8px;
-            padding-left: 0 !important;
+            margin: -8px 0 0 0;
         }
 
-        .email-verified {
-            color: var(--ion-color-success);
+        .index {
+            margin-right: 8px;
         }
 
-        .change-email-error {
-            color: var(--ion-color-danger);
+        ion-item {
+            padding-right: 0;
+
+            &.add {
+                padding-left: 0;
+                margin-left: -4px;
+
+                ion-button {
+                    font-size: 16px;
+
+                    ion-icon {
+                        font-size: 20px;
+                        margin-right: 4px;
+                    }
+                }
+            }
+
+            .remove {
+                width: 39%;
+                display: block;
+                margin-top: 1px;
+
+                ion-button {
+                    float: right;
+                    font-size: 16px;
+                    margin-right: 0;
+
+                    ion-icon {
+                        font-size: 18px;
+                        margin-right: 4px;
+                    }
+                }
+            }
         }
     }
 }
