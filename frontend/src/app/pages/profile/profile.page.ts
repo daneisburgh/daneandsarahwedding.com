@@ -27,8 +27,7 @@ export class ProfilePage {
 
     public displayChangeEmail = false;
     public displayChangeGuests = false;
-    public resendingEmailVerification = false;
-
+    public isResendingEmailVerification = false;
     public isUpdating = {
         isAttending: false,
         requiresAccommodations: false,
@@ -59,8 +58,11 @@ export class ProfilePage {
     public get user() { return this.userService.user; }
     public get isMobile() { return this.utilsService.isMobile; }
     public get isChangeEmailDisabled() { return this.user.email === this.email; }
-    public get isChangeGuestsDisabled() { return isEqual(this.user.guests, this.guests) }
+    public get filteredGuests() { return this.guests.filter(guest => guest.length > 0); }
+    public get isChangeGuestsDisabled() { return isEqual(this.user.guests, this.filteredGuests); }
     public get isAddGuestsDisabled() { return this.user.guests.length === this.user.maxGuests; }
+    public get canAddOrRemoveGuests() { return this.user.minGuests < this.user.maxGuests; }
+    public get addOrRemoveString() { return `/${this.user.guests.length < this.user.maxGuests ? 'Add' : 'Remove'}`; }
     public get emailVerificationHasExpired() {
         return this.user.emailVerificationExpiration &&
             this.user.emailVerificationExpiration < new Date()
@@ -113,7 +115,7 @@ export class ProfilePage {
 
     public async resendEmailVerification(email: string) {
         try {
-            this.resendingEmailVerification = true;
+            this.isResendingEmailVerification = true;
             await this.userService.changeEmail(email);
             this.changeEmailErrorMessage = undefined;
             this.displayChangeEmail = false;
@@ -127,7 +129,7 @@ export class ProfilePage {
             }
         } finally {
             setTimeout(() => {
-                this.resendingEmailVerification = false;
+                this.isResendingEmailVerification = false;
             }, 1000);
         }
     }
@@ -147,10 +149,9 @@ export class ProfilePage {
     }
 
     public toggleDisplayChangeGuests() {
+        this.guests = this.filteredGuests;
         this.changeGuestsErrorMessage = undefined;
         this.displayChangeGuests = !this.displayChangeGuests;
-        this.guests.filter(guest => guest && guest.length > 0);
-        this.user.guests = this.guests;
     }
 
     public async updateGuests() {
@@ -163,6 +164,10 @@ export class ProfilePage {
 
     public addGuest() {
         this.guests.push('');
+    }
+
+    public removeGuest(index: number) {
+        this.guests.splice(index, 1);
     }
 
     public changeGuestsKeyDown(event: KeyboardEvent) {

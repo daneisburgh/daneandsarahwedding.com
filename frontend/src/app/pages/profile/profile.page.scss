@@ -17,28 +17,6 @@ ion-select {
     font-weight: bold;
 }
 
-// ion-icon {
-//     cursor: pointer;
-//     font-size: 20px;
-
-//     &.disabled {
-//         cursor: initial;
-//         color: var(--ion-color-medium);
-//     }
-
-//     &.create {
-//         font-size: 24px;
-//     }
-
-//     &.close {
-//         font-size: 26px;
-//     }
-
-//     &.add {
-//         font-size: 28px;
-//     }
-// }
-
 ion-input {
     border-bottom: 1px solid var(--ion-color-medium);
 
@@ -52,33 +30,28 @@ ion-card-header {
         float: right;
         margin-top: -4px;
     }
-    
-    &.email {
-        ion-buttons {
-            float: right;
-            margin: -4px -8px 0 0;
 
-            .change ion-icon {
-                font-size: 20px;
-                margin: -4px 4px 0 0;
-            }
+    ion-buttons {
+        float: right;
+        margin: -4px -8px 0 0;
 
-            .resend ion-icon {
-                margin-right: 6px;
-            }
-
-            .save ion-icon {
-                margin-right: 8px;
-            }
-
-            .cancel ion-icon {
-                font-size: 20px;
-                margin: -2px 4px 0 0;
-            }
+        .change ion-icon {
+            font-size: 20px;
+            margin: -4px 4px 0 0;
         }
-    }
 
-    &.guests {
+        .resend ion-icon {
+            margin-right: 6px;
+        }
+
+        .save ion-icon {
+            margin-right: 8px;
+        }
+
+        .cancel ion-icon {
+            font-size: 20px;
+            margin: -2px 4px 0 0;
+        }
     }
 }
 
@@ -140,8 +113,43 @@ ion-card-content {
             margin: -8px 0 0 0;
         }
 
-        span {
+        .index {
             margin-right: 8px;
+        }
+
+        ion-item {
+            padding-right: 0;
+
+            &.add {
+                padding-left: 0;
+                margin-left: -4px;
+
+                ion-button {
+                    font-size: 16px;
+
+                    ion-icon {
+                        font-size: 20px;
+                        margin-right: 4px;
+                    }
+                }
+            }
+
+            .remove {
+                width: 39%;
+                display: block;
+                margin-top: 1px;
+
+                ion-button {
+                    float: right;
+                    font-size: 16px;
+                    margin-right: 0;
+
+                    ion-icon {
+                        font-size: 18px;
+                        margin-right: 4px;
+                    }
+                }
+            }
         }
     }
 }
