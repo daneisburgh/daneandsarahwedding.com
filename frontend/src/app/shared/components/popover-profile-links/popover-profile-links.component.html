@@ -1,8 +1,14 @@
 <ion-grid>
-	<ion-row routerLink="/profile" routerDirection="root" (click)="popoverController.dismiss()">
+	<ion-row routerLink="/profile" routerDirection="root" (click)="dismiss()">
 		<ion-col size="12">
 			<ion-icon name="settings"></ion-icon>
-			Profile
+			Update Profile
+		</ion-col>
+	</ion-row>
+	<ion-row (click)="changePassword()">
+		<ion-col size="12">
+			<ion-icon name="key"></ion-icon>
+			Change Password
 		</ion-col>
 	</ion-row>
 	<ion-row (click)="logOut()">
