@@ -83,6 +83,17 @@ export class ProfilePage {
         this.guests = this.user.guests.slice();
         this.setRoomOptions();
 
+        this.displayChangeEmail = false;
+        this.displayChangeGuests = false;
+        this.isResendingEmailVerification = false;
+        this.isUpdating = {
+            isAttending: false,
+            requiresAccommodations: false,
+            totalRequiredRooms: false,
+            requiresTransportation: false,
+            guests: false
+        }
+
         if (!history.state.doNotDisplayEmailVerificationWarning && !this.user.isEmailVerified) {
             this.utilsService.toast('warning', 'Email is not verified',
                 'Please verify your email address to receive important wedding updates');
