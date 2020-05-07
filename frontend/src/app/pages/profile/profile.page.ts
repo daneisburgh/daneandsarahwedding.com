@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { isUndefined, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 
 import { UserService, CHANGE_EMAIL_ERRORS } from '../../shared/services/user/user.service';
 import { UtilsService } from '../../shared/services/utils/utils.service';
@@ -16,7 +16,6 @@ export const deadlineString = deadline.toLocaleDateString();
 })
 export class ProfilePage {
     public readonly deadlineMessage = `Profile info can be updated until ${deadlineString}`;
-    public readonly deadlineExpired = Date.now() >= deadline.getTime();
 
     public email: string;
     public guests: string[];
@@ -57,12 +56,17 @@ export class ProfilePage {
 
     public get user() { return this.userService.user; }
     public get isMobile() { return this.utilsService.isMobile; }
-    public get isChangeEmailDisabled() { return this.user.email === this.email; }
     public get filteredGuests() { return this.guests.filter(guest => guest.length > 0); }
+
+    public get isDeadlineExpired() { return Date.now() >= deadline.getTime(); }
+    public get isInputDisabled() { return this.isDeadlineExpired || !this.user.isAttending; }
+    public get isRequiredRoomsAndTransportationDisabled() { return this.isInputDisabled || !this.user.requiresAccommodations; }
+    public get isChangeEmailDisabled() { return this.user.email === this.email; }
     public get isChangeGuestsDisabled() { return isEqual(this.user.guests, this.filteredGuests); }
-    public get isAddGuestsDisabled() { return this.user.guests.length === this.user.maxGuests; }
+
     public get canAddOrRemoveGuests() { return this.user.minGuests < this.user.maxGuests; }
     public get addOrRemoveString() { return `/${this.user.guests.length < this.user.maxGuests ? 'Add' : 'Remove'}`; }
+
     public get emailVerificationHasExpired() {
         return this.user.emailVerificationExpiration &&
             this.user.emailVerificationExpiration < new Date()
