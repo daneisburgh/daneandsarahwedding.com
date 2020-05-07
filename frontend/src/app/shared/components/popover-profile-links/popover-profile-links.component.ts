@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { PopoverController, ModalController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
 
-import { UserService } from '../../services/user/user.service';
-import { ModalChangePasswordComponent } from '../modal-change-password/modal-change-password.component';
+import { UserService, PASSWORD_EMAIL_ERRORS } from '../../services/user/user.service';
+import { UtilsService } from '../../services/utils/utils.service';
 
 
 @Component({
@@ -12,9 +12,9 @@ import { ModalChangePasswordComponent } from '../modal-change-password/modal-cha
 })
 export class PopoverProfileLinksComponent {
     constructor(
-        private modalController: ModalController,
         private popoverController: PopoverController,
-        private userService: UserService
+        private userService: UserService,
+        private utilsService: UtilsService
     ) { }
 
     public dismiss() {
@@ -22,11 +22,17 @@ export class PopoverProfileLinksComponent {
     }
 
     public async changePassword() {
-        (await this.modalController.create({
-            component: ModalChangePasswordComponent,
-            cssClass: 'app-modal-change-password send-email'
-        })).present();
-        this.dismiss();
+        try {
+            await this.userService.changePasswordEmail(this.userService.user.email);
+        } catch (error) {
+            if (PASSWORD_EMAIL_ERRORS.includes(error.error)) {
+                this.utilsService.toast('error', error.error);
+            } else {
+                this.utilsService.toastBadRequest();
+            }
+        } finally {
+            this.dismiss();
+        }
     }
 
     public logOut() {
