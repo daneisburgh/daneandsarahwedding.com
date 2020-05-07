@@ -18,7 +18,7 @@ interface User {
     maxGuests: number;
     isAttending: boolean;
     requiresAccommodations: boolean;
-    totalRequiredRooms: number
+    totalRequiredRooms: number;
     requiresTransportation: boolean;
 }
 

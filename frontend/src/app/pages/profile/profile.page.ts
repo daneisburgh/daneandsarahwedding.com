@@ -159,7 +159,7 @@ export class ProfilePage {
     public changeEmailKeyDown(event: KeyboardEvent) {
         this.changeEmailErrorMessage = undefined;
 
-        if (event.key === 'Enter' && this.isChangeEmailDisabled) {
+        if (event.key === 'Enter' && !this.isChangeEmailDisabled) {
             this.resendEmailVerification(this.email);
         }
     }
