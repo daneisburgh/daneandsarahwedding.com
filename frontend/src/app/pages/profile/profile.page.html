@@ -118,9 +118,8 @@
                                         [value]="user.totalRequiredRooms"
                                         [disabled]="isRequiredRoomsAndTransportationDisabled"
                                         (ionChange)="updateColumn('totalRequiredRooms', $event.detail.value)">
-                                        <ion-select-option *ngFor="let option of roomOptions" [value]="option">
-                                            {{option}}
-                                        </ion-select-option>
+                                        <ion-select-option value="1">1</ion-select-option>
+                                        <ion-select-option value="2">2</ion-select-option>
                                     </ion-select>
                                     <ion-spinner *ngIf="isUpdating['totalRequiredRooms']" slot="end"></ion-spinner>
                                 </ion-item>

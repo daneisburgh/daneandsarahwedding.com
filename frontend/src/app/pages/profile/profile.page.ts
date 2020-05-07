@@ -19,7 +19,6 @@ export class ProfilePage {
 
     public email: string;
     public guests: string[];
-    public roomOptions: number[] = [];
 
     public changeEmailErrorMessage: string;
     public changeGuestsErrorMessage: string;
@@ -62,7 +61,10 @@ export class ProfilePage {
     public get isInputDisabled() { return this.isDeadlineExpired || !this.user.isAttending; }
     public get isRequiredRoomsAndTransportationDisabled() { return this.isInputDisabled || !this.user.requiresAccommodations; }
     public get isChangeEmailDisabled() { return this.user.email === this.email; }
-    public get isChangeGuestsDisabled() { return isEqual(this.user.guests, this.filteredGuests); }
+    public get isChangeGuestsDisabled() {
+        const primaryGuestRemoved = this.guests.filter((guest, index) => guest.length > 0 && index <= this.user.minGuests).length === 0;
+        return primaryGuestRemoved || isEqual(this.user.guests, this.filteredGuests);
+    }
 
     public get canAddOrRemoveGuests() { return this.user.minGuests < this.user.maxGuests; }
     public get addOrRemoveString() { return `/${this.user.guests.length < this.user.maxGuests ? 'Add' : 'Remove'}`; }
@@ -81,7 +83,6 @@ export class ProfilePage {
     public ionViewDidEnter() {
         this.utilsService.setTitle(this.user.name);
         this.guests = this.user.guests.slice();
-        this.setRoomOptions();
 
         this.displayChangeEmail = false;
         this.displayChangeGuests = false;
@@ -158,22 +159,20 @@ export class ProfilePage {
     public changeEmailKeyDown(event: KeyboardEvent) {
         this.changeEmailErrorMessage = undefined;
 
-        if (event.key === 'Enter' && this.email !== this.user.email) {
+        if (event.key === 'Enter' && this.isChangeEmailDisabled) {
             this.resendEmailVerification(this.email);
         }
     }
 
     public toggleDisplayChangeGuests() {
-        this.guests = this.filteredGuests;
+        this.guests = this.user.guests.slice();
         this.changeGuestsErrorMessage = undefined;
         this.displayChangeGuests = !this.displayChangeGuests;
     }
 
     public async updateGuests() {
-        if (await this.updateColumn('guests', this.guests)) {
-            this.guests = this.user.guests.slice();
+        if (await this.updateColumn('guests', this.filteredGuests)) {
             this.toggleDisplayChangeGuests();
-            this.setRoomOptions();
         }
     }
 
@@ -188,19 +187,12 @@ export class ProfilePage {
     public changeGuestsKeyDown(event: KeyboardEvent) {
         this.changeGuestsErrorMessage = undefined;
 
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && !this.isChangeGuestsDisabled) {
             this.updateGuests();
         }
     }
 
     public changeGuestsTrackBy(index: any, item: any) {
         return index;
-    }
-
-    private setRoomOptions() {
-        this.roomOptions = [];
-        for (let i = 1; i <= this.user.guests.length; i++) {
-            this.roomOptions.push(i);
-        }
     }
 }
