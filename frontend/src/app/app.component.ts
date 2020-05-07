@@ -80,7 +80,7 @@ export class AppComponent {
                 await this.userService.changePassword(passwordChangeCode as string);
             } catch (error) {
                 if (CHANGE_PASSWORD_ERRORS.includes(error.error)) {
-                    this.utilsService.toast('error', error.error, 'Please resubmit password change request from login');
+                    this.utilsService.toast('error', error.error, 'Please resubmit change password request from login');
                 } else {
                     (await this.modalController.create({
                         component: ModalChangePasswordComponent,

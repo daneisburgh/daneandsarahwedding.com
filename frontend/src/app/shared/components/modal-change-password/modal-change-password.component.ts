@@ -42,20 +42,18 @@ export class ModalChangePasswordComponent {
         this.errorMessage = undefined;
         this.isSubmitting = true;
 
-        console.log(this.code, this.newPassword, this.confirmPassword);
-
         try {
             if (this.code) {
                 if (this.newPassword !== this.confirmPassword) {
                     this.errorMessage = 'Passwords do not match';
                 } else {
                     await this.userService.changePassword(this.code, this.newPassword);
-                    this.utilsService.toast('success', 'Password changed successfully');
+                    this.utilsService.toast('success', 'Successfully changed password');
                     this.router.navigate(['/profile']);
                     this.dismiss();
                 }
             } else {
-                await this.userService.passwordEmail(this.email);
+                await this.userService.changePasswordEmail(this.email);
                 this.dismiss();
             }
         } catch (error) {

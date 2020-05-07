@@ -26,7 +26,7 @@ export default async function (event: any) {
                     passwordChangeExpiration: expiration
                 });
 
-                await sendEmail('password-change', user, {
+                await sendEmail('change-password', user, {
                     expirationHours,
                     verificationUrl: `${process.env.CLIENT_URL}?passwordChangeCode=${code}`
                 });

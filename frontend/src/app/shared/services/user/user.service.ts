@@ -105,9 +105,9 @@ export class UserService {
         }
     }
 
-    public async passwordEmail(email: string) {
-        await this.apiPost('user-password-email', { email });
-        this.utilsService.toast('success', 'Password change email sent',
+    public async changePasswordEmail(email: string) {
+        await this.apiPost('user-change-password-email', { email });
+        this.utilsService.toast('success', 'Sent change password email',
             'Please check your inbox and spam folders for an email with a link to change your password');
     }
 
