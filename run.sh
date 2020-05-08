@@ -9,7 +9,6 @@
 #   5) build -------------------- Build build backend and frontend apps
 #   5) deploy ENV --------------- Deploy app to given environment
 #   6) destroy ENV -------------- Destroy app in given environment
-#   7) terraform CMD ENV -------- Run Terraform command for given environment
 #
 #   ENV: dev, stage, prod
 #   CMD: init, apply, destroy
@@ -70,29 +69,6 @@ elif [ $1 == "destroy" ]; then
     validate_environment $2
     echo "Destroying $2 app..."
     npm --prefix backend run destroy
-elif [ $1 == "terraform" ]; then
-    if [ $# -ne 3 ]; then
-        echo "Missing command arguments"
-        exit
-    else
-        if [ $2 != "init" ] && [ $2 != "apply" ] && [ $2 != "destroy" ]; then
-            echo "Invalid terraform command"
-            exit
-        else
-            validate_environment $3
-            cd terraform/environments/$3
-            echo "Running terraform $2 for $3 environment..."
-
-            if [ $2 == "init" ]; then
-                terraform init
-            else
-                terraform $2 \
-                    -var="app_name=$APP_NAME" \
-                    -var="db_username=$DB_USERNAME" \
-                    -var="db_password=$DB_PASSWORD"
-            fi
-        fi
-    fi
 else
     echo "Invalid command argument"
     exit
