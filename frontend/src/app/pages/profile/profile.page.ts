@@ -12,7 +12,7 @@ export const deadlineString = deadline.toLocaleDateString();
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.page.html',
-    styleUrls: ['./profile.page.scss'],
+    styleUrls: ['./profile.page.scss', './profile.fireworks.scss'],
 })
 export class ProfilePage {
     public readonly deadlineMessage = `Profile info can be updated until ${deadlineString}`;
@@ -23,6 +23,7 @@ export class ProfilePage {
     public changeEmailErrorMessage: string;
     public changeGuestsErrorMessage: string;
 
+    public displayFireworks = false;
     public displayChangeEmail = false;
     public displayChangeGuests = false;
     public isResendingEmailVerification = false;
@@ -84,6 +85,7 @@ export class ProfilePage {
         this.utilsService.setTitle(this.user.name);
         this.guests = this.user.guests.slice();
 
+        this.displayFireworks = false;
         this.displayChangeEmail = false;
         this.displayChangeGuests = false;
         this.isResendingEmailVerification = false;
@@ -116,6 +118,12 @@ export class ProfilePage {
             try {
                 this.isUpdating[column] = true;
                 await this.userService.update({ [column]: value });
+
+                if (column === 'isAttending' && this.user.isAttending) {
+                    this.displayFireworks = true;
+                    this.utilsService.toast('success', 'Yay!', 'We look forward to seeing you at the wedding');
+                }
+
                 return true;
             } catch (error) {
                 console.error(error);
@@ -124,6 +132,10 @@ export class ProfilePage {
             } finally {
                 setTimeout(() => {
                     this.isUpdating[column] = false;
+
+                    setTimeout(() => {
+                        this.displayFireworks = false;
+                    }, 5000);
                 }, 1000);
             }
         }

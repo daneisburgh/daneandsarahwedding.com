@@ -32,8 +32,9 @@ ion-card-header {
     }
 
     ion-buttons {
-        float: right;
-        margin: -4px -8px 0 0;
+        top: -2px;
+        right: 0;
+        position: absolute;
 
         .change ion-icon {
             font-size: 20px;
@@ -91,7 +92,7 @@ ion-card-content {
         }
 
         ion-text {
-            width: 30%;
+            width: 34%;
             text-align: right;
 
             ion-spinner {
@@ -135,7 +136,7 @@ ion-card-content {
             }
 
             .remove {
-                width: 39%;
+                width: 43%;
                 display: block;
                 margin-top: 1px;
 

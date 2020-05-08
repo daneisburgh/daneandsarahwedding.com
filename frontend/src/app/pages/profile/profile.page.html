@@ -1,5 +1,7 @@
 <ion-content>
-    <div class="content-outer page-outer">
+    <div class="content-outer page-outer fireworks">
+        <div *ngIf="displayFireworks" class="fireworks-before"></div>
+        <div *ngIf="displayFireworks" class="fireworks-after"></div>
         <ion-header>
             <ion-toolbar color="primary">
                 <ion-title class="content-inner title grid">
@@ -29,9 +31,9 @@
                             </ion-card-header>
                             <ion-card-content>
                                 <ion-item color="light" lines="none">
-                                    <ion-label>Will you attend the wedding?</ion-label>
+                                    <ion-label>Will you be able to attend wedding?</ion-label>
                                     <ion-select *ngIf="!isUpdating['isAttending']" class="select" placeholder="Select"
-                                        [value]="user.isAttending" [disabled]="isDeadlineExpired"
+                                        okText="Save" [value]="user.isAttending" [disabled]="isDeadlineExpired"
                                         (ionChange)="updateColumn('isAttending', $event.detail.value)">
                                         <ion-select-option [value]="true">Yes</ion-select-option>
                                         <ion-select-option [value]="false">No</ion-select-option>
@@ -102,7 +104,7 @@
                                     [ngClass]="{'disable-ripple': isInputDisabled}">
                                     <ion-label>Will you require accommodations?</ion-label>
                                     <ion-select *ngIf="!isUpdating['requiresAccommodations']" placeholder="Select"
-                                        [value]="user.requiresAccommodations" [disabled]="isInputDisabled"
+                                        okText="Save" [value]="user.requiresAccommodations" [disabled]="isInputDisabled"
                                         [interfaceOptions]="interfaceOptions.accommodation"
                                         (ionChange)="updateColumn('requiresAccommodations', $event.detail.value)">
                                         <ion-select-option [value]="true">Yes</ion-select-option>
@@ -115,7 +117,7 @@
                                     [ngClass]="{'disable-ripple': isRequiredRoomsAndTransportationDisabled}">
                                     <ion-label>How many rooms will you require?</ion-label>
                                     <ion-select *ngIf="!isUpdating['totalRequiredRooms']" placeholder="Select"
-                                        [value]="user.totalRequiredRooms"
+                                        okText="Save" [value]="user.totalRequiredRooms"
                                         [disabled]="isRequiredRoomsAndTransportationDisabled"
                                         (ionChange)="updateColumn('totalRequiredRooms', $event.detail.value)">
                                         <ion-select-option [value]="1">1</ion-select-option>
@@ -128,7 +130,7 @@
                                     [ngClass]="{'disable-ripple': isRequiredRoomsAndTransportationDisabled}">
                                     <ion-label>Will you require transportation?</ion-label>
                                     <ion-select *ngIf="!isUpdating['requiresTransportation']" placeholder="Select"
-                                        [value]="user.requiresTransportation"
+                                        okText="Save" [value]="user.requiresTransportation"
                                         [disabled]="isRequiredRoomsAndTransportationDisabled"
                                         [interfaceOptions]="interfaceOptions.transportation"
                                         (ionChange)="updateColumn('requiresTransportation', $event.detail.value)">
