@@ -236,6 +236,17 @@ ion-title {
     }
 }
 
+.alert-button {
+    &:hover {
+        background-color: var(--ion-color-light);
+    }
+    
+    .alert-button-inner {
+        font-size: 20px;
+        text-transform: none;
+    }
+}
+
 .alert-wrapper {
     @media screen and (min-width: $min-width-small) {
         min-width: 346px !important;
