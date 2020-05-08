@@ -1,6 +1,6 @@
-import { emailColumns } from '../models/email';
+import { emailColumns } from '../../models/email';
 
-export = {
+export default {
     up: (queryInterface: any) => {
         return queryInterface.createTable('email', emailColumns);
     },
