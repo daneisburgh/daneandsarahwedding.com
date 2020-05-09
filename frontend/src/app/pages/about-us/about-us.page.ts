@@ -12,14 +12,14 @@ export class AboutUsPage {
         Sarah is the second oldest of ten, with eight brothers and one sister.
         After high school, Sarah enlisted in the Army National Guard while studying
         Electrical Engineering at the University of Kentucky. She currently works as
-        an Embedded Software Developer at GE Aviation in Cincinnati. Sarah enjoys
-        spending time with her friends and family, and cooking.
+        an Embedded Software Developer at GE Aviation in Cincinnati. She can't wait
+        to celebrate with everyone!
     `;
 
     public readonly daneInfo = `
-        Dane was born and raised in Loveland, Ohio, just north of Cincinnati, and is
+        Dane was born and raised in Loveland, Ohio, just north of Cincinnati and is
         an only child. He graduated from the University of Cincinnati with a degree
-        in Computer Science and currently works in downtown Cincinnati as an Analytics
+        in Computer Science. Dane currently works in downtown Cincinnati as an Analytics
         Engineer for GE Digital. In his free time, Dane enjoys developing software and
         hanging-out with his best friend (Sarah), and cannot wait to start their lives together.
     `;
