@@ -1,7 +1,5 @@
 <ion-content>
     <div class="content-outer page-outer fireworks">
-        <div *ngIf="displayFireworks" class="fireworks-before"></div>
-        <div *ngIf="displayFireworks" class="fireworks-after"></div>
         <ion-header>
             <ion-toolbar color="primary">
                 <ion-title class="content-inner title grid">
@@ -21,6 +19,8 @@
                 </ion-title>
             </ion-toolbar>
         </ion-header>
+        <div *ngIf="displayFireworks" class="fireworks-before"></div>
+        <div *ngIf="displayFireworks" class="fireworks-after"></div>
         <div class="content-inner">
             <ion-grid class="page-grid">
                 <ion-row>
@@ -31,7 +31,7 @@
                             </ion-card-header>
                             <ion-card-content>
                                 <ion-item color="light" lines="none">
-                                    <ion-label>Will you be able to attend wedding?</ion-label>
+                                    <ion-label>Will you be able to attend the wedding?</ion-label>
                                     <ion-select *ngIf="!isUpdating['isAttending']" class="select" placeholder="Select"
                                         okText="Save" [value]="user.isAttending" [disabled]="isDeadlineExpired"
                                         (ionChange)="updateColumn('isAttending', $event.detail.value)">

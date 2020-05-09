@@ -121,7 +121,7 @@ export class ProfilePage {
 
                 if (column === 'isAttending' && this.user.isAttending) {
                     this.displayFireworks = true;
-                    this.utilsService.toast('success', 'Yay!', 'We look forward to seeing you at the wedding');
+                    this.utilsService.toast('success', 'Yay!', 'We look forward to seeing you at the wedding this October');
                 }
 
                 return true;
