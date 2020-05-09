@@ -4,6 +4,7 @@ import path from 'path';
 const { TUNNEL_USERNAME, TUNNEL_HOST, TUNNEL_KEY_PATH, TUNNEL_DESTINATION_HOST } = process.env;
 
 export default {
+    keepAlive: true,
     username: TUNNEL_USERNAME,
     host: TUNNEL_HOST,
     port: 22,
