@@ -1,11 +1,10 @@
 import { Server } from 'net';
 import tunnel from 'tunnel-ssh';
 
-import users from './scripts/users';
 import tunnelConfig from '../tunnel-config';
 
 async function seed() {
-    await users();
+    await require('./scripts/users');
 }
 
 (async () => {
