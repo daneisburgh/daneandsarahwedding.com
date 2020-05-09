@@ -1,5 +1,5 @@
 import { Server } from 'net';
-import tunnel from 'tunnel-ssh';
+import tunnelSSH from 'tunnel-ssh';
 
 import tunnelConfig from '../tunnel-config';
 
@@ -9,12 +9,14 @@ async function seed() {
 
 (async () => {
     if (process.env.NODE_ENV !== 'development') {
-        tunnel(tunnelConfig, async (error: Error, server: Server) => {
+        const tunnel = tunnelSSH(tunnelConfig, async (error: Error, server: Server) => {
             if (error) {
                 throw error;
             } else {
                 await seed();
             }
+
+            tunnel.close();
         });
     } else {
         await seed();
