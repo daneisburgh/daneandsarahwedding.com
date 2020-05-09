@@ -1,6 +1,6 @@
-import { userColumns } from '../models/user';
+import { userColumns } from '../../models/user';
 
-export = {
+export default {
     up: (queryInterface: any) => {
         return queryInterface.createTable('user', userColumns);
     },

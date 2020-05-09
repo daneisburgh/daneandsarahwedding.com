@@ -14,7 +14,7 @@ interface GuestObject {
     Persons: number;
 }
 
-export = async function () {
+(async () => {
     const url = process.env.GUEST_LIST_URL as string;
     const response = await fetch(url);
     const dest = fs.createWriteStream(`./${guestListFile}`);
@@ -22,7 +22,7 @@ export = async function () {
     dest.on('finish', async function () {
         await createOrUpdateUsers();
     });
-};
+})();
 
 async function generateUsername(name: string): Promise<string> {
     let split, splitName;

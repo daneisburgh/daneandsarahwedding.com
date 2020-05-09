@@ -1,12 +1,12 @@
 import { Sequelize } from 'sequelize';
 
-import config from './config';
-const params = config[process.env.NODE_ENV as string];
+const { NODE_ENV, DB_USERNAME, DB_PASSWORD } = process.env;
 
-export = new Sequelize({
+export default new Sequelize({
     dialect: 'postgres',
-    host: params.host,
-    database: params.database,
-    username: params.username,
-    password: params.password
-})
+    host: 'localhost',
+    port: 5432,
+    database: NODE_ENV,
+    username: DB_USERNAME,
+    password: DB_PASSWORD
+});
