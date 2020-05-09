@@ -5,17 +5,19 @@ import path from 'path';
 import Email from '../database/models/email';
 import User from '../database/models/user';
 
+const { APP_NAME, SMTP_USERNAME, SMTP_PASSWORD } = process.env;
+
 const transport = nodemailer.createTransport({
     host: 'email-smtp.us-east-1.amazonaws.com',
     port: 587,
     auth: {
-        user: process.env.SMTP_USERNAME,
-        pass: process.env.SMTP_PASSWORD
+        user: SMTP_USERNAME,
+        pass: SMTP_PASSWORD
     }
 });
 
 const emailTemplate = new EmailTemplate({
-    message: { from: `hello@${process.env.APP_NAME}.com` },
+    message: { from: `hello@${APP_NAME}.com` },
     transport,
     juice: true,
     juiceResources: {
@@ -24,7 +26,7 @@ const emailTemplate = new EmailTemplate({
     }
 });
 
-export = async function (template: string, user: User, params: object) {
+export default async function (template: string, user: User, params: object) {
     try {
         const result = await emailTemplate.send({
             template: path.resolve(__dirname, 'emails', template),
