@@ -9,11 +9,10 @@
         "build": "rm -rf build && tsc && npm run copy-files",
         "watch": "tsc --watch --preserveWatchOutput",
         "copy-files": "cp -r src/email/emails build/email/",
-        "migrate": "cd build/database/migrations && node index.js",
-        "seed": "cd build/database/seeders && node index.js",
+        "migrate-and-seed": "cd build/database/data && node index.js",
         "offline": "serverless offline --verbose",
-        "serve": "wait-on tcp:localhost:5432 && npm-run-all --sequential build migrate seed && npm-run-all --parallel watch offline",
-        "deploy": "npm-run-all --sequential migrate seed && serverless create_domain && serverless deploy --verbose --force",
+        "serve": "wait-on tcp:localhost:5432 && npm-run-all --sequential build migrate-and-seed && npm-run-all --parallel watch offline",
+        "deploy": "npm run migrate-and-seed && serverless create_domain && serverless deploy --verbose --force",
         "destroy": "serverless delete_domain && serverless remove --verbose --force"
     },
     "dependencies": {
