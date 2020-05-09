@@ -54,7 +54,7 @@ elif [ $1 == "test" ]; then
 elif [ $1 == "deploy" ]; then
     validate_environment $2
     echo "Deploying $2 app..."
-    npm --prefix backend build
+    npm --prefix backend run build
     npm --prefix frontend run build:$NODE_ENV
     cp -R frontend/www backend/build/public/www
     npm --prefix backend run deploy
