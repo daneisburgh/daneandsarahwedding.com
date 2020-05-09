@@ -56,6 +56,7 @@
         "serverless": "^1.67.3",
         "serverless-domain-manager": "^3.3.1",
         "serverless-offline": "^5.12.1",
+        "serverless-plugin-include-dependencies": "^4.1.0",
         "typescript": "^3.8.3",
         "wait-on": "^4.0.2",
         "xlsx": "^0.15.6"

@@ -1,9 +1,13 @@
 service: ${env:APP_NAME}
 
 plugins:
-  - serverless-domain-manager
   - serverless-aws-static-file-handler/plugins/BinaryMediaTypes
+  - serverless-domain-manager
   - serverless-offline
+  - serverless-plugin-include-dependencies
+
+package:
+  excludeDevDependencies: false
 
 custom:
   customDomain:
