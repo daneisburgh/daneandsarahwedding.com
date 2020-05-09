@@ -16,7 +16,6 @@
         "destroy": "serverless delete_domain && serverless remove --verbose --force"
     },
     "dependencies": {
-        "@types/node-fetch": "^2.5.7",
         "bcryptjs": "^2.4.3",
         "email-templates": "^7.0.4",
         "jsonwebtoken": "^8.5.1",
@@ -27,10 +26,7 @@
         "pg-hstore": "^2.3.3",
         "pug": "^2.0.4",
         "sequelize": "^5.21.6",
-        "sequelize-cli": "^5.5.1",
         "serverless-aws-static-file-handler": "^2.0.5",
-        "tunnel-ssh": "^4.1.4",
-        "umzug": "^2.3.0",
         "validator": "^12.2.0"
     },
     "devDependencies": {
@@ -40,6 +36,7 @@
         "@types/jsonwebtoken": "^8.3.9",
         "@types/lodash": "^4.14.149",
         "@types/node": "^8.10.60",
+        "@types/node-fetch": "^2.5.7",
         "@types/nodemailer": "^6.4.0",
         "@types/tunnel-ssh": "^4.1.0",
         "@types/umzug": "^2.2.3",
@@ -56,8 +53,10 @@
         "serverless": "^1.67.3",
         "serverless-domain-manager": "^3.3.1",
         "serverless-offline": "^5.12.1",
-        "serverless-plugin-include-dependencies": "^4.1.0",
+        "sequelize-cli": "^5.5.1",
+        "tunnel-ssh": "^4.1.4",
         "typescript": "^3.8.3",
+        "umzug": "^2.3.0",
         "wait-on": "^4.0.2",
         "xlsx": "^0.15.6"
     }
