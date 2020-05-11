@@ -1,3 +1,12 @@
+<ion-app *ngIf="!isReady">
+    <ion-content>
+        <div class="content-outer center-content-vertical center-content-horizontal">
+            <div class="content-inner">
+                <h1>Loading...</h1>
+            </div>
+        </div>
+    </ion-content>
+</ion-app>
 <ion-app *ngIf="isReady">
     <ion-header color="light" class="content-outer">
         <ion-toolbar color="light" class="content-inner">

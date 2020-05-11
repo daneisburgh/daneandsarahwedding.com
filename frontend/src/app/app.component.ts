@@ -60,6 +60,8 @@ export class AppComponent {
     }
 
     private async initializeApp() {
+        this.utilsService.setTitle('Loading...');
+
         await this.userService.logIn().catch(() => { });
 
         if (this.user && !this.user.email) {
@@ -69,6 +71,8 @@ export class AppComponent {
         await this.platform.ready();
         this.statusBar.styleDefault();
         this.splashScreen.hide();
+
+        await this.utilsService.sleep(1000);
         this.isReady = true;
 
         const { emailVerificationCode, passwordChangeCode } = querystring.parse(window.location.search.replace('?', ''));
