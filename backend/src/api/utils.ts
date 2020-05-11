@@ -5,7 +5,9 @@ import User from '../database/models/user';
 const API_KEY = process.env.API_KEY as string;
 
 export function getRequestBody(event: object) {
-    return JSON.parse(get(event, 'body'));
+    const body = get(event, 'body');
+    const bodyString = get(event, 'isBase64Encoded') ? Buffer.from(body, 'base64').toString('ascii') : body;
+    return JSON.parse(bodyString);
 }
 
 export function createResponse(statusCode: number, body?: any) {
