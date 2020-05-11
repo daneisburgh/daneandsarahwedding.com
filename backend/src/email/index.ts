@@ -5,7 +5,8 @@ import path from 'path';
 import Email from '../database/models/email';
 import User from '../database/models/user';
 
-const { APP_NAME, SMTP_USERNAME, SMTP_PASSWORD } = process.env;
+const { APP_NAME, NODE_ENV, SMTP_USERNAME, SMTP_PASSWORD } = process.env;
+const sendEmail = NODE_ENV !== 'development';
 
 const transport = nodemailer.createTransport({
     host: 'email-smtp.us-east-1.amazonaws.com',
@@ -17,13 +18,15 @@ const transport = nodemailer.createTransport({
 });
 
 const emailTemplate = new EmailTemplate({
-    message: { from: `hello@${APP_NAME}.com` },
+    message: { from: `"Dane & Sarah" hello@${APP_NAME}.com` },
     transport,
     juice: true,
     juiceResources: {
         preserveImportant: true,
         webResources: { relativeTo: path.resolve(__dirname, 'emails') }
-    }
+    },
+    preview: !sendEmail,
+    send: sendEmail
 });
 
 export default async function (template: string, user: User, params: object) {
