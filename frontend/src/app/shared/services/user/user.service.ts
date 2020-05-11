@@ -70,7 +70,7 @@ export class UserService {
     }
 
     public async logOut() {
-        if (['/profile', '/users'].includes(this.router.url)) {
+        if (this.router.url === '/profile') {
             await this.router.navigate(['/']);
         }
 
