@@ -42,6 +42,7 @@ elif [ $1 == "start-dev" ]; then
         "docker-compose --file backend/docker-compose.yml up" \
         "npm --prefix backend run serve" \
         "npm --prefix frontend run serve"
+    docker stop $(docker ps -aq)
 elif [ $1 == "lint" ]; then
     validate_environment "dev"
     echo "Running backend linters..."
