@@ -49,7 +49,7 @@ export class ProfilePage {
         transportation: {
             subHeader: `
                 Select 'Yes' only if you or your guests require transportation between the hotel and church on the day
-                of the wedding.  Note that the hotel will provide transportation to and from the airport.
+                of the wedding.  Please note that the hotel will provide transportation to and from the airport.
             `
         }
     }
