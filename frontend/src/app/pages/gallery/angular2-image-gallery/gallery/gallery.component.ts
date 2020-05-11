@@ -233,7 +233,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                 }
             })
 
-        this.minimalQualityCategory = maximumGalleryImageHeight > 375 ? 'preview_xs' : 'preview_xxs'
+        this.minimalQualityCategory = 'preview_xs';
         this.refreshNavigationErrorState()
 
         this.changeDetectorRef.detectChanges()

@@ -241,41 +241,6 @@ export class ViewerComponent {
     private updateQuality(): void {
         const screenWidth = window.innerWidth;
         const screenHeight = window.innerHeight;
-
-        switch (this.qualitySelected) {
-            case 'auto': {
-                this.categorySelected = 'preview_xxs';
-
-                if (screenWidth > this.images[this.currentIdx]['preview_xxs'].width &&
-                    screenHeight > this.images[this.currentIdx]['preview_xxs'].height) {
-                    this.categorySelected = 'preview_xs';
-                }
-
-                // if (screenWidth > this.images[this.currentIdx]['preview_xs'].width &&
-                //     screenHeight > this.images[this.currentIdx]['preview_xs'].height) {
-                //     this.categorySelected = 'preview_s';
-                // }
-
-                // if (screenWidth > this.images[this.currentIdx]['preview_s'].width &&
-                //     screenHeight > this.images[this.currentIdx]['preview_s'].height) {
-                //     this.categorySelected = 'preview_m';
-                // }
-
-                break;
-            }
-            // case 'low': {
-            //     this.categorySelected = 'preview_s';
-            //     break;
-            // }
-            // case 'mid': {
-            //     this.categorySelected = 'preview_m';
-            //     break
-            // }
-            default: {
-                // this.categorySelected = 'preview_m';
-                // this.categorySelected = 'preview_s';
-                this.categorySelected = 'preview_xs';
-            }
-        }
+        this.categorySelected = 'preview_xs';
     }
 }
