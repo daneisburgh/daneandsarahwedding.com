@@ -26,7 +26,7 @@ export class PopoverProfileLinksComponent {
             await this.userService.changePasswordEmail(this.userService.user.email);
         } catch (error) {
             if (PASSWORD_EMAIL_ERRORS.includes(error.error)) {
-                this.utilsService.toast('error', error.error);
+                this.utilsService.toast('error', error.error, 'Please verify email and/or submit new request, and contact us if the error persists');
             } else {
                 this.utilsService.toastBadRequest();
             }
