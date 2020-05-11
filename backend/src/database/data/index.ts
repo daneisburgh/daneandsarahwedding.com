@@ -4,7 +4,7 @@ import path from 'path';
 import tunnel from 'tunnel-ssh';
 import Umzug from 'umzug';
 
-const { TUNNEL_USERNAME, TUNNEL_HOST, TUNNEL_KEY_PATH, TUNNEL_DESTINATION_HOST } = process.env;
+const { TUNNEL_USERNAME, TUNNEL_HOST, TUNNEL_KEY_PATH, DB_HOST } = process.env;
 
 async function migrateAndSeed() {
     const sequelize = require('../sequelize').default;
@@ -29,7 +29,7 @@ async function migrateAndSeed() {
             host: TUNNEL_HOST,
             port: 22,
             privateKey: readFileSync(path.resolve(__dirname, TUNNEL_KEY_PATH as string)),
-            dstHost: TUNNEL_DESTINATION_HOST,
+            dstHost: DB_HOST,
             dstPort: 5432,
             localHost: 'localhost',
             localPort: 5432
@@ -37,7 +37,9 @@ async function migrateAndSeed() {
             if (error) {
                 throw error;
             } else {
+                process.env.TUNNEL = 'true';
                 await migrateAndSeed();
+                process.env.TUNNEL = undefined;
             }
 
             server.close();
