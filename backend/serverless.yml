@@ -28,6 +28,12 @@ provider:
       - ${env:SUBNET_2}
       - ${env:SUBNET_3}
       - ${env:SUBNET_4}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ses:SendEmail
+        - ses:SendRawEmail
+      Resource: ${env:EMAIL_RESOURCE}
   usagePlan:
     quota:
       limit: 10000
@@ -45,8 +51,6 @@ provider:
     DB_HOST: ${env:DB_HOST}
     DB_USERNAME: ${env:DB_USERNAME}
     DB_PASSWORD: ${env:DB_PASSWORD}
-    SMTP_USERNAME: ${env:SMTP_USERNAME}
-    SMTP_PASSWORD: ${env:SMTP_PASSWORD}
 
 functions:
   public:
