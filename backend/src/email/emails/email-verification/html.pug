@@ -6,8 +6,8 @@ html
         p 
             | Hi #{user.name},
         p 
-            | Please verify your email address by clicking the link below.
-            | Note that the link is only valid for #{expirationHours} hours.
+            | Verify your email address by clicking the link below.
+            | Please note that the link is only valid for #{expirationHours} hours.
         p
             | Email verification link:
             | #[a(href=`${emailVerificationUrl}`, target="_blank") #{emailVerificationUrl}]

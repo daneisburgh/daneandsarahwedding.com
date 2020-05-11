@@ -7,7 +7,7 @@ html
             | Hi #{user.name},
         p 
             | Click the link below to change your password.
-            | Note that the link is only valid for #{expirationHours} hours.
+            | Please note that the link is only valid for #{expirationHours} hours.
         p
             | Password change link:
             | #[a(href=`${passwordChangeUrl}`, target="_blank") #{passwordChangeUrl}]
