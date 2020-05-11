@@ -9,7 +9,8 @@ html
             | Please verify your email address by clicking the link below.
             | Note that the link is only valid for #{expirationHours} hours.
         p
-            button(onclick=`window.open('${verificationUrl}', '_blank')`) Verify Email
+            | Email verification link:
+            | #[a(href=`${emailVerificationUrl}`, target="_blank") #{emailVerificationUrl}]
         p
             | Feel free to reply to this email if you have any issues verifying your 
             | email address or if you are not the intended recipient.

@@ -9,7 +9,8 @@ html
             | Click the link below to change your password.
             | Note that the link is only valid for #{expirationHours} hours.
         p
-            button(onclick=`window.open('${verificationUrl}', '_blank')`) Change Password
+            | Password change link:
+            | #[a(href=`${passwordChangeUrl}`, target="_blank") #{passwordChangeUrl}]
         p
             | Feel free to reply to this email if you have any issues changing your
             | password or if you are not the intended recipient.
