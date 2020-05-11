@@ -32,7 +32,7 @@ export default async function (event: any) {
 
             await sendEmail('email-verification', user, {
                 expirationHours,
-                verificationUrl: `${process.env.CLIENT_URL}?emailVerificationCode=${code}`
+                emailVerificationUrl: `${process.env.CLIENT_URL}?emailVerificationCode=${code}`
             });
 
             return createResponse(200, createUserResponse(user));

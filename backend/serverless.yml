@@ -18,11 +18,19 @@ provider:
   name: aws
   stage: ${env:NODE_ENV}
   runtime: nodejs12.x
-  timeout: 10
+  timeout: 30
   logRetentionInDays: 30
+  vpc:
+    securityGroupIds:
+      - ${env:SECURITY_GROUP}
+    subnetIds:
+      - ${env:SUBNET_1}
+      - ${env:SUBNET_2}
+      - ${env:SUBNET_3}
+      - ${env:SUBNET_4}
   usagePlan:
     quota:
-      limit: 1000
+      limit: 10000
       period: DAY
     throttle:
       rateLimit: 100
