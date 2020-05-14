@@ -11,6 +11,8 @@ import { UtilsService } from '../../services/utils/utils.service';
     styleUrls: ['./popover-profile-links.component.scss'],
 })
 export class PopoverProfileLinksComponent {
+    public isSubmitting = false;
+
     constructor(
         private popoverController: PopoverController,
         private userService: UserService,
@@ -23,10 +25,12 @@ export class PopoverProfileLinksComponent {
 
     public async changePassword() {
         try {
+            this.isSubmitting = true;
             await this.userService.changePasswordEmail(this.userService.user.email);
         } catch (error) {
             if (PASSWORD_EMAIL_ERRORS.includes(error.error)) {
-                this.utilsService.toast('error', error.error, 'Please verify email and/or submit new request, and contact us if the error persists');
+                this.utilsService.toast('error', error.error,
+                    'Please verify email and/or submit a new request, and contact us if the error persists');
             } else {
                 this.utilsService.toastBadRequest();
             }

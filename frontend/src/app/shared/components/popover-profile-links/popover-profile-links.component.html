@@ -7,7 +7,8 @@
 	</ion-row>
 	<ion-row (click)="changePassword()">
 		<ion-col size="12">
-			<ion-icon name="key"></ion-icon>
+            <ion-icon *ngIf="!isSubmitting" name="key" class="key"></ion-icon>
+            <ion-spinner *ngIf="isSubmitting"></ion-spinner>
 			Change Password
 		</ion-col>
 	</ion-row>
