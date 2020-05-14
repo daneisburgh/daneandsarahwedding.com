@@ -6,20 +6,13 @@ plugins:
   - serverless-offline
 
 custom:
+  apiGateway:
+    binaryMediaTypes:
+      - "*/*"
   customDomain:
     domainName: ${env:DOMAIN_NAME}
     certificateName: ${env:APP_NAME}.com
     createRoute53Record: true
-  apiGateway:
-    binaryMediaTypes:
-      - "*/*"
-
-provider:
-  name: aws
-  stage: ${env:NODE_ENV}
-  runtime: nodejs12.x
-  timeout: 30
-  logRetentionInDays: 30
   vpc:
     securityGroupIds:
       - ${env:SECURITY_GROUP}
@@ -28,12 +21,15 @@ provider:
       - ${env:SUBNET_2}
       - ${env:SUBNET_3}
       - ${env:SUBNET_4}
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - ses:SendEmail
-        - ses:SendRawEmail
-      Resource: ${env:EMAIL_RESOURCE}
+
+provider:
+  name: aws
+  stage: ${env:NODE_ENV}
+  region: ${env:REGION}
+  runtime: nodejs12.x
+  timeout: 30
+  memorySize: 512
+  logRetentionInDays: 30
   usagePlan:
     quota:
       limit: 10000
@@ -41,29 +37,31 @@ provider:
     throttle:
       rateLimit: 100
       burstLimit: 1000
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeAsync
+        - lambda:InvokeFunction
+      Resource: arn:aws:lambda:${env:REGION}:${env:ACCOUNT}:function:${env:APP_NAME}-${env:NODE_ENV}-*
+    - Effect: Allow
+      Action:
+        - ses:SendEmail
+        - ses:SendRawEmail
+      Resource: arn:aws:ses:${env:REGION}:${env:ACCOUNT}:identity/${env:APP_EMAIL}
   environment:
-    APP_NAME: ${env:APP_NAME}
-    NODE_ENV: ${env:NODE_ENV}
-    DOMAIN_NAME: ${env:DOMAIN_NAME}
     API_KEY: ${env:API_KEY}
     API_URL: ${env:API_URL}
+    APP_EMAIL: ${env:APP_EMAIL}
+    APP_NAME: ${env:APP_NAME}
     CLIENT_URL: ${env:CLIENT_URL}
     DB_HOST: ${env:DB_HOST}
     DB_USERNAME: ${env:DB_USERNAME}
     DB_PASSWORD: ${env:DB_PASSWORD}
+    DOMAIN_NAME: ${env:DOMAIN_NAME}
+    NODE_ENV: ${env:NODE_ENV}
+    REGION: ${env:REGION}
 
 functions:
-  public:
-    handler: build/public/index.default
-    events:
-      - http:
-          path: /
-          method: GET
-          cors: true
-      - http:
-          path: /{filePath+}
-          method: GET
-          cors: true
   api-health-check:
     handler: build/api/routes/health-check.default
     events:
@@ -113,3 +111,25 @@ functions:
           path: /api/user-profile-update
           method: POST
           cors: true
+  client:
+    handler: build/client/index.default
+    events:
+      - http:
+          path: /
+          method: GET
+          cors: true
+      - http:
+          path: /{filePath+}
+          method: GET
+          cors: true
+  database-email-create:
+    handler: build/database/functions/email-create.default
+    vpc: ${self:custom.vpc}
+  database-user-find:
+    handler: build/database/functions/user-find.default
+    vpc: ${self:custom.vpc}
+  database-user-update:
+    handler: build/database/functions/user-update.default
+    vpc: ${self:custom.vpc}
+  email:
+    handler: build/email/index.default
