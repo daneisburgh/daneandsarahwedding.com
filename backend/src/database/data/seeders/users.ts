@@ -1,7 +1,6 @@
 import { Op } from 'sequelize';
-
-import xlsx from 'xlsx';
 import fetch from 'node-fetch';
+import xlsx from 'xlsx';
 import * as fs from 'fs';
 
 import User from '../../models/user';
@@ -14,15 +13,17 @@ interface GuestObject {
     Persons: number;
 }
 
-(async () => {
+export default async function() {
     const url = process.env.GUEST_LIST_URL as string;
     const response = await fetch(url);
-    const dest = fs.createWriteStream(`./${guestListFile}`);
-    response.body.pipe(dest);
-    dest.on('finish', async function () {
-        await createOrUpdateUsers();
+    const writeStream = fs.createWriteStream(`./${guestListFile}`);
+    response.body.pipe(writeStream);
+    await new Promise((resolve, reject) => {
+        writeStream.on('finish', resolve);
+        writeStream.on('error', reject);
     });
-})();
+    await createOrUpdateUsers();
+}
 
 async function generateUsername(name: string): Promise<string> {
     let split, splitName;

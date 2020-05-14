@@ -1,10 +1,10 @@
 import { readFileSync } from 'fs';
-import { Server } from 'net';
 import path from 'path';
-import tunnel from 'tunnel-ssh';
+import tunnelSsh from 'tunnel-ssh';
 import Umzug from 'umzug';
+import { promisify } from 'util';
 
-const { TUNNEL_USERNAME, TUNNEL_HOST, TUNNEL_KEY_PATH, DB_HOST } = process.env;
+const { APP_NAME, TUNNEL_USERNAME, TUNNEL_HOST, DB_HOST } = process.env;
 
 async function migrateAndSeed() {
     const sequelize = require('../sequelize').default;
@@ -18,32 +18,27 @@ async function migrateAndSeed() {
     });
 
     await umzug.up();
-    await require('./seeders/users');
+    await require('./seeders/users').default();
 };
 
 (async () => {
     if (process.env.NODE_ENV !== 'development') {
-        tunnel({
+        const tunnel = await promisify(tunnelSsh)({
             keepAlive: true,
             username: TUNNEL_USERNAME,
             host: TUNNEL_HOST,
             port: 22,
-            privateKey: readFileSync(path.resolve(__dirname, TUNNEL_KEY_PATH as string)),
+            privateKey: readFileSync(path.resolve(__dirname, `${APP_NAME}.pem`)),
             dstHost: DB_HOST,
             dstPort: 5432,
             localHost: 'localhost',
             localPort: 5432
-        }, async (error: Error, server: Server) => {
-            if (error) {
-                throw error;
-            } else {
-                process.env.TUNNEL = 'true';
-                await migrateAndSeed();
-                process.env.TUNNEL = undefined;
-            }
-
-            server.close();
         });
+
+        process.env.TUNNEL = 'true';
+        await migrateAndSeed();
+        process.env.TUNNEL = undefined;
+        tunnel.close();
     } else {
         await migrateAndSeed();
     }
