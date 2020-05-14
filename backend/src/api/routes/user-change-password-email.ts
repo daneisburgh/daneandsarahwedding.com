@@ -1,8 +1,13 @@
 import validator from 'validator';
 
-import { getRequestBody, createResponse, createCodeAndExpiration } from '../utils';
-import User from '../../database/models/user';
-import sendEmail from '../../email';
+import {
+    getRequestBody,
+    createResponse,
+    createCodeAndExpiration,
+    sendEmail,
+    findUser,
+    updateUser
+} from '../utils';
 
 export default async function (event: any) {
     try {
@@ -11,7 +16,7 @@ export default async function (event: any) {
         if (!validator.isEmail(email)) {
             return createResponse(400, 'Invalid email');
         } else {
-            const user = await User.findOne({ where: { email } });
+            let user = await findUser({ email });
 
             if (!user) {
                 return createResponse(400, 'Invalid email');
@@ -21,7 +26,7 @@ export default async function (event: any) {
                 const expirationHours = 2;
                 const { code, expiration } = await createCodeAndExpiration('passwordChangeCode', expirationHours);
 
-                await user.update({
+                user = await updateUser(user.username, {
                     passwordChangeCode: code,
                     passwordChangeExpiration: expiration
                 });

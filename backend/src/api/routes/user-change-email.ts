@@ -1,29 +1,37 @@
 import validator from 'validator';
 
-import { getRequestBody, getUserFromToken, createResponse, createUserResponse, createCodeAndExpiration } from '../utils';
+import {
+    getRequestBody,
+    getUserFromToken,
+    createResponse,
+    createUserResponse,
+    createCodeAndExpiration,
+    sendEmail,
+    findUser,
+    updateUser
+} from '../utils';
 import User from '../../database/models/user';
-import sendEmail from '../../email';
 
 export default async function (event: any) {
     try {
         const { token, email } = getRequestBody(event);
-        let user: User;
+        let user: User | undefined = undefined;
 
         try {
             user = await getUserFromToken(token);
         } catch {
-            return createResponse(401, 'Invalid Token');
+            return createResponse(401, 'Invalid token');
         }
 
         if (!validator.isEmail(email)) {
             return createResponse(400, 'Invalid email');
-        } else if (user.email !== email && (await User.findOne({ where: { email } }))) {
+        } else if (user.email !== email && await findUser({ email })) {
             return createResponse(400, 'Email is taken');
         } else {
             const expirationHours = 24;
             const { code, expiration } = await createCodeAndExpiration('emailVerificationCode', expirationHours);
 
-            await user.update({
+            user = await updateUser(user.username, {
                 email,
                 emailVerificationCode: code,
                 emailVerificationExpiration: expiration,

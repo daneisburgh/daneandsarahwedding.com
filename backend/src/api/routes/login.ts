@@ -1,15 +1,21 @@
 import bcrypt from 'bcryptjs';
 
-import { getRequestBody, getUserFromToken, createResponse, createUserResponse } from '../utils';
+import {
+    getRequestBody,
+    getUserFromToken,
+    createResponse,
+    createUserResponse,
+    findUser
+} from '../utils';
 import User from '../../database/models/user';
 
 export default async function (event: any) {
     try {
         const { username, password, token } = getRequestBody(event);
-        let user: User | null = null;
+        let user: User | undefined = undefined;
 
         if (username) {
-            user = await User.findByPk(username);
+            user = await findUser({ username });
         } else if (token) {
             try {
                 user = await getUserFromToken(token);

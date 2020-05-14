@@ -1,10 +1,15 @@
-import { getRequestBody, createResponse, createUserResponse } from '../utils';
-import User from '../../database/models/user';
+import {
+    getRequestBody,
+    createResponse,
+    createUserResponse,
+    findUser,
+    updateUser
+} from '../utils';
 
 export default async function (event: any) {
     try {
         const { code, password } = getRequestBody(event);
-        const user = await User.findOne({ where: { passwordChangeCode: code } });
+        let user = await findUser({ passwordChangeCode: code })
 
         if (!user) {
             return createResponse(400, 'Invalid link');
@@ -13,7 +18,7 @@ export default async function (event: any) {
         } else if (!password) {
             return createResponse(400, 'Invalid password');
         } else {
-            await user.update({
+            user = await updateUser(user.username, {
                 password,
                 passwordChangeCode: null,
                 passwordChangeExpiration: null
