@@ -72,7 +72,7 @@ export class AppComponent {
         this.statusBar.styleDefault();
         this.splashScreen.hide();
 
-        await this.utilsService.sleep(1000);
+        await new Promise(resolve => setTimeout(resolve, 1000));
         this.isReady = true;
 
         const { emailVerificationCode, passwordChangeCode } = querystring.parse(window.location.search.replace('?', ''));
@@ -93,7 +93,7 @@ export class AppComponent {
                     })).present();
                 }
             } finally {
-                this.router.navigate([(this.user ? '/profile' : '/home')]);
+                await this.router.navigate(['/home']);
             }
         }
     }
