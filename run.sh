@@ -57,7 +57,7 @@ elif [ $1 == "deploy" ]; then
     echo "Deploying $2 app..."
     npm --prefix backend run build
     npm --prefix frontend run build:$NODE_ENV
-    cp -R frontend/www backend/build/public/www
+    cp -R frontend/www backend/build/client/www
     npm --prefix backend run deploy
 elif [ $1 == "destroy" ]; then
     validate_environment $2
