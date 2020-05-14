@@ -1,6 +1,6 @@
+*.pem
 .serverless
 .vscode
 build
 node_modules
-public
 www
