@@ -21,10 +21,6 @@ export const emailColumns = {
         type: DataTypes.STRING,
         allowNull: false
     },
-    text: {
-        type: DataTypes.STRING(1000),
-        allowNull: false
-    },
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -36,7 +32,6 @@ class Email extends Model {
     public id!: number;
     public username!: string;
     public template!: string;
-    public text!: string;
     public createdAt!: Date;
 }
 
