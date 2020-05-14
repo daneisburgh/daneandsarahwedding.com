@@ -1,5 +1,7 @@
 <ion-content>
     <div class="content-outer page-outer fireworks">
+        <div *ngIf="displayFireworks" class="fireworks-before"></div>
+        <div *ngIf="displayFireworks" class="fireworks-after"></div>
         <ion-header>
             <ion-toolbar color="primary">
                 <ion-title class="content-inner title grid">
@@ -19,8 +21,6 @@
                 </ion-title>
             </ion-toolbar>
         </ion-header>
-        <div *ngIf="displayFireworks" class="fireworks-before"></div>
-        <div *ngIf="displayFireworks" class="fireworks-after"></div>
         <div class="content-inner">
             <ion-grid class="page-grid">
                 <ion-row>
