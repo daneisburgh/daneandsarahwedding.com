@@ -59,9 +59,7 @@ export class ModalLogInComponent {
             console.error(error);
             this.errorMessage = LOG_IN_ERRORS.includes(error.error) ? error.error : 'Bad request';
         } finally {
-            setTimeout(() => {
-                this.isSubmitting = false;
-            }, 1000);
+            this.isSubmitting = false;
         }
     }
 

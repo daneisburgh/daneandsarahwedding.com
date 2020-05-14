@@ -48,8 +48,9 @@ export class ModalChangePasswordComponent {
                     this.errorMessage = 'Passwords do not match';
                 } else {
                     await this.userService.changePassword(this.code, this.newPassword);
-                    this.utilsService.toast('success', 'Successfully changed password');
-                    this.router.navigate(['/profile']);
+                    this.utilsService.toast('success', 'Successfully changed password',
+                        'Please remember to use your new password on your next log in');
+                    await this.router.navigate(['/profile']);
                     this.dismiss();
                 }
             } else {
@@ -61,9 +62,7 @@ export class ModalChangePasswordComponent {
             this.errorMessage = error.error === 'Invalid password' ||
                 PASSWORD_EMAIL_ERRORS.includes(error.error) ? error.error : 'Bad request';
         } finally {
-            setTimeout(() => {
-                this.isSubmitting = false;
-            }, 1000);
+            this.isSubmitting = false;
         }
     }
 

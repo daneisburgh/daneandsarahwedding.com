@@ -46,9 +46,7 @@ export class ModalChangeEmailComponent {
             console.error(error);
             this.errorMessage = CHANGE_EMAIL_ERRORS.includes(error.error) ? error.error : 'Bad request';
         } finally {
-            setTimeout(() => {
-                this.isSubmitting = false;
-            }, 1000);
+            this.isSubmitting = false;
         }
     }
 

@@ -130,13 +130,13 @@ export class ProfilePage {
                 this.utilsService.toastBadRequest();
                 return false;
             } finally {
-                setTimeout(() => {
-                    this.isUpdating[column] = false;
+                this.isUpdating[column] = false;
 
+                if (this.displayFireworks) {
                     setTimeout(() => {
                         this.displayFireworks = false;
                     }, 5000);
-                }, 1000);
+                }
             }
         }
     }
@@ -156,9 +156,7 @@ export class ProfilePage {
                 this.utilsService.toastBadRequest();
             }
         } finally {
-            setTimeout(() => {
-                this.isResendingEmailVerification = false;
-            }, 1000);
+            this.isResendingEmailVerification = false;
         }
     }
 
