@@ -1,6 +1,6 @@
-const fs = require('fs');
-const StaticFileHandler = require('serverless-aws-static-file-handler');
+import fs from 'fs';
 
+const StaticFileHandler = require('serverless-aws-static-file-handler');
 const clientDirectory = `${__dirname}/www`;
 const fileHandler = new StaticFileHandler(clientDirectory);
 
