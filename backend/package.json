@@ -8,7 +8,7 @@
         "lint": "eslint src/**/*.ts",
         "build": "rm -rf build && tsc && npm run copy-files",
         "watch": "tsc --watch --preserveWatchOutput",
-        "copy-files": "cp -r src/email/emails build/email/",
+        "copy-files": "cp src/database/data/*.pem build/database/data/ && cp -r src/email/emails build/email/",
         "migrate-and-seed": "cd build/database/data && node index.js",
         "offline": "serverless offline --verbose",
         "serve": "wait-on tcp:localhost:5432 && npm-run-all --sequential build migrate-and-seed && npm-run-all --parallel watch offline",
