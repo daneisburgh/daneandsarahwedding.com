@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common'; 
 import { Router } from '@angular/router';
 import { Platform, ModalController, PopoverController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -20,7 +21,7 @@ export const emailUrl = 'mailto:hello@daneandsarahwedding.com';
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
     public isReady = false;
     public readonly currentYear = new Date().getFullYear();
     public readonly registryUrl = 'https://www.zola.com/registry/daneandsarahwedding';
@@ -31,6 +32,7 @@ export class AppComponent {
     public get isMobile() { return this.utilsService.isMobile; }
 
     constructor(
+        @Inject(DOCUMENT) document,
         public router: Router,
         private modalController: ModalController,
         private platform: Platform,
@@ -39,6 +41,9 @@ export class AppComponent {
         private statusBar: StatusBar,
         private userService: UserService,
         private utilsService: UtilsService) {
+    }
+
+    public ngAfterViewInit() {
         this.initializeApp();
     }
 
@@ -73,6 +78,7 @@ export class AppComponent {
         this.splashScreen.hide();
 
         await new Promise(resolve => setTimeout(resolve, 1000));
+        document.getElementById('loadingElement').style.display = 'none';
         this.isReady = true;
 
         const { emailVerificationCode, passwordChangeCode } = querystring.parse(window.location.search.replace('?', ''));
