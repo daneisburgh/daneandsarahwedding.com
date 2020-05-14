@@ -65,10 +65,6 @@ export class UtilsService {
             'Please contact us if the error persists');
     }
 
-    public async sleep(time: number) {
-        await new Promise(resolve => setTimeout(resolve, time));
-    }
-
     private watchRoute() {
         this.router.events
             .pipe(filter(event => event instanceof NavigationEnd))
