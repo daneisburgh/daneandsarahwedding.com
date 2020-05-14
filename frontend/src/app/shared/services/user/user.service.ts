@@ -101,7 +101,7 @@ export class UserService {
                 this.utilsService.toastBadRequest();
             }
         } finally {
-            this.router.navigate([(this.user ? '/profile' : '/home')]);
+            await this.router.navigate([(this.user ? '/profile' : '/home')]);
         }
     }
 
