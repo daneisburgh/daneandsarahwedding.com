@@ -216,7 +216,8 @@ ion-popover {
             }
 
             ion-col {
-                padding-bottom: 8px;
+                padding-bottom: 6px;
+                
                 ion-icon,
                 ion-spinner {
                     width: 24px;
@@ -261,27 +262,6 @@ ion-title {
     @media screen and (min-width: $min-width-small) {
         min-width: 346px !important;
     }
-}
-
-.center-content-vertical {
-    height: 100%;
-    display: flex;
-    align-items: center;
-}
-
-.center-content-horizontal {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.content-outer {
-    min-width: 320px;
-}
-
-.content-inner {
-    max-width: 992px;
-    margin: 0 auto;
 }
 
 .mgl-timeline-entry-card {
