@@ -3,19 +3,19 @@ import EmailTemplate from 'email-templates';
 import nodemailer from 'nodemailer';
 import path from 'path';
 
-import Email from '../database/models/email';
-import User from '../database/models/user';
-
-const { APP_NAME, NODE_ENV } = process.env;
+const { APP_EMAIL, NODE_ENV, API_KEY, REGION } = process.env;
 const sendEmail = NODE_ENV !== 'development';
+const ses = new aws.SES({ region: REGION });
 
-export default async function (template: string, user: User, params: object) {
-    try {
+export default async function (event: any) {
+    const { apiKey, template, user, locals } = event;
+
+    if (apiKey !== API_KEY) {
+        throw new Error('Invalid API key');
+    } else {
         const emailTemplate = new EmailTemplate({
-            message: { from: `"Dane & Sarah" hello@${APP_NAME}.com` },
-            transport: nodemailer.createTransport({
-                SES: new aws.SES({ apiVersion: '2010-12-01' })
-            }),
+            message: { from: `"Dane & Sarah" ${APP_EMAIL}` },
+            transport: nodemailer.createTransport({ SES: ses }),
             juice: true,
             juiceResources: {
                 preserveImportant: true,
@@ -25,27 +25,13 @@ export default async function (template: string, user: User, params: object) {
             send: sendEmail
         });
 
-        const result = await emailTemplate.send({
+        await emailTemplate.send({
             template: path.resolve(__dirname, 'emails', template),
             message: { to: user.email },
             locals: {
                 user,
-                ...params
+                ...locals
             }
         });
-
-        try {
-            await Email.create({
-                template,
-                username: user.username,
-                text: result.originalMessage.text
-            });
-        } catch (error) {
-            console.error(error);
-            throw new Error('Cannot save email data');
-        }
-    } catch (error) {
-        console.error(error);
-        throw new Error('Cannot send email');
     }
 }
