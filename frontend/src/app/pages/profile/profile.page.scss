@@ -2,14 +2,18 @@
 
 .title.grid {
     padding-left: 8px;
-}
 
-.deadline {
-    font-size: 14px;
-    margin-bottom: -2px;
-
-    div {
-        margin-top: 2px;
+    .deadline {
+        font-size: 14px;
+        margin-bottom: -2px;
+    
+        div {
+            margin-top: 2px;
+        }
+    
+        ion-icon {
+            margin-top: 4px;
+        }
     }
 }
 
