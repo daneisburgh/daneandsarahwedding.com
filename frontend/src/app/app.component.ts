@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common'; 
+import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
 import { Platform, ModalController, PopoverController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -77,30 +77,37 @@ export class AppComponent implements AfterViewInit {
         this.statusBar.styleDefault();
         this.splashScreen.hide();
 
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        document.getElementById('loadingElement').style.display = 'none';
-        this.isReady = true;
-
         const { emailVerificationCode, passwordChangeCode } = querystring.parse(window.location.search.replace('?', ''));
 
         if (emailVerificationCode) {
             await this.userService.verifyEmail(emailVerificationCode as string);
+            await this.dismissLoading();
         } else if (passwordChangeCode) {
             try {
                 await this.userService.changePassword(passwordChangeCode as string);
             } catch (error) {
                 if (CHANGE_PASSWORD_ERRORS.includes(error.error)) {
+                    await this.dismissLoading();
                     this.utilsService.toast('error', error.error, 'Please resubmit change password request from login');
                 } else {
-                    (await this.modalController.create({
+                    await this.dismissLoading();
+                    await (await this.modalController.create({
                         component: ModalChangePasswordComponent,
                         componentProps: { code: passwordChangeCode },
                         cssClass: 'app-modal-change-password'
                     })).present();
                 }
-            } finally {
-                await this.router.navigate(['/home']);
             }
+            
+            await this.router.navigate(['/home']);
+        } else {
+            await this.dismissLoading();
         }
+    }
+
+    private async dismissLoading() {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        document.getElementById('loadingElement').style.display = 'none';
+        this.isReady = true;
     }
 }
