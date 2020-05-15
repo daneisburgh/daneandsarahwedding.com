@@ -3,9 +3,9 @@ version: "3"
 services:
   database:
     container_name: database
-    image: postgres:10.7
+    image: postgres:12.2
     environment:
-      - POSTGRES_DB=${NODE_ENV}
+      - POSTGRES_DB=${APP_NAME}-${NODE_ENV}
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     expose:
