@@ -28,7 +28,7 @@ async function migrateAndSeed() {
             username: TUNNEL_USERNAME,
             host: TUNNEL_HOST,
             port: 22,
-            privateKey: readFileSync(path.resolve(__dirname, `${APP_NAME}.pem`)),
+            privateKey: readFileSync(path.resolve(__dirname, `jenkins.pem`)),
             dstHost: DB_HOST,
             dstPort: 5432,
             localHost: 'localhost',
