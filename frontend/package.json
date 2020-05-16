@@ -8,7 +8,7 @@
         "ionic": "ionic",
         "serve": "ionic serve --no-open",
         "build:stage": "ionic build --configuration=stage",
-        "build:prod": "ionic build --configuration=production"
+        "build:production": "ionic build --configuration=production"
     },
     "dependencies": {
         "@angular/animations": "^9.1.7",
