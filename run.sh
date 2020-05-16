@@ -64,6 +64,6 @@ elif [ $1 == "destroy" ]; then
     echo "Destroying $2 app..."
     npm --prefix backend run destroy
 else
-    echo "Uknown command"
+    echo "Unknown command"
     exit
 fi
