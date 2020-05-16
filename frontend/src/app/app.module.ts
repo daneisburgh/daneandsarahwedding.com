@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { HammerModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
@@ -27,6 +28,7 @@ import { UserGuard } from './shared/guards/user/user.guard';
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
+        HammerModule,
         HttpClientModule,
         IonicModule.forRoot(),
         IonicStorageModule.forRoot(),

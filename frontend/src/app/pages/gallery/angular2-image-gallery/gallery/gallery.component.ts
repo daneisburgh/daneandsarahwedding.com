@@ -17,7 +17,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     imageDataCompletePath = '';
     dataFileName = 'data.json';
     images: Array<any> = [];
-    minimalQualityCategory = 'preview_xxs';
+    minimalQualityCategory = 'preview_xs';
     viewerSubscription: Subscription;
     rowIndex = 0;
     rightArrowInactive = false;

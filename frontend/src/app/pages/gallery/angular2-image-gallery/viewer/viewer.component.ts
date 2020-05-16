@@ -83,7 +83,7 @@ export class ViewerComponent {
     currentIdx: number = 0
     leftArrowVisible: boolean = true
     rightArrowVisible: boolean = true
-    categorySelected: string = 'preview_xxs'
+    categorySelected: string = 'preview_xs'
     transform: number
     math: Math
     private qualitySelectorShown: boolean = false
@@ -148,6 +148,8 @@ export class ViewerComponent {
      * swipe (user swiped)
      */
     navigate(direction: number, swipe: any): void {
+        console.log(direction, swipe);
+
         if ((direction === 1 && this.currentIdx < this.images.length - 1) ||
             (direction === -1 && this.currentIdx > 0)) {
 
