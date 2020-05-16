@@ -68,7 +68,7 @@ export class ProfilePage {
     }
 
     public get canAddOrRemoveGuests() { return this.user.minGuests < this.user.maxGuests; }
-    public get addOrRemoveString() { return `/${this.user.guests.length < this.user.maxGuests ? 'Add' : 'Remove'}`; }
+    public get addOrRemoveString() { return `${this.user.guests.length < this.user.maxGuests ? 'Add' : 'Remove'}/`; }
 
     public get emailVerificationHasExpired() {
         return this.user.emailVerificationExpiration &&
@@ -119,9 +119,17 @@ export class ProfilePage {
                 this.isUpdating[column] = true;
                 await this.userService.update({ [column]: value });
 
-                if (column === 'isAttending' && this.user.isAttending) {
-                    this.displayFireworks = true;
-                    this.utilsService.toast('success', 'Yay!', 'We look forward to seeing you at the wedding this October');
+                if (column === 'isAttending') {
+                    if (this.user.isAttending) {
+                        this.displayFireworks = true;
+                        this.utilsService.toast('success', 'Yay!', 'We look forward to seeing you at the wedding this October');
+
+                        setTimeout(() => {
+                            this.displayFireworks = false;
+                        }, 5000);
+                    } else if (this.displayChangeGuests) {
+                        this.toggleDisplayChangeGuests();
+                    }
                 }
 
                 return true;
@@ -131,12 +139,6 @@ export class ProfilePage {
                 return false;
             } finally {
                 this.isUpdating[column] = false;
-
-                if (this.displayFireworks) {
-                    setTimeout(() => {
-                        this.displayFireworks = false;
-                    }, 5000);
-                }
             }
         }
     }

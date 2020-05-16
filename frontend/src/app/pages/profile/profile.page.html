@@ -153,8 +153,8 @@
                                             [disabled]="isInputDisabled" (click)="toggleDisplayChangeGuests()">
                                             <ion-icon name="create"></ion-icon>
                                             <ion-label>
-                                                Change<span *ngIf="canAddOrRemoveGuests">{{addOrRemoveString}}</span>
-                                                <span *ngIf="!isMobile">&nbsp;Guests</span></ion-label>
+                                                <span *ngIf="canAddOrRemoveGuests">{{addOrRemoveString}}</span>Change
+                                                <span *ngIf="!isMobile">Guests</span></ion-label>
                                         </ion-button>
                                         <ion-button *ngIf="displayChangeGuests" class="save"
                                             [disabled]="isInputDisabled || isChangeGuestsDisabled"
@@ -195,6 +195,7 @@
                                             <ion-icon name="add"></ion-icon>
                                             <ion-label>Add<span *ngIf="!isMobile">&nbsp;Guest</span></ion-label>
                                         </ion-button>
+                                        &nbsp;(Max: {{user.maxGuests}})
                                     </ion-buttons>
                                 </ion-item>
                             </ion-card-content>
