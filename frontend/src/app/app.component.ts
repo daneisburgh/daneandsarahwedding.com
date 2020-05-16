@@ -40,8 +40,7 @@ export class AppComponent implements AfterViewInit {
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
         private userService: UserService,
-        private utilsService: UtilsService) {
-    }
+        private utilsService: UtilsService) { }
 
     public ngAfterViewInit() {
         this.initializeApp();
@@ -98,7 +97,7 @@ export class AppComponent implements AfterViewInit {
                     })).present();
                 }
             }
-            
+
             await this.router.navigate(['/home']);
         } else {
             await this.dismissLoading();
