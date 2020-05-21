@@ -39,7 +39,7 @@
                                 </ion-card-title>
                             </ion-card-header>
                             <ion-card-content class="timeline-card">
-                                <mgl-timeline [toggle]="false">
+                                <mgl-timeline>
                                     <mgl-timeline-entry *ngFor="let item of timeline; let i = index"
                                         (expand)="onExpandEntry($event, i)">
                                         <mgl-timeline-entry-dot size="40" [ngClass]="{'expanded': item.expanded}">

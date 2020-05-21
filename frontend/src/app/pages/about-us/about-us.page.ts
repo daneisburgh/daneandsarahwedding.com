@@ -50,6 +50,7 @@ export class AboutUsPage {
             `
         },
         {
+            expanded: false,
             headerTitle: 'Long distance',
             headerDate: '12/13/2015',
             content: `
@@ -59,8 +60,7 @@ export class AboutUsPage {
                 days and video chatting every night.  On the weekends, they would spend as much time
                 together as possible and alternated between visiting Dane's parents in Loveland and
                 Sarah's family in Union.
-            `,
-            expanded: false
+            `
         },
         {
             expanded: false,
