@@ -189,14 +189,20 @@
                                 </ion-item>
                                 <ion-item *ngIf="displayChangeGuests && canAddOrRemoveGuests" color="light" lines="none"
                                     class="add">
-                                    <ion-buttons>
+                                    <ion-buttons *ngIf="canAddOrRemoveGuests">
                                         <ion-button (click)="addGuest()"
                                             [disabled]="isInputDisabled || guests.length === user.maxGuests">
                                             <ion-icon name="add"></ion-icon>
                                             <ion-label>Add<span *ngIf="!isMobile">&nbsp;Guest</span></ion-label>
                                         </ion-button>
-                                        &nbsp;(Max: {{user.maxGuests}})
+                                        <ion-label class="max-guests">(Max: {{user.maxGuests}})</ion-label>
                                     </ion-buttons>
+                                </ion-item>
+                                <ion-item *ngIf="displayChangeGuests" color="light" lines="none"
+                                    class="guest-name-message">
+                                    <ion-label [ngClass]="{'can-add-or-remove': canAddOrRemoveGuests}">
+                                        {{guestNameMessage}}
+                                    </ion-label>
                                 </ion-item>
                             </ion-card-content>
                         </ion-card>

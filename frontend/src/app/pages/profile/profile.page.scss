@@ -6,11 +6,11 @@
     .deadline {
         font-size: 14px;
         margin-bottom: -2px;
-    
+
         div {
             margin-top: 2px;
         }
-    
+
         ion-icon {
             margin-top: 4px;
         }
@@ -36,7 +36,7 @@ ion-card-header {
     }
 
     ion-buttons {
-        top: -2px;
+        top: -4px;
         right: 0;
         position: absolute;
 
@@ -135,6 +135,24 @@ ion-card-content {
                     ion-icon {
                         font-size: 20px;
                         margin-right: 4px;
+                    }
+                }
+
+                ion-label.max-guests {
+                    margin-top: -2px;
+                }
+            }
+
+            &.guest-name-message {
+                padding: 0;
+                height: 32px;
+
+                ion-label {
+                    font-size: 14px;
+                    margin: -16px 0 0 12px;
+
+                    &.can-add-or-remove {
+                        margin-top: -32px;
                     }
                 }
             }

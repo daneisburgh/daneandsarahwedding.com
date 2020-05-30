@@ -16,6 +16,7 @@ export const deadlineString = deadline.toLocaleDateString();
 })
 export class ProfilePage {
     public readonly deadlineMessage = `Profile info can be updated until ${deadlineString}`;
+    public readonly guestNameMessage = 'Please include first and last name';
 
     public email: string;
     public guests: string[];
