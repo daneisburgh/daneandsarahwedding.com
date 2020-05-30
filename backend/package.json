@@ -12,7 +12,7 @@
         "migrate-and-seed": "cd build/database/data && node index.js",
         "offline": "serverless offline --verbose",
         "serve": "wait-on tcp:localhost:5432 && npm-run-all --sequential build migrate-and-seed && npm-run-all --parallel watch offline",
-        "deploy": "npm run migrate-and-seed && serverless create_domain && serverless deploy --verbose --force",
+        "deploy": "npm run migrate-and-seed && serverless prune -n 5 && serverless create_domain && serverless deploy --verbose --force",
         "destroy": "serverless delete_domain && serverless remove --verbose --force"
     },
     "dependencies": {
@@ -55,6 +55,7 @@
         "serverless": "^1.70.1",
         "serverless-domain-manager": "^3.3.1",
         "serverless-offline": "^5.12.1",
+        "serverless-prune-plugin": "^1.4.3",
         "tunnel-ssh": "^4.1.4",
         "typescript": "^3.9.2",
         "umzug": "^2.3.0",
