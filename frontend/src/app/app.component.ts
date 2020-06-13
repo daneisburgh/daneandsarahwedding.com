@@ -65,7 +65,6 @@ export class AppComponent implements AfterViewInit {
 
     private async initializeApp() {
         this.utilsService.setTitle('Loading...');
-
         await this.userService.logIn().catch(() => { });
 
         if (this.user && !this.user.email) {
