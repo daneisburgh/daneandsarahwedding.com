@@ -6,8 +6,17 @@ import { UtilsService } from '../../shared/services/utils/utils.service';
 import { PopoverController } from '@ionic/angular';
 import { DeadlinePopoverComponent } from './deadline-popover/deadline-popover.component';
 
+const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+];
+
+function getOrdinalNum(n: number) {
+    return n + (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : '');
+}
+
 const deadline = new Date('6/30/2020');
-export const deadlineString = deadline.toLocaleDateString();
+export const deadlineString = `${monthNames[deadline.getMonth()]} ${getOrdinalNum(deadline.getDate())}`;
 
 @Component({
     selector: 'app-profile',
@@ -15,7 +24,7 @@ export const deadlineString = deadline.toLocaleDateString();
     styleUrls: ['./profile.page.scss', './profile.fireworks.scss'],
 })
 export class ProfilePage {
-    public readonly deadlineMessage = `Profile info can be updated until ${deadlineString}`;
+    public readonly deadlineMessage = `Please RSVP and update profile info by ${deadlineString}`;
     public readonly guestNameMessage = 'Please include guest\'s first and last name';
 
     public email: string;
