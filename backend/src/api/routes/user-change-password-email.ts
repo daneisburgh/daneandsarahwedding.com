@@ -13,7 +13,7 @@ export default async function (event: any) {
     try {
         const { email } = getRequestBody(event);
 
-        if (!validator.isEmail(email)) {
+        if (!email || !validator.isEmail(email)) {
             return createResponse(400, 'Invalid email');
         } else {
             let user = await findUser({ email });
