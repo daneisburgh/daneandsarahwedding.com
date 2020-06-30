@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Platform, ModalController, PopoverController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Storage } from '@ionic/storage';
+import { ToastrService } from 'ngx-toastr';
 import * as querystring from 'querystring';
 
 
@@ -13,6 +15,7 @@ import { PopoverGalleryLinksComponent } from './shared/components/popover-galler
 import { PopoverProfileLinksComponent } from './shared/components/popover-profile-links/popover-profile-links.component';
 import { UserService, CHANGE_PASSWORD_ERRORS } from './shared/services/user/user.service';
 import { UtilsService } from './shared/services/utils/utils.service';
+import { deadlineString } from './pages/profile/profile.page';
 
 export const emailUrl = 'mailto:hello@daneandsarahwedding.com';
 
@@ -26,6 +29,7 @@ export class AppComponent implements AfterViewInit {
     public readonly currentYear = new Date().getFullYear();
     public readonly registryUrl = 'https://www.zola.com/registry/daneandsarahwedding';
     public readonly emailUrl = emailUrl;
+    private readonly covidInfoKey = 'hasDismissedCovidInfo';
 
     public get user() { return this.userService.user; }
     public get appTitle() { return this.utilsService.appTitle };
@@ -39,6 +43,8 @@ export class AppComponent implements AfterViewInit {
         private popoverController: PopoverController,
         private splashScreen: SplashScreen,
         private statusBar: StatusBar,
+        private storage: Storage,
+        private toastr: ToastrService,
         private userService: UserService,
         private utilsService: UtilsService) { }
 
@@ -100,6 +106,17 @@ export class AppComponent implements AfterViewInit {
             await this.router.navigate(['/home']);
         } else {
             await this.dismissLoading();
+        }
+
+        if (!(await this.storage.get(this.covidInfoKey))) {
+            const message = `
+                We have extended the RSVP deadline to <b>${deadlineString}</b> 
+                and have added a COVID-19 section to the <a href="/info">Info page</a> 
+                with details for guests who are concerned about traveling.
+            `;
+
+            this.toastr.warning(message, 'Info update', { enableHtml: true })
+                .onHidden.subscribe(async () => await this.storage.set(this.covidInfoKey, true));
         }
     }
 
