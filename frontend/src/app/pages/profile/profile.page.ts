@@ -77,7 +77,7 @@ export class ProfilePage {
         return primaryGuestRemoved || isEqual(this.user.guests, this.filteredGuests);
     }
 
-    public get canAddOrRemoveGuests() { return this.user.minGuests < this.user.maxGuests; }
+    public get canAddOrRemoveGuests() { return this.user.minGuests < this.user.maxGuests || this.user.guests.length < this.user.maxGuests; }
     public get addOrRemoveString() { return `${this.user.guests.length < this.user.maxGuests ? 'Add' : 'Remove'}/`; }
 
     public get emailVerificationHasExpired() {
