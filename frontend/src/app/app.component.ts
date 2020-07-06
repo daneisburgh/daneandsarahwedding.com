@@ -112,7 +112,7 @@ export class AppComponent implements AfterViewInit {
             const message = `
                 We have extended the RSVP deadline to <b>${deadlineString}</b> 
                 and have added a COVID-19 section to the <a href="/info">Info page</a> 
-                with details for guests who are concerned about traveling.
+                with details for guests who are concerned about traveling
             `;
 
             this.toastr.warning(message, 'Info update', { enableHtml: true })
