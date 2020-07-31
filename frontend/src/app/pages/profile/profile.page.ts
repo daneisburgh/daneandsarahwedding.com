@@ -16,7 +16,7 @@ function getOrdinalNum(n: number) {
     return n + (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : '');
 }
 
-const deadline = new Date('8/01/2020');
+const deadline = new Date('7/31/2020');
 export const deadlineString = `${monthNames[deadline.getMonth()]} ${getOrdinalNum(deadline.getDate())}`;
 
 @Component({
@@ -69,7 +69,7 @@ export class ProfilePage {
     public get isMobile() { return this.utilsService.isMobile; }
     public get filteredGuests() { return this.guests.filter(guest => guest.length > 0); }
 
-    public get isDeadlineExpired() { return Date.now() > deadline.getTime(); }
+    public get isDeadlineExpired() { return (new Date()).setDate(new Date().getDate() - 1) > deadline.getTime(); }
     public get isInputDisabled() { return this.isDeadlineExpired || !this.user.isAttending; }
     public get isRequiredRoomsAndTransportationDisabled() { return this.isInputDisabled || !this.user.requiresAccommodations; }
     public get isChangeEmailDisabled() { return this.user.email === this.email; }
@@ -95,7 +95,6 @@ export class ProfilePage {
     public ionViewDidEnter() {
         this.utilsService.setTitle(this.user.name);
         this.guests = this.user.guests.slice();
-        this.originalUser = this.user;
 
         this.displayFireworks = false;
         this.displayChangeEmail = false;
