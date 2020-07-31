@@ -16,7 +16,7 @@ function getOrdinalNum(n: number) {
     return n + (n > 0 ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10] : '');
 }
 
-const deadline = new Date('7/31/2020');
+const deadline = new Date('8/01/2020');
 export const deadlineString = `${monthNames[deadline.getMonth()]} ${getOrdinalNum(deadline.getDate())}`;
 
 @Component({
@@ -85,8 +85,6 @@ export class ProfilePage {
         return this.user.emailVerificationExpiration &&
             this.user.emailVerificationExpiration < new Date()
     }
-
-    private originalUser: any;
 
     constructor(
         private popoverController: PopoverController,
