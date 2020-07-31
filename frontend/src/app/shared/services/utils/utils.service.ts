@@ -49,13 +49,13 @@ export class UtilsService {
     public toast(status: 'success' | 'warning' | 'error', title: string, message?: string) {
         switch (status) {
             case 'success':
-                this.toastr.success(message, title);
+                this.toastr.success(message, title, { enableHtml: true });
                 break;
             case 'warning':
-                this.toastr.warning(message, title);
+                this.toastr.warning(message, title, { enableHtml: true });
                 break;
             case 'error':
-                this.toastr.error(message, title);
+                this.toastr.error(message, title, { enableHtml: true });
                 break;
         }
     }
