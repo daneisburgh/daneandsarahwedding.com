@@ -68,7 +68,7 @@ export class ProfilePage {
     public get isMobile() { return this.utilsService.isMobile; }
     public get filteredGuests() { return this.guests.filter(guest => guest.length > 0); }
 
-    public get isDeadlineExpired() { return Date.now() >= deadline.getTime(); }
+    public get isDeadlineExpired() { return Date.now() > deadline.getTime(); }
     public get isInputDisabled() { return this.isDeadlineExpired || !this.user.isAttending; }
     public get isRequiredRoomsAndTransportationDisabled() { return this.isInputDisabled || !this.user.requiresAccommodations; }
     public get isChangeEmailDisabled() { return this.user.email === this.email; }
