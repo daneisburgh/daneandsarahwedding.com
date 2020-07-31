@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
 import { isEqual } from 'lodash';
 
 import { UserService, CHANGE_EMAIL_ERRORS } from '../../shared/services/user/user.service';
 import { UtilsService } from '../../shared/services/utils/utils.service';
-import { PopoverController } from '@ionic/angular';
 import { DeadlinePopoverComponent } from './deadline-popover/deadline-popover.component';
+import { emailUrl } from '../../app.component';
 
 const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -85,6 +86,8 @@ export class ProfilePage {
             this.user.emailVerificationExpiration < new Date()
     }
 
+    private originalUser: any;
+
     constructor(
         private popoverController: PopoverController,
         private userService: UserService,
@@ -94,6 +97,7 @@ export class ProfilePage {
     public ionViewDidEnter() {
         this.utilsService.setTitle(this.user.name);
         this.guests = this.user.guests.slice();
+        this.originalUser = this.user;
 
         this.displayFireworks = false;
         this.displayChangeEmail = false;
@@ -124,7 +128,10 @@ export class ProfilePage {
     }
 
     public async updateColumn(column: string, value: any) {
-        if (!isEqual(this.user[column], value)) {
+        if (this.isDeadlineExpired) {
+            this.utilsService.toast('error', 'Deadline expired',
+                `Please <a href="${emailUrl}" target="_blank">contact us</a> if you would like to change any information`);
+        } else if (!isEqual(this.user[column], value)) {
             try {
                 this.isUpdating[column] = true;
                 await this.userService.update({ [column]: value });

@@ -33,7 +33,7 @@
                                 <ion-item color="light" lines="none">
                                     <ion-label>Will you be able to attend the wedding?</ion-label>
                                     <ion-select *ngIf="!isUpdating['isAttending']" class="select" placeholder="Select"
-                                        okText="Save" [value]="user.isAttending" [disabled]="isDeadlineExpired"
+                                        okText="Save" [value]="user.isAttending"
                                         (ionChange)="updateColumn('isAttending', $event.detail.value)">
                                         <ion-select-option [value]="true">Yes</ion-select-option>
                                         <ion-select-option [value]="false">No</ion-select-option>
