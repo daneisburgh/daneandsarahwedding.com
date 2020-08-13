@@ -19,10 +19,6 @@
                                 The ceremony will take place at <b>6:30 PM EST</b> with a reception immediately
                                 following at <b>Bingham Meadows</b> (see wedding map below).
                                 The dress code is formal. Dinner and drinks will be provided.
-                                Please RSVP and fill out your
-                                <a *ngIf="user" routerLink="/profile" routerDirection="root">profile</a>
-                                <a *ngIf="!user" (click)="presentLogInModal()">profile</a>
-                                by <b>{{deadlineString}}</b>.
                                 Feel free to
                                 <a [href]="emailUrl" target="_blank">contact us</a>
                                 if you have any other questions. We look forward to celebrating our marriage with
@@ -39,9 +35,14 @@
                                 All Saints Church is 22 miles south of downtown Cincinnati and 18 miles south of the
                                 <b>Cincinnati/Northern Kentucky International Airport</b> (CVG).
                                 We have reserved a block of rooms at the <b>Hilton Cincinnati Airport Hotel</b>.
-                                The hotel is 12 miles from the church and 6 miles from CVG. If you requested a hotel
+                                The hotel is 12 miles from the church and 6 miles from CVG. 
+                                We have sent out an email with information on booking a room in our hotel block
+                                to those that requested a room in their profile.
+                                Please <a [href]="emailUrl" target="_blank">contact us</a> if you require a hotel
+                                room and did not receive the email.
+                                <!-- If you requested a hotel
                                 room in your profile, you will receive an email from us with information on how to book
-                                a room after the <b>{{deadlineString}}</b> deadline.
+                                a room after the <b>{{deadlineString}}</b> deadline. -->
                                 <!--Once we have an estimate of the final guest count, we will send out an email to guests with 
                                 information to reserve a room in the hotel block.
                                 We also plan to provide a shuttle to transport guests between the church and the hotel on the
@@ -59,15 +60,15 @@
                             <ion-card-content>
                                 We have spoken with several guests who have voiced their uncertainty about being able
                                 to travel this October due to COVID-19. We understand and appreciate our guests'
-                                concerns, and do
-                                not want anyone to compromise their health or safety. We have decided to extend the RSVP
-                                deadline to
-                                <b>{{deadlineString}}</b> for those who are still uncertain about their future travel
-                                abilities.
-                                With this in mind, please RSVP as soon as possible and feel free to
+                                concerns, and do not want anyone to compromise their health or safety. 
+                                <!-- We have decided to extend the RSVP deadline to <b>{{deadlineString}}</b> 
+                                for those who are still uncertain about their future travel
+                                abilities. With this in mind, please RSVP as soon as possible and feel free to
                                 <a [href]="emailUrl" target="_blank">contact us</a> if you have any questions or
-                                concerns. We look
-                                forward to celebrating with everyone either in person or in spirit this October!
+                                concerns.  -->
+                                Feel free to <a [href]="emailUrl" target="_blank">contact us</a> if you have any 
+                                questions or concerns.
+                                We look forward to celebrating with everyone either in person or in spirit this October!
                             </ion-card-content>
                         </ion-card>
                     </ion-col>
