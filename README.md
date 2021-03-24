@@ -1,9 +1,9 @@
 # Dane and Sarah's wedding website
 
-The is web application was built for our guests to easily access wedding info, RSVP, and set certain
+This web application was built for our guests to easily access wedding info, RSVP, and set certain
 preferences.
 The site was originally available at our domain, daneandsarahwedding.com, but is no longer active.
-The static content can be found on Dane's personal website [here]().
+The static content can be found on my personal website [here](https://daneisburgh.com/assets/websites/daneandsarahwedding.com/home).
 The application uses the [Serverless](https://www.serverless.com/) framework to host the Angular frontend 
 and Node.js backend in AWS with a PostgreSQL database in RDS.
 Please review the [run.sh](run.sh) script for helpful commands, including dependency installation, database 
